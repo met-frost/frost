@@ -1,0 +1,12 @@
+source,buoyid,parameter,name,lon,lat,time,value
+badevann.no,004,temperature,,,,
+badevann.no,011,temperature,Helleneset,10,59,2020-06-16T06:00:00Z,9.56007
+badevann.no,011,temperature,Helleneset,10,59,2020-06-16T06:10:00Z,9.48
+badevann.no,011,temperature,Helleneset,10,59,2020-06-16T06:20:00Z,9.41
+badevann.no,011,temperature,Helleneset,10,59,2020-06-16T06:30:00Z,9.36
+badevann.no,011,temperature,Helleneset,10,59,2020-06-16T06:40:00Z,9.31
+badevann.no,011,temperature,Helleneset,10,59,2020-06-16T06:50:00Z,9.28
+badevann.no,011,temperature,Helleneset,10,59,2020-06-16T07:00:00Z,9.24
+badevann.no,011,temperature,Helleneset,10,59,2020-06-16T07:10:00Z,9.19
+badevann.no,011,temperature,Helleneset,10,59,2020-06-16T07:20:00Z,9.15
+badevann.no,011,temperature,Helleneset,10,59,2020-06-16T07:30:00Z,9.10
