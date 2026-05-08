@@ -1,0 +1,51 @@
+{{define "dataset_verticalprofile"}}
+{{template "header"}}
+
+<br>
+<h2>Dataset documentation for time series type verticalprofile</h2>
+
+The verticalprofile dataset has the following structure:
+
+<pre>
+{
+    "tstype": "verticalprofile",
+    "tseries": [
+        {
+            "header": {
+                "id": {
+                    "source": "...",
+                    "profileid": "...",
+                    "parameter": "..."
+                },
+                "extra": {
+                    "instrument": "...",
+                    "platform_name": "...",
+                    "section": "...",
+                    "station": "...",
+                    "license": "...",
+                    "unit": "..."
+                }
+            },
+            "observations": [
+                {
+                    "time": "2020-06-16T06:00:00Z",
+                    "body": {
+                        "pos": {
+                            "lon": ...,
+                            "lat": ...
+                        },
+                        "depth": [...],
+                        "value": [...],
+                        "qc_flag": [...]
+                    }
+                },
+                ...
+            ]
+        },
+        ...
+    ]
+}
+</pre>
+
+{{template "footer"}}
+{{end}}

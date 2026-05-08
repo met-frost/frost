@@ -1,0 +1,204 @@
+{{define "datadetails"}}
+{{template "header"}}
+{{template "subbarhowto"}}
+
+<br>
+<h2>Meteorology</h2>
+<p>Meteorological vocabulary, weather concepts and how some of the parameters relate to each other.</p>
+
+<ul>
+  <li><a href="#vocab">Meteorological vocabulary</a></li>
+  <li><a href="#concepts">Meteorological concepts</a></li>
+  <ul>
+    <li><a href="#expl_station">What are parameterids, stationids, stationnames etc...</a></li>
+    <li><a href="#expl_levels">Standard height of measurements</a></li>
+    <li><a href="#expl_timeOffset">Time offset</a></li>
+    <li><a href="#expl_times">Relationship between time, timeoffset, and timeresolution</a></li>
+  </ul>
+</ul>
+
+<div class="zig-zag"></div>
+
+<h3 id="vocab">Meteorological vocabulary</h3>
+
+<h4>Time series</h4>
+<p>
+In our case, a time series is a series of measurements listed in time order. Usually there is a regular time period between each measurement.
+</p>
+
+<h4>Station</h4>
+<p>
+A weather station is a platform or a place, on land or sea, with instruments to measure weather parameters. A MET Norway station often consists 
+of one weather station unit containing several instruments, or several separate instruments installed in close proximity to each other. A station 
+can be situated on land, on a ship, on a buoy or on an airplane. 
+</p>
+
+<h4>Metadata</h4> 
+<p>
+  Information about data, but not the content of the data itself. The location of a meteorological station and the quality of a measurement are 
+both examples of metadata found in Frost. The data itself are the weather observation values, such as the measured air temperature or the wind 
+speed. You can also read the <a href="https://en.wikipedia.org/wiki/Metadata">Wikipedia definition</a> of metadata. 
+</p>
+
+<div class="zig-zag"></div>
+<h3 id="concepts">Meteorological concepts</h3>
+
+<h4 id="expl_station">What are parameterids, stationids, stationnames etc...</h4>
+<p>
+  Some request parameters rely on having or getting internal MET Norway information. Most of our weather observations are supplied by 
+  stationary (automatic) weather stations installed and maintained by MET Norway. The stations usually, but not always, contain multiple 
+  instruments to measure weather parameters such as air temperature, wind speed and direction, humidity, pressure etc. There may be more 
+  than one sensor measuring each weather parameter and they may be installed at different heights (see chapter on levels) and/or send the 
+  observation data to our central collection system at different times of the day (see chapters on timeresolutions and timeoffset).
+</p>
+<p>
+  Each station (see definition of a station in the Vocabulary) is registered in our internal system with a station name (stationnames), 
+  a short version of this name (stationshortnames), an internal ID number (stationids) and ID number(s) as defined by the  World Meteorological 
+  Organization (WMO) (stationalternateids). Each weather parameter is also registered in our system with a name (elementid), an ID number 
+  (parameterid) and a definition.
+</p>
+<p>
+  To find station IDs and other information about a station/weather parameter, you can make a request containing only time and for example a 
+  location using a place name you know (set incobs to false to receive only information and not actual observation data). You will get information, 
+  including station names and IDs, plus elementids and parameterids, of matching stations. If a location name does not get you what you want, 
+  you can try to use a geographical search using for example nearest or polygon.
+</p>
+
+<h4 id="expl_levels">Standard height of measurements</h4>
+<p>
+Historically, some meteorological measurements should be done at a specific height above the ground as a world-wide standard set by the World 
+Meteorological Organization (WMO). For example: air temperature is measured at 2m and wind is measured at 10m above the ground. These heights 
+are called default or standard levels and you will find that most of the measurements in our archive have been done at a standard level. In the past,
+the height of the measurements was not always stored along with the measurements because it was assumed to be at the standard level. 
+</p>
+<p>
+However, sometimes it is not physically or economically possible to install an instrument at the standard height above the ground. There are 
+also other reasons to measure at non-standard heights, for example if the measurements are done to explore a local weather phenomenon and/or 
+they are part of a special project. 
+</p>
+<p>
+In the frost API response you will find the level of the time series in the id section of the header. The level is the height of the measurement
+in meters above ground (or above the water level, if you are looking at observations from e.g. a buoy).
+</p>
+
+<h4 id="expl_timeOffset">Time offset</h4>
+<p>
+The time offset is the observation time relative to midnight. Some weather elements are historically measured and aggregated at specific times 
+during the day. For example, standard sampling time for snow observations is at 06 UTC. The corresponding time offset is given as PT6H. The mean 
+daily value of a weather element with the PT6H offset is calculated between 06 UTC on one day and 06 UTC on the next day.
+You will find this information in the API response.
+</p>
+Some examples of typical time offsets: 
+<table>
+  <thead>
+  <tr>
+  <th>element_id</th><th>timeResolution</th><th>Preferred offset</th><th>Why</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+  <td>max(air_temperature P1D)</td><td>P1D</td><td>PT18H</td><td>Standard sampling period for temperature extremes is 19-18 UTC</td>
+  </tr>
+  <tr>
+  <td>max(air_temperature PT12H)</td><td>PT12H</td><td>PT6H</td><td>This offset indicates our standard timeseries, where the first calculation is performed at 06 UTC</td>
+  </tr>
+  <tr>
+  <td>min(air_temperature P1D)</td><td>P1D</td><td>PT18H</td><td>Standard sampling period for temperature extremes is 19-18 UTC</td>
+  </tr>
+  <tr>
+  <td>min(air_temperature PT12H)</td><td>PT12H</td><td>PT6H</td><td>This offset indicates our standard timeseries, where the first calculation is performed at 06 UTC</td>
+  </tr>
+  <tr>
+  <td>snow_coverage_type</td><td>P1D</td><td>PT6H</td><td>Standard sampling time for snow observations is 06 UTC</td>
+  </tr>
+  <tr>
+  <td>sum(precipitation_amount P1D)</td><td>P1D</td><td>PT6H</td><td>Standard sampling period for precipitation is 07-06 UTC</td>
+  </tr>
+  <tr>
+  <td>sum(precipitation_amount P1M)</td><td>P1M</td><td>PT6H</td><td>Standard sampling period for precipitation is 07-06 UTC</td>
+  </tr>
+  <tr>
+  <td>surface_snow_thickness</td><td>P1D</td><td>PT6H</td><td>Standard sampling time for snow observations is 06 UTC</td>
+  </tr>
+  <tr>
+  <td>Other elements</td><td>Other resolutions</td><td>PT0H</td><td>For cases not listed above, PT0H is always the preferred offset when multiple offsets are returned.</td>
+  </tr>
+  </tbody>
+  </table>
+
+
+<h4 id="expl_times">Relationship between time, timeoffset, and timeresolution</h4>
+<p>
+timeresolution is the period between each data value, i.e. how often a weather phenomenon is measured. "timeresolution": "P1D" means one data 
+value once a day.
+</p>
+<p>
+timeoffset is observation time relative to midnight. "timeoffset": "PT6H" means that the daily data value has observation time 06:00 UTC. 
+If “timeresolution”: “PT12H”, “timeoffset”: “PT6H”, it means that the first data value has observation time 06:00 UTC and the second at 18:00 UTC.
+</p>
+<b>Example 1: Observations with timeresolution shorter than 1 day</b>
+<br>
+Observations with shorter timeresolution than 1 day, are generally stored with date and time in the data storage. The time is then equal to 
+the observation time, and no timeoffset should be added to time to get the original observation time.
+<br><br>
+<b>Example 2: Observations with timeresolution 1 day or longer</b>
+<br>
+Observations with daily or longer time resolution can be stored without a time in the data storage. If a time is found in the data storage, 
+then API will return this time, if not it will return the first midnight on the given date.
+<br>
+<b>NOTE:</b> If time is different from midnight, time is equal to observation time, and timeoffset should not be added.
+<br><br>
+<b>Example 2.1: Instantaneous observations</b>
+<br>
+An instantaneous observation represents a time point, not a period. E.g. an instantaneous temperature observation vs. an average temperature 
+over a longer period of time. Instantaneous observations with timeresolution ≥ 1 day are stored with date and time in the data storage, unlike 
+other observations with timeresolution ≥ 1 day. The time is equal to the observation time, and timeoffset should not be added to time.
+<br><br>
+<b>Example 2.2: Diurnal (daily) data</b>
+<br>
+Diurnal data represent a 24 hour period on a specific date. They are stored with date only in the data storage with a time of the form 
+<year>-<month>-<day>T00:00.
+  <br>
+If timeoffset = PT0H, the observation value represents the period from midnight to midnight on the calendar date, i.e. from 
+<date>T00:00 to <date>T23:59.
+<br>
+If timeoffset != PT0H, the observation represents the last 24 hr, at the time after midnight equal to timeoffset. 
+E.g. elementId = sum(precipitation_amount P1D) has timeoffset PT6H. This means that the observation period lasts continuously 
+from the previous date at 06 UTC to current date 06 UTC. time <date>T00:00 is just the specific date for the diurnal value. 
+The end of the observation period is time + timeoffset.
+<br><br>
+<b>Example 2.3: Monthly data</b>
+<br>
+Monthly data are aggregated data. They are stored with observation time as <month> and <year> in the data storage. Day 1 is added to 
+the time: time = <year>-<month>-01T00.00, i.e. the date of the first day in the observation period.
+<br>
+If timeoffset = 0, the monthly value represents the calendar month, midnight to midnight. The time is of the form <year><month>-01T00:00, 
+i.e. the start of the observation period.
+<br>
+If timeoffset != 0, the monthly value represents the period from p1 to p2 where p1 and p2 are midnight + timeOffset on the last day of
+the previous and current month respectively.
+<br>
+As an example, element ID sum(precipitation_amount P1M) has timeOffset PT6H. This means that the observation period lasts from 
+<year>-<previous month>-<last day of previous month>T06:00 to <year>-<current month>-<last day of current month>T06:00. I.e. the 
+value of February 2018 has time = 2018-02-01T00:00 and is based on the period from 2018-01-31T06:00 to 2018-02-28T06:00.
+<br>
+Exception: Old monthly minimum air temperature, min(air_temperature P1M)em> from 1894-1937 were calculated using the average minimum temperature 
+of 2 days, and is hence based on the period from <year>-<previous month><last day of previous month> to <year>-<month next month><first day of next month>
+<br><br>
+<b>Example 2.4: Seasonal data</b>
+<br>
+Seasonal data represent the periods of spring (1 March - 31 May), summer (1 June - 31 Aug.), autumn (1 Sep. - 20 Nov.), winter (1 Dec. - 28/29 Feb.), 
+winter half year (1 Oct. - 31 March), and summer half year (1 April - 30 Sep.).
+<br>
+In this case, time is set to the start date of the seasonal period, e.g. for spring:
+time = <year>-03-01T00.00
+  <br>
+timeoffset follows the same rules as for monthly data.
+<br><br>
+<b>Example 2.5: Annual data</b>
+<br>
+Annual data cover the calendar year. Time and timeoffset for annual data follow the same conventions as for seasonal and monthly data.
+<br><br>
+
+{{template "footer"}}
+{{end}}

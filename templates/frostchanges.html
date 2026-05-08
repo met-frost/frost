@@ -1,0 +1,69 @@
+{{define "frostchanges"}}
+{{template "header"}}
+
+<br>
+<h2>What changed from Frost v0 to Frost v1?</h2>
+
+<p>Important only if you have been using frost.met.no v0 (the previous version of Frost) up to now and want to start using v1</p>
+
+<h3>Ranked or Base? New API endpoints</h3>
+ <p>
+There are now two endpoints from which you can get observations: ranked and base. Most people should use <b>ranked</b>, because it will return <b>only the
+recommended timeseries</b> to your request. <br>This means that <b>the timeoffset variable is no longer relevant for Frost v1 when you use the ranked endpoint</b>! However, some internal MET users may want to use kvakfa in order to chose very specific timeseries.
+ </p>
+
+
+<h3>Changes to the way you do the searching</h3>
+
+<p>
+In Frost v0, you had to do the searches in several steps. Often you would start by searching for the meteorological stations situated in your area of interest,
+then their available timeseries and elements. You would use the results of these searches to construct a final search for the observation data.</p>
+
+<p>
+In v1 this process has been simplified so that you can search directly for the data without knowing about the stations or timeseries. <br>
+Use one of our <a href="parameters#geospatial">location or geospatial search parameters</a> to define the area of your search and look up the elements
+if you want to do a direct search for data.
+</p>
+
+<p>You can of course still do separate searches for metadata if you want (set the new parameter incobs to False),
+but the syntax has changed. The best way of testing this would be to use the <a href="/docs/apirefbasic">API interactive documentation </a> to explore the
+new options.
+</p>
+
+
+<h3>Note the default settings!</h3>
+<p>
+  The API offers many request parameters (e.g. qualitycodes, stationnames etc) and you can choose to use them or not.
+  In Frost v0 the standard behaviour was for the API to always return every available value if a request parameter was not set by the user.
+  In Frost v1, there are two types of behaviours when a request parameter is not set:
+  <ul>
+    <li>The API will return <b>ALL</b> available values (most parameters)</li>
+    <li>The API will apply a <b>default setting</b> for the parameter and return only values that match this default setting; you will find these default values in the <a href="/docs/parameters">list of request parameters</a></li>
+  </ul>
+  <b>Note: keyword "all"</b>. If you want all available values for a parameter with a default setting, you can usually use the keyword "all". Check the <a href="/docs/parameters">list of request parameters</a> to check when you can use this keyword.
+</p>
+
+
+<h3>Changes in the names</h3>
+
+<p>
+  Some <a href="/docs/parameters">request parameters</a> have new names, and there have also been some changes to what search terms you should use. The list below contains the most common parameters that have changed:
+</p>
+
+<h4></h4>
+<ul>
+  <li>referencetime changed to time</li>
+  <li>sources changed to stationids (and the station id number should no longer start with "SN"!)</li>
+  <li>elements changed name to elementids</li>
+  <li>qualities changed name to qualitycodes</li>
+  <li>timeoffset is no longer in use</li>
+  <!-- <li> changed name to </li> -->
+
+</ul>
+
+
+<br>
+
+
+{{template "footer"}}
+{{end}}

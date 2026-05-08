@@ -1,0 +1,39 @@
+{{define "subbarhowto"}}
+<div class="subbar" id="apisubbar">
+    <a class="subbar-link" id="starthere" href="/docs/starthere">Start here</a>
+    <a class="subbar-link" id="parameters" href="/docs/parameters">API Request</a>
+    <a class="subbar-link" id="response" href="/docs/response">API Response</a>
+    <a class="subbar-link" id="urlexamples" href="/docs/urlexamples">URL examples</a>
+    <a class="subbar-link" id="codeexamples" href="/docs/codeexamples">Code examples</a>
+    <a class="subbar-link" id="datadetails" href="/docs/datadetails">Meteorology</a>
+</div>
+
+<script>
+    function currentSub() {
+        var header = document.getElementById("apisubbar");
+        var items = header.getElementsByClassName("subbar-link");
+
+        var path = window.location.pathname;
+        var page = path.split("/").pop();
+
+        if (page == "") {
+        items[0].className += " active";
+        }
+        else {
+            for (var i = 0; i < items.length; i++) {
+                if (items[i].id == page) {
+                items[i].className += " active";
+                }
+                else {
+                items[i].className = "subbar-link";
+                }
+            }
+        }
+        var header = document.getElementById("mainnavbar");
+        var items = header.getElementsByClassName("navbar-link");
+        // ensure howto remains active in upper menu
+        items[1].className += " active";
+    }
+    currentSub();
+</script>
+{{end}}

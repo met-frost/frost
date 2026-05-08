@@ -1,0 +1,514 @@
+{{define "parameters"}}
+{{template "header"}}
+{{template "subbarhowto"}}
+
+<br>
+<h2>API Request</h2>
+
+<p>
+  An API request is just a way of asking the API for data that match your criteria.
+  You let the API know your search criteria by setting API request parameters listed below to the values you want. <br>
+  <b>Build the request using our <a href="/docs/apirefbasic">interactive API documentation form</a>, or
+  <a href="/docs/urlexamples">build a URL</a>, or
+  <a href="/docs/codeexamples">use a script</a>.</b>
+</p>
+
+<h3>How to make a valid request</h3>
+<p>
+  <b>To make a valid request, you should at the minimum specify the when, where and what of the observation data you want.</b> <br>
+  This means you must set the <a href="#time">time parameter</a>, at least one <a href="#geospatial">(geo)location type parameter</a> (e.g. location or stationIDs)
+  and at least one <a href="#elementtype">element type parameter</a> (e.g. elementids or elementnames).<br>
+  All the available Frost request parameters are listed below.
+</p>
+
+<h3>Note default settings!</h3>
+<p>
+  As long as you have chosen a when, where and what, you can choose not to set any other parameters (or you can of course set any of the parameters you
+  want to specific value(s) of your choosing).<br>
+  For the parameters you do not use, there are two types of default behaviours:
+  <ul>
+    <li>The API will return <b>ALL</b> available values (most parameters)</li>
+    <li>The API will apply a <b>default setting</b> for the parameter and return only values that match this default setting; you will find these default settings in the list of request parameters below</li>
+  </ul>
+  <b>Note: keyword "all"</b>. If you want all available values for a parameter with a default setting, you can usually use the keyword "all". Check the list of request parameters below to check when you can use this keyword.
+</p>
+<p>
+  For information on how some of the parameters relate to each other and to
+  meteorological concepts and vocabulary, see the <a href="datadetails">information on this page</a>
+</p>
+
+<div class="zig-zag"></div>
+
+<h2 id="paramdefs">List of request parameters:</h2>
+
+This page contains quite a long list of parameters, but you can jump to certain sections using this list:
+<ul>
+  <li>
+    <a href="#time">When: Time specifications</a> including latest and time intervals
+  </li>
+  <li>
+    <a href="#elementtype">What: Element type parameters</a> such as air_temperature, wind_speed etc
+  </li>
+  <li>
+    <a href="#geospatial">Where: (Geo)location</a> on geographical, geospatial and station name and id searches
+  </li>
+  <li>
+    <a href="#stationmeta">Station metadata</a>, search for heights and sensors
+  </li>
+  <li>
+    <a href="#dataquality">Data quality</a> including quality codes, performance and exposure category
+  </li>
+  <li>
+    <a href="#output">Output parameters</a>: decide what output you want
+  </li>
+
+</ul>
+
+<br>
+
+<h3 id="time">When: Time parameters</h3>
+
+<h4>Parameter: time</h4>
+This is the time (interval) to look for weather observations. You can choose to ask for only the latest observation (keyword "latest"), or you can define a time (interval).<br>
+<b>Valid for requests to</b>: frost.met.no v1, havvarsel-frost.met.no<br>
+More information can be found <a href="time_specification">here</a><br>
+<b>Note:</b> You can leave the time parameter empty if incobs is set to False, but in that case your search may return a lot of useless information.<br><br>
+
+The basic formats available for expressing time in Frost are as follows:
+<ul>
+    <li> date: YYYY-MM-DD </li>
+    <li> time: hh:mm:ss </li>
+    <li> datetime: &lt;date&gt;T&lt;time&gt; </li>
+    <li> interval (from, to): &lt;datetime&gt;/&lt;datetime&gt; </li>
+</ul>
+
+<b>Latest Mode</b><br>
+Set the time parameter to the keyword <code>latest</code>. You will get only the latest observation(s) matching your search. <br>
+Note that there is a limit to how old the observation can be (latestmaxage) as well as a limit to the number
+of observations returned (latestlimit).<br>
+<b>Example:</b> time=latest <br><br>
+
+<b>Intervals Mode</b><br>
+You define a time or a time interval to search for. The search will return the observations taken within this time/time interval.
+There are several ways to use this search field. The easiest is to define a simple time interval like this:
+<code>t1/t2 </code>
+where t1 and t2 are strings containing date and time, on the form <code>YYYY-MM-DDThh:mm:ss:Z</code>
+The Z at the end means that the time is given in  UTC time.
+<br>
+<b>Example:</b> time=2022-09-26T01:00:00Z/2022-09-27T03:30:00Z<br>
+
+<h4 id="latestmaxage">Parameter: latestmaxage</h4>
+Used when you set time to the 'latest' mode, this is the maximum age (relative to the time of the request) that the most recent observation can have.
+Specify either a number of seconds or an ISO 8601 duration. <br>
+<b>Example:</b> latestmaxage=3600<br>
+<b>Valid for requests to</b>: frost.met.no v1, havvarsel-frost.met.no<br>
+<b>Default value</b>: latestmaxage=PT3H
+
+<h4 id="latestlimit">Parameter: latestlimit</h4>
+Used when you set time to the 'latest' mode, this is the maximum number of observations (if incobs==true) in the result for each time series. <br>
+<b>Example:</b> latestlimit=10<br>
+<b>Valid for requests to</b>: frost.met.no v1, havvarsel-frost.met.no<br>
+<b>Default value</b>: latestlimit=1
+
+<div class="zig-zag"></div>
+
+<h3 id="elementtype">What: Element type parameters</h3>
+
+<h4 id="elementids">Parameter: elementIDs</h4>
+You can <a href="https://frost.met.no/elementtable "><b>search for elementids here</b></a>.<br>
+A comma-separated list of names that MET Norway have set to represent weather and climate phenomena, for example wind speed,
+air temperature or relative humidity. The names of the elementids contain both the type of weather phenomenon they represent
+and the method of calculation (if any) that has been used on the original observation data. <br>
+<b>Valid for requests to</b>: frost.met.no v1<br>
+<b>Examples:</b>
+<ul>
+    <li>elementIDs=air_temperature</li>
+    <li>elementIDs=mean(air_temperature PT1H)</li>
+</ul>
+
+<!-- <table> -->
+<!--     <tbody><tr><th>Combination</th><th>Example</th></tr> -->
+<!--     <tr><td>&lt;<em>base&nbsp;name</em>&gt;</td><td><code>air_temperature</code></td></tr> -->
+<!--     <tr><td>&lt;<em>method</em>&gt;(&lt;<em>base&nbsp;name</em>&gt;)</td><td><code>accumulated(precipitation_amount)</code></td></tr> -->
+<!--     <tr><td>&lt;<em>method</em>&gt;(&lt;<em>base&nbsp;name</em>&gt;&nbsp;&lt;<em>period</em>&gt;)</td> -->
+<!--       <td><code>best_estimate_sum(precipitation_amount&nbsp;P1M)</code></td></tr> -->
+<!--     <tr><td>&lt;<em>method</em>&gt;(&lt;<em>base&nbsp;name</em>&gt;&nbsp;&lt;<em>period</em>&gt; &lt;<em>addition</em>&gt;)</td> -->
+<!--       <td><code>mean(air_temperature_anomaly P1M 1961_1990)</code></td></tr> -->
+<!--     <tr><td>&lt;<em>method</em>&gt;(&lt;<em>inner&nbsp;method</em>&gt;(&lt;<em>base&nbsp;name</em>&gt;&nbsp;&lt; -->
+<!--       <em>inner&nbsp;period</em>&gt;)&nbsp;&lt;<em>period</em>&gt;)</td><td><code>mean(max(wind_speed&nbsp;P1D)&nbsp;P1M)</code></td></tr> -->
+<!--     <tr><td>&lt;<em>method</em>&gt;(&lt;<em>inner&nbsp;method</em>&gt;(&lt;<em>base&nbsp;name</em>&gt;&nbsp;&lt; -->
+<!--       <em>inner&nbsp;period</em>&gt;)&nbsp;&lt;<em>period</em>&gt;&nbsp;&lt;<em>addition</em>&gt;)</td> -->
+<!--       <td><code>integral_of_deficit(mean(air_temperature&nbsp;P1D)&nbsp;P1M&nbsp;17.0)</code></td></tr> -->
+<!--     </tbody> -->
+<!-- </table> -->
+
+<h4 id="parameterids">Parameter: parameterIDs</h4>
+A comma-separated list of codes that MET Norway have set to represent weather and climate phenomena, for example wind speed, air temperature or
+relative humidity. There are two ways of identifying the same weather parameter: elementid or parameterid. <br>
+You can use the asterisk (*) as a wildcard to search for partial names. A wildcard is a placeholder for any letters or numbers.
+<br>
+<b>Example:</b> parameterids=211, or a wider search with a wildcard: parameterids=21* (code 211 corresponds to elementid air_temperature)<br>
+<b>Valid for requests to</b>: frost.met.no v1<br>
+<br>
+
+<h4 id="parameters">Parameter: parameters (NB! Valid only for havvarsel-frost.met.no)</h4>
+A comma-separated list of names that MET Norway have set to represent weather and climate phenomena on havvarsel-frost.met.no, for example temperature. <br>
+You can use the asterisk (*) as a wildcard to search for partial names. A wildcard is a placeholder for any letters or numbers.
+<br>
+<b>Example:</b> parameters=temperature, or a wider search with a wildcard parameters=temp*<br>
+<b>Valid for requests to</b>: havvarsel-frost.met.no<br>
+<br>
+
+
+<h4 id="elementnames">Parameter: elementnames</h4>
+A comma-separated list of element names (internal to MET Norway), corresponding to the elementids (case-insensitive).
+This field is best used for searching with wildcards for words contained in the name.
+<br>
+<b>Example:</b> elementnames=*rain*<br>
+<b>Valid for requests to</b>: frost.met.no v1<br>
+
+<br>
+<h4 id="elementdescriptions">Parameter: elementdescriptions</h4>
+A comma-separated list of text found in descriptions of elements (internal to MET Norway), corresponding to the elementids (case-insensitive).
+This field is best used for searching with wildcards for words contained in the description.
+<br>
+<b>Example:</b> elementdescriptions=*soil*<br>
+<b>Valid for requests to</b>: frost.met.no v1<br>
+<br>
+
+
+<!-- ( stationnames, stationshortnames, stationcountries, stationcounties, stationmunicipalities,  -->
+<!-- stationorganisation, ) -->
+
+<div class="zig-zag"></div>
+
+<h3 id="geospatial">Where: (Geo)location type parameters</h3>
+
+<p>
+<b>Ideally use only one of these parameters in your request.</b> It is possible to use more than one of the (geo)location parameters in the same request (they are additive), but if you provide conflicting information you will get no results back.
+</p>
+
+<h4 id="location">Parameter: location</h4>
+This is a text search where you can enter (a comma separated list of) country, county, municipality or place name that you want to find (case-insensitive).
+<br>
+<b>Example:</b> location=bodø,vestland
+<br>
+You can also use the asterisk (*) as a wildcard to search for partial names. A wildcard is a placeholder for any letters or numbers.
+<br>
+<b>Examples:</b>
+<ul>
+    <li>location=*osl*: Search for any name containing the letter combination osl</li>
+    <li>location=E6*: Search for any name beginning with E6</li>
+</ul>
+<b>Valid for requests to</b>: frost.met.no v1<br>
+
+<h4 id="nearest">Parameter: nearest</h4>
+Search for the observations nearest to a geographic point (given by latitude and longitude). You can use for example Google maps to get the latitude
+and longitude coordinates of a point on the map. In addition to the point, you must also define how many stations you want to find (maxcount) and how
+far away they can be from the point (maxdist). Please note that in areas with sparse observation coverage you may get less than the desired number of
+stations returned within the max distance!<br>
+<b>Valid for requests to</b>: frost.met.no v1, havvarsel-frost.met.no<br>
+Examples <a href="geo_search">can be found here</a>
+<br>
+
+<h4 id="polygon">Parameter: polygon</h4>
+Search for weather observations inside a geographic area. The area (a polygon) is defined using a list of latitudes and longitudes, and you can use for example
+Google maps to get these.<br>
+<b>Valid for requests to</b>: frost.met.no v1, havvarsel-frost.met.no<br>
+Examples <a href="geo_search">can be found here</a>
+<br>
+
+<h4 id="inside">Parameter: inside</h4>
+Search for weather observations inside a geographic area. The area (a polygon, circle, lonrange or latrange) is defined using a list of latitudes and longitudes,
+and you can use for example Google maps to get these.<br>
+<b>Valid for requests to</b>: frost.met.no v1, havvarsel-frost.met.no<br>
+Examples <a href="geo_search">can be found here</a>
+<br>
+
+<h4 id="outside">Parameter: outside</h4>
+Search for weather observations outside a geographic area. The area (a polygon, circle, lonrange or latrange) is defined using a list of latitudes and longitudes,
+and you can use for example Google maps to get these.<br>
+<b>Valid for requests to</b>: frost.met.no v1, havvarsel-frost.met.no<br>
+Examples <a href="geo_search">can be found here</a>
+<br>
+
+
+<h4 id="stationIDs">Parameter: stationIDs</h4>
+A comma-separated list of internal MET Norway weather station id numbers. You can use the asterisk (*) as a wildcard to search for partial names.
+A wildcard is a placeholder for any letters or numbers. <br>
+If you do not know the number of a specific station you want to find, you can do a search for location or nearest/polygon to get a list of stations
+in that area.<br>
+<b>Example</b>: stationIDs=18700, or a wider search with a wildcard stationIDs=187*.<br>
+<b>Valid for requests to</b>: frost.met.no v1<br>
+
+
+<h4 id="buoyids">Parameter: buoyids (NB! Valid only for havvarsel-frost.met.no)</h4>
+A comma-separated list of internal MET Norway buoy id numbers. You can use the asterisk (*) as a wildcard to search for partial numbers.
+A wildcard is a placeholder for any letters or numbers. <br>
+If you do not know the number of a specific buoy you want to find, you can do a search for location or nearest/polygon to get a list of buoys
+in that area.<br>
+<b>Example</b>: buoyids=11-1981, or a wider search with a wildcard buoyids=11-19*.<br>
+<b>Valid for requests to</b>: havvarsel-frost.met.no<br>
+
+
+<h4 id="stationalternateids">Parameter: stationalternateIDs</h4>
+A comma-separated list of identification numbers assigned to the station by other institutions, e.g. WMO (WMO and/or WIGOS number). <br>
+<b>Example</b>: stationalternateIDs=28,492<br>
+<b>Valid for requests to</b>: frost.met.no v1
+<br>
+
+<h4 id="stationalternateidkeys">Parameter: stationalternateIDkeys</h4>
+A comma-separated list of the institutions that set the stationalternateIDs <br>
+<b>Example</b>: stationalternateIDkeys=WMO<br>
+<b>Valid for requests to</b>: frost.met.no v1
+<br>
+
+
+<h4 id="stationnames">Parameter: stationnames</h4>
+A comma-separated list of internal MET Norway weather station names (case-insensitive). You can use the asterisk (*) as a wildcard to search for
+partial names. A wildcard is a placeholder for any letters or numbers.
+<br>
+<b>Example:</b> stationnames=blindern, or a wider search with a wildcard stationnames=*blind*<br>
+<b>Valid for requests to</b>: frost.met.no v1
+<br>
+
+<h4 id="names">Parameter: names (NB! Valid only for havvarsel-frost.met.no)</h4>
+A comma-separated list of internal MET Norway buoy names (case-insensitive). You can use the asterisk (*) as a wildcard to search for
+partial names. A wildcard is a placeholder for any letters or numbers.
+<br>
+<b>Example:</b> names=nesna, or a wider search with a wildcard names=*strand*<br>
+<b>Valid for requests to</b>: havvarsel-frost.met.no
+<br>
+
+<h4 id="stationshortnames">Parameter: stationshortnames</h4>
+A comma-separated list of the short version of internal MET Norway weather station names (case-insensitive). You can use the asterisk (*) as a
+wildcard to search for partial names. A wildcard is a placeholder for any letters or numbers.
+<br>
+<b>Example:</b> stationshortnames=blindern, or a wider search with a wildcard stationshortnames=*blind*<br>
+<b>Valid for requests to</b>: frost.met.no v1
+<br>
+
+<h4 id="stationcountries">Parameter: stationcountries</h4>
+The country of the station(s) you are searching for  (case-insensitive).
+<br>
+<b>Example:</b> stationcountries=norway,sweden
+<br>
+You can also use the asterisk (*) as a wildcard to search for partial names. A wildcard is a placeholder for any letters or numbers.
+<br>
+<b>Example:</b> stationcountries=nor (search for any name containing the letter combination nor)<br>
+<b>Valid for requests to</b>: frost.met.no v1
+<br>
+
+<h4 id="stationcounties">Parameter: stationcounties</h4>
+The county of the station(s) you are searching for  (case-insensitive).
+<br>
+<b>Example:</b> stationcounties=vestland,nordland
+<br>
+You can also use the asterisk (*) as a wildcard to search for partial names. A wildcard is a placeholder for any letters or numbers.
+<br>
+<b>Example:</b> stationcounties=*vest* (search for any name containing the letter combination vest)<br>
+<b>Valid for requests to</b>: frost.met.no v1
+<br>
+
+<h4 id="stationmunicipalities">Parameter: stationmunicipalities</h4>
+The municipality of the station(s) you are searching for  (case-insensitive).
+<br>
+<b>Example:</b> stationmunicipalities=oslo,fredrikstad
+<br>
+You can also use the asterisk (*) as a wildcard to search for partial names. A wildcard is a placeholder for any letters or numbers.
+<br>
+<b>Example:</b> stationmunicipalities=*osl* (search for any name containing the letter combination osl)<br>
+<b>Valid for requests to</b>: frost.met.no v1
+<br>
+
+<h4 id="stationorganisation">Parameter: stationorganisations</h4>
+The organization owning the station(s) you are searching for  (case-insensitive).<br>
+<b>Example:</b> stationorganisations=nibio
+<br>
+You can also use the asterisk (*) as a wildcard to search for partial names. A wildcard is a placeholder for any letters or numbers.
+<br>
+<b>Example:</b> stationorganisations=*met* (search for any name containing the letter combination met)<br>
+<b>Valid for requests to</b>: frost.met.no v1
+<br>
+
+<h4 id="sources">Parameter: sources (NB! Valid only for havvarsel-frost.met.no)</h4>
+The source of the buoy data (often the organization submitting and/or owning the buoy(s) you are searching for (case-insensitive). <br>
+<b>Example:</b> sources=yr.no,badetassen.no
+<br>
+You can also use the asterisk (*) as a wildcard to search for partial names. A wildcard is a placeholder for any letters or numbers.
+<br>
+<b>Example:</b> sources=yr* <br>
+<b>Valid for requests to</b>: havvarsel-frost.met.no
+
+
+<div class="zig-zag"></div>
+
+<h3 id="stationmeta">Station metadata</h3>
+
+<!-- <h4 id="minhamsl">Parameter: minhamsl</h4> -->
+<!-- The minimum HAMSL, height above mean sea level (meters),  you want an observation to be measured at. -->
+<!-- <br> -->
+<!-- <b>Example:</b> minhamsl=10<br> -->
+<!-- <b>Valid for requests to</b>: frost.met.no v1 -->
+<!-- <br> -->
+
+<!-- <h4 id="maxhamsl">Parameter: maxhamsl</h4> -->
+<!-- The maximum HAMSL, height above mean sea level (meters),  you want an observation to be measured at. -->
+<!-- <br> -->
+<!-- <b>Example:</b> maxhamsl=50<br> -->
+<!-- <b>Valid for requests to</b>: frost.met.no v1 -->
+
+<h4 id="levels">Parameter: levels</h4>
+Choose which sensor heights you want to include. The sensor level is the sensor height above the ground in meters.
+(For some measurement types there are <a href="datadetails#exp_levels">standard levels/heights of measurement</a>.)
+<br>
+<b>Example:</b> levels=0,2<br>
+<b>Valid for requests to</b>: frost.met.no v1<br>
+<b>Default value</b>: levels=0 <br>
+<b>Keyword</b>: If you want to get data from all available levels, set this parameter to: levels=all
+
+<h4 id="sensors">Parameter: sensors</h4>
+A sensor is an instrument that measures a weather parameter. Sometimes there is more than one of the same type of instrument installed at
+the same height (level) at a weather station. The sensors parameter lets you choose if you want to get information and/or data about the
+main sensor only (designated sensor 0) or if you want to include any extra sensors (designated sensor 1 and up).
+<br>
+<b>Example:</b> sensors=0,1 <br>
+<b>Valid for requests to</b>: frost.met.no v1<br>
+<b>Default value</b>: sensors=0<br>
+<b>Keyword</b>: If you want to get data from all available sensors, set this parameter to: sensors=all
+
+
+<h4 id="geopostype">Parameter: geopostype</h4>
+An internal MET Norway parameter used for considering (e.g. applying geo filtering to) geo positions only in time series headers ("stationary") or only in observation bodies ("mobile"). Exactly one of these must have effect, the default being "stationary".<br>
+<b>Valid for requests to</b>: frost.met.no v1, havvarsel-frost.met.no<br>
+<b>Default value</b>: geopostype=stationary<br>
+
+<div class="zig-zag"></div>
+
+<h3 id="dataquality">Data quality</h3>
+More documentation about data quality can be found <a href="quality">here</a>.
+<br>
+
+<h4 id="qualitycodes">Parameter: qualitycodes</h4>
+This parameter represents the quality of each weather observation as a single number.
+The scale runs from 0 (best) to 7 (worst). For further information see
+<a href="https://wiki.met.no/kvalobs/kvalobs/kvalobs-flagg">useinfo and controlinfo</a>.<br>
+<b>Valid for requests to</b>: frost.met.no v1<br>
+<b>Default value</b>: qualitycodes=0,1,2,4,5<br>
+<b>Keyword</b>: If you want to get data of all available quality codes, set this parameter to: qualitycodes=all<br><br>
+
+Possible values for the quality code are described in the table below:
+<table>
+    <thead>
+      <tr><th>Value</th><th>Description (quality status of the observation)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>0</td><td>OK, value is controlled and found O.K.</td></tr>
+      <tr><td>1</td><td>OK, value is controlled and corrected, or value is missing and interpolated</td></tr>
+      <tr><td>2</td><td>Slightly uncertain, value is not controlled</td></tr>
+      <tr><td>4</td><td>Slightly uncertain, value is not corrected</td></tr>
+      <tr><td>5</td><td>Very uncertain, value is not corrected</td></tr>
+      <tr><td>6</td><td>Very uncertain, model data. Value is controlled and corrected, or value is missing and is interpolated - automatic</td></tr>
+      <tr><td>7</td><td>Erroneous, value is not corrected</td></tr>
+    </tbody>
+  </table>
+
+<h4 id="performancecategories">Parameter: performancecategories</h4>
+A comma-separated list of performance categories (the quality of the sensor).<br>
+<b>Example:</b> performancecategories=A,B<br>
+<b>Valid for requests to</b>: frost.met.no v1<br>
+<b>Default value</b>: performancecategories=A,B,C,unknown<br>
+<b>Keyword</b>: If you want to get data of all available performance categories (including unknown values), set this parameter to: performancecategories=all<br>
+
+<table>
+    <thead>
+    <tr>
+      <th width="25%">Performance Category</th>
+      <th width="75%">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>A</td>
+        <td>The sensor type fulfills the requirements from WMO/CIMOs on measurement accuracy, calibration and maintenance.</td>
+      </tr>
+      <tr>
+        <td>B</td>
+        <td>Rutines for calibration and maintanance are known. Control of the montage exists. The precision of the measurment is lower than the WMO/CIMO requirements.</td>
+      </tr>
+      <tr>
+        <td>C</td>
+        <td>The sensor type is assumed to fulfill the WMO/CIMO requirements. Missing measurement for control, rutines for calibration, or maintanence.</td>
+      </tr>
+      <tr>
+        <td>D</td>
+        <td>The sensor type is assumed to fulfill the WMO/CIMO requirements. Some controls show deviations from the WMO/CIMO requirements.</td>
+      </tr>
+      <tr>
+        <td>E</td>
+        <td>Less valuable. Possibly useful for extraordinary purposes. Unknown performance</td>
+      </tr>
+    </tbody>
+</table>
+
+
+<h4 id="exposurecategories">Parameter: exposurecategories</h4>
+A comma-separated list of exposure categories (the quality of the placement of a station).
+<br>
+<b>Example:</b> exposurecategories=1,2<br>
+<b>Valid for requests to</b>: frost.met.no v1<br>
+<b>Default value</b>: exposurecategories=1,2,4,unknown<br>
+<b>Keyword</b>: If you want to get data of all available exposure categories (including unknown values), set this parameter to: exposurecategories=all<br>
+
+
+<table>
+    <thead>
+    <tr>
+      <th width="25%">Exposure Category</th>
+      <th width="75%">Description</th>
+    </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>Fulfils all WMO's demands on location</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Unknown location, assumed good</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Unknown location, assumed bad</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Bad location</td>
+      </tr>
+    </tbody>
+</table>
+
+
+<div class="zig-zag"></div>
+
+<h3 id="output">Output parameters</h3>
+
+<h4 id="incobs">Parameter: incobs</h4>
+You can use this parameter to choose whether you want to receive the weather observations that match your request,
+or if you would only like the information about the weather observations (metadata). <br>
+If you want to get weather observations: Set incobs=True. <br>
+If you only want information about the observations (metadata): Set incobs=False.<br>
+<b>Valid for requests to</b>: frost.met.no v1, havvarsel-frost.met.no<br>
+<b>Default value</b>: incobs=False
+
+<h4 id="itemlimit">Parameter: itemlimit</h4>
+The maximum number of time series headers and individual observations that the response can contain. If the limit defined by our server is less than the
+itemlimit, the smallest value is used.
+<br>
+<b>Example:</b> itemlimit=20<br>
+<b>Valid for requests to</b>: frost.met.no v1, havvarsel-frost.met.no
+
+<br><br><br><br>
+
+{{template "footer"}}
+{{end}}

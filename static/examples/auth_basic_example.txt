@@ -1,0 +1,32 @@
+import requests
+import json
+import datetime
+import base64
+
+def call_frost_api_v1_basic(client_id: str, client_secret: str):
+
+    id_secret = client_id + ":" + client_secret
+    # encode id and password as base64 string
+    string_bytes = id_secret.encode("ascii")
+    base64_bytes = base64.b64encode(string_bytes)
+    base64_string = base64_bytes.decode("ascii")
+    # format into header
+    headers = {"Authorization" : "Basic "+ base64_string}
+
+    endpoint = 'https://frost-rc.met.no/api/v1/obs/base/get?'
+    current_utc = datetime.datetime.utcnow()
+    one_hour = datetime.timedelta(hours=1)
+    one_hour_ago = current_utc - one_hour
+
+    parameters = {
+                'stationids': 76920,
+                'parameterids': 136,
+                'time': (one_hour_ago).strftime('%Y-%m-%dT%TZ')+'/'+(current_utc).strftime('%Y-%m-%dT%TZ'),
+                'levels': 'all',
+                'incobs': 'true',
+                'sensors': 'all',
+                }
+
+    frostr = requests.get(endpoint, parameters, headers=headers)
+
+    return frostr

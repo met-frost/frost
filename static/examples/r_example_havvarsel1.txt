@@ -1,0 +1,49 @@
+library(jsonlite)
+
+# Insert your own client ID here
+client_id ='CLIENT_ID'
+
+# Define endpoint and request parameters
+endpoint <- paste0("https://", client_id, "@havvarsel-frost.met.no/api/v1/obs/badevann/get")
+sources = 'badetassen*' #The source of the buoy data (often the organization submitting and/or owning the buoy(s)
+parameters <- 'temp*' #Which elements to get. Here: All elements starting with wind, using * as wildcard
+incobs <- 'true' #Set to true to get observations as well as metadata
+time_interval <- '2022-07-15T08:00:00Z/2022-07-15T10:00:00Z'
+# Build the URL
+url <- paste0(
+    endpoint, "?",
+    "time=", time_interval,
+    "&parameters=", parameters,
+    "&sources=", sources,
+    "&incobs=", incobs
+)
+
+
+#Print the request URL
+print(url)
+
+# Issue an HTTP GET request and extract JSON data
+xs <- try(fromJSON(URLencode(url),flatten=T))
+
+# Check if the request worked
+if (class(xs) != 'try-error') { #if success, print response
+
+    print("Data retrieved from frost-rc.met.no")
+    #print(xs$data) #Uncomment to print the entire response
+
+    #Print selected parts of response on human friendly format
+    for( j in 1:length(xs$data$tseries$header.extra.name)) {
+
+    	 #Print metadata (information on buoy name, buoy id and parameter)
+    	 print(paste("Buoy name: ",xs$data$tseries$header.extra.name[[j]],
+	 ", buoy id:  ",  xs$data$tseries$header.id.buoyid[[j]],
+    	 ", parameter: ", xs$data$tseries$header.id.parameter[[j]]))
+
+	 #Print the dataframe with the observations part of the response (time, value)
+	 print(xs$data$tseries$observations[[j]])
+
+    }
+
+} else { #If error, print error message
+    print("Error: the data retrieval was not successful!")
+}

@@ -1,0 +1,86 @@
+{{define "starthere"}}
+{{template "header"}}
+{{template "subbarhowto"}}
+{{template "wipdisclaimer"}}
+
+<h2>Start here: What do I need to use Frost?</h2>
+
+<div class="zig-zag"></div>
+<h3>Register as a user</h3>
+
+<p>Who needs to register: All users of frost.met.no. If you use havvarsel-frost.met.no, you do not need to register at this time.</p>
+
+<p>To access the API you need to register as a user, all you need is an email address
+(<a href="https://www.met.no/en/About-us/privacy">MET's privacy policy statement</a>). You will get a
+client ID and client Secret (= username and password), which you should keep in a safe place.
+<br>
+<a class="button" href="/auth">Register as a User here</a>
+<br>
+If you need access to restricted data you will need to register in the MET login system, and use tokens to authenticate.
+You will have to contact us (observasjon@met.no) to get these credentials.
+More information on Frost's <a href="https://www.rfc-editor.org/rfc/rfc7617#section-2">basic auth</a> and <a href="https://en.wikipedia.org/wiki/OAuth#OAuth_2.0">OAuth 2</a> can be found
+<a href="/docs/authentication_explanation">here</a>.
+</p>
+
+<div class="zig-zag"></div>
+<h3>Learn about APIs</h3>
+<p>If you have never used an API before, please have a look at <a href="https://en.wikipedia.org/wiki/API">some basic explanations</a>.<br>
+  The (very) short version: An API is a way for two pieces of software to communicate information to each other. For example: Your software can make a request for meteorological observations from Frost. An API request is just a way of asking the API for data that match your criteria. Frost will respond by sending the data it is asked for, or it will send an error code if no data matches the request. Frost is specifically a <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">RESTful Web API</a>.<br>
+</p>
+
+<h3>Learn how to make a request for data</h3>
+<p>
+  An API request is just a way of asking the API for the data you want. A request contains the base URL of the API and then a list of
+  request parameters which are set to your preferred values.
+  You must set parameters defining (at the minimum) the when, where and what of the observation data you want.<br>
+  To build a request you can either use our <a href="/docs/apirefbasic">interactive API documentation form</a>, or <a href="/docs/urlexamples">build an URL</a> (see also below), or
+  <a href="/docs/codeexamples">use a script</a>.<br>
+  To learn more about the API requests, <a href="/docs/parameters">have a look at the API request documentation page</a>.
+</p>
+
+<div class="zig-zag"></div>
+<h3>Download through this webpage ( <a href="/docs/apirefbasic">Test the API)</a></h3>
+<p>
+The easiest way to test how to use the API is to try our <a href="/docs/apirefbasic">interactive API documentation form</a>. Start by clicking on the
+<i>“Try it out”</i> button to activate the text fields, then
+enter the conditions you want to search for and click on the Execute button.
+The response, together with the request URL, will be displayed at the bottom of the form.
+We also offer an <a href="/docs/apirefadvanced">advanced version</a> of the interactive page, with more options (request parameters) to try.
+</p>
+
+<div class="zig-zag"></div>
+<h3>Use a URL to download from the API</h3>
+<p>
+You can build a URL to request data and either insert it into your browser URL field or use a command line tool such as <a href="https://curl.se/">curl</a>.
+To get started, try our <a href="/docs/apirefbasic">interactive API page</a> to generate URLs. If you want to construct the URL yourself, start with
+the base URL of the API and add parameters you want to set to define the when, where and what of the data you want (learn more about <a href="/docs/parameters">the request parameters here</a>).<br>
+You can start from these examples:
+</p>
+
+<ul>
+  <li>Get the latest data for the Blindern station:</li>
+  <a href="https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=true&time=latest&elementids=air_temperature&stationids=18700">
+    https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=true&time=latest&elementids=air_temperature&stationids=18700</a>
+  <li>Get the metadata (without observations) for the 5 stations within 5km of Oslo:</li>
+  <a href="https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=false&nearest=%7B%22maxdist%22%3A5%2C%22maxcount%22%3A5%2C%22points%22%3A%5B%7B%22lon%22%3A10.75%2C%22lat%22%3A59.91%7D%5D%7D">
+    https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=false&#38;nearest={&#34;maxdist&#34;:5,&#34;maxcount&#34;:5,&#34;points&#34;:[{&#34;lon&#34;:10.75,&#34;lat&#34;:59.91}]}</a>
+
+</ul>
+
+<a href="/docs/urlexamples">More URL examples here!</a>
+
+
+<div class="zig-zag"></div>
+<h3>Run automatic downloads using a script</h3>
+<p>
+When you want to automate your data requests, your next step is to use a script. We provide <a href="/docs/codeexamples">examples in different scripting languages</a>
+to use as starting point.
+</p>
+
+<br>
+
+
+
+
+{{template "footer"}}
+{{end}}

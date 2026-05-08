@@ -1,0 +1,83 @@
+import requests
+import json
+import pandas as pd
+
+client_id='CLIENT_ID'
+client_secret='CLIENT_SECRET'
+
+#Set request parameters
+starttime = '2022-12-01T00:00:00Z' #Date and time
+endtime = '2022-12-01T05:00:00Z'
+time_interval = '{}/{}'.format(starttime,endtime) #Time range
+incobs = 'true' #Set to true to get observations as well as metadata
+elementids = 'wind_*' #Which elements to get. Here: All elements starting with wind, using * as wildcard
+stationids = '18700,90450' #Which meteorological stations to look for (internal MET Norway numbers)
+
+#Make a python dictionary to hold the request parameters (you can add and remove request parameters here)
+parameters = {
+    'incobs':incobs,
+    'elementids':elementids,
+    'stationids': stationids,
+    'time': time_interval
+}
+
+#Send the request and get the response
+response  = requests.get(
+    'https://frost-rc.met.no/api/v1/obs/ranked/get?', #The API endpoint URL for filter type timeseries on frost v1 beta
+    params=parameters, #Add the request parameters
+    auth=(client_id, client_secret) #Add the authentication
+)
+
+#Print the request
+print('Request URL: {}\n'.format(response.url))
+
+#Print the response
+print('Response as pandas DataFrame: ')
+
+#If we got the status code for success
+if response.status_code == 200:
+    #Print the response json structure
+#         print(json.dumps(response.json(), indent=2)) #Uncomment to print the entire json structure (metadata and data)
+#         print('-----------------')
+
+    #The json response is a complicated structure in R
+    #We want to demonstrate how to make our own structure (as a pandas dataframe)
+
+    #Define list in order to save the data we want to concatenate at the end
+    list_of_dataframes = []
+
+    #Loop through response and print time/observation values on human friendly format
+    data_dicts = response.json()['data']['tseries']
+    for datadict in data_dicts: #Loop over stations
+        #Convert and unnest the observation part of the json structure into a pandas dataframe, set max_level=1 to unnest the "body" dictionary
+        df = pd.json_normalize(datadict['observations'], max_level=1)
+
+        #Add the stationid as a column positioned as first column
+        df.insert(0, 'stationid', datadict['header']['id']['stationid'])
+
+        #Add the elementid as a column at position 2
+        df.insert(2, 'elementid', datadict['header']['extra']['element']['id'])
+
+        #Add the measurement unit as a column at the end
+        df['unit'] = datadict['header']['extra']['element']['unit']
+
+        #Append the dataframe into the list
+        list_of_dataframes.append(df)
+
+    #Concatenate the dataframes in the list into one big dataframe
+    all_data = pd.concat(list_of_dataframes, axis=0)
+
+    #Convert the time column into datetime objects
+    all_data['time'] = pd.to_datetime(all_data['time'])
+
+    #Make column names prettier - just because we can!
+    all_data.rename(columns = {'body.qualitycode':'qualitycode', 'body.value':'value'}, inplace = True)
+
+    #Print the result
+    print(all_data)
+
+
+#If we got an error type status code (request failed)
+else:
+    print('Error:')
+    print('\tstatus code: {}'.format(response.status_code))

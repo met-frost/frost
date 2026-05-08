@@ -1,0 +1,254 @@
+{{define "response"}}
+{{template "header"}}
+{{template "subbarhowto"}}
+
+<br>
+<h2>API Response</h2>
+<p>The response to the API request is in the <a href="https://en.wikipedia.org/wiki/JSON">JSON</a> format.</p>
+
+<ul>
+  <li><a href="#frostv1">Response from frost.met.no v1</a></li>
+  <li><a href="#havvarsel">Response from havvarsel-frost.met.no</a></li>
+  <li><a href="#csv">Get the response on CSV format</a></li>
+  <li><a href="#errors">Error handling</a></li>
+</ul>
+
+<div class="zig-zag"></div>
+<h3 id="frostv1">Example of an API Response from frost.met.no v1</h3>
+When we ask for air temperature observations (incobs=true), at Blindern (Oslo) in the time interval
+2022-10-20 08:00:00 - 2022-10-20 09:00:00 UTC, we receive the following response in JSON
+(the response is somewhat shortened to simplify the example):
+<pre>
+    <code>
+    "data": {
+        "tstype": "ranked",
+        "tseries": [
+            {
+                "header": {
+                    "id": {
+                        "level": 10,
+                        "parameterid": 211,
+                        "sensor": 0,
+                        "stationid": 18700
+                    },
+                    "extra": {
+                        "element": {
+                            "description": "Air temperature (default 2 m above ground), present value",
+                            "id": "air_temperature",
+                            "name": "Air temperature",
+                            "unit": "degC"
+                        },
+                        "station": {
+                            "location": [
+                                {
+                                    "from": "1941-01-01T00:00:00Z",
+                                    "to": "9999-01-01T00:00:00Z",
+                                    "value": {
+                                        "elevation(masl/hs)": "94",
+                                        "latitude": "59.942300",
+                                        "longitude": "10.720000"
+                                    }
+                                }
+                            ],
+                            "shortname": "Oslo (Blindern)"
+                        },
+                        "timeseries": {
+                            "geometry": {
+                                "level": {
+                                    "unit": "m",
+                                    "value": "10"
+                                }
+                            },
+                            "quality": {
+                                "exposure": [
+                                    ...
+                                ],
+                                "performance": [
+                                    ...
+                                ]
+                            }
+                        }
+                    }
+                },
+                "observations": [
+                    {
+                        "time": "2022-10-20T08:00:00Z",
+                        "body": {
+                            "data": "2.9000001",
+                            "qualitycode": "2"
+                        }
+                    },
+                    ...
+                ]
+            },
+            ...
+        ]
+    }
+    </code>
+</pre>
+
+<h4>Explanation of API Response</h4>
+
+<b>header:</b> Contains information about the observation data and the measurement equipment (metadata)
+<ul>
+    <li><b>id:</b> Contains information that identifies a time series in a unique way</li>
+    <li><b>level:</b> Height of measurement above ground level in meters</li>
+    <li><b>parameterid:</b> The identification key (a number) corresponding to an elementid</li>
+    <li><b>sensor:</b> Which sensor did the measurement</li>
+    <li><b>stationid:</b> Internal MET Norway weather station id number</li>
+</ul>
+<b>extra:</b> Additional useful information about the time series
+<ul>
+    <li><b>element:</b> Information about the elementid</li>
+    <ul>
+        <li>description: Text description of elementid</li>
+        <li>id: The elementid name</li>
+        <li>name: elementid text name</li>
+        <li>unit: The measurement unit of the elementid</li>
+    </ul>
+    <li><b>station:</b> Information about the meteorological station</li>
+    <ul>
+        <li>location: Information about the location of the station</li>
+        <ul>
+            <li>elevation: Height above mean sea level</li>
+            <li>latitude: The latitude of the station</li>
+            <li>longitude: The longitude of the station</li>
+        </ul>
+        <li>shortname: Station name (in short form)</li>
+    </ul>
+    <li><b>timeseries:</b> Information about the time series</li>
+    <ul>
+        <li>geometry: Where at the station is the measuring instrument situated</li>
+        <ul>
+            <li>level: Vertical position</li>
+            <ul>
+                <li>unit: The measurement unit of the height</li>
+                <li>value: The height above ground of the measuring instrument</li>
+            </ul>
+        </ul>
+        <li>quality: Information about the quality of the station (placement, representativity of the area, quality of the instruments)</li>
+        <ul>
+            <li>exposure: the representativity for the area of the station placement</li>
+            <ul>
+                <li>from: Quality data is valid from</li>
+                <li>to: Quality data is valid to</li>
+                <li>value: The quality value</li>
+            </ul>
+            <li>performance: the quality of the sensor</li>
+            <ul>
+                <li>from: Quality data is valid from</li>
+                <li>to: Quality data is valid to</li>
+                <li>value: The quality value</li>
+            </ul>
+        </ul>
+        <li>timeoffset: (No longer relevant for Frost v1!) Observation time relative to midnight, <a href="datadetails#expl_timeOffset">see text on Meteorological concepts</a></li>
+        <li>timeresolution: How often this weather parameter is measured (the period of the measurement)</li>
+    </ul>
+</ul>
+<b>observations:</b> The actual weather observation data
+<ul>
+    <li>time: Time of observation/measurement</li>
+    <li>body:</li>
+    <ul>
+        <li>data: The actual measurement</li>
+        <li>corrected: The corrected measurement (a correction may happen if there is a known instrument/station error)</li>
+        <li>qualitycode: The quality of this particular measurement (<a href="/docs/parameters#dataquality">more information on the request webpage</a>)</li>
+    </ul>
+</ul>
+
+<div class="zig-zag"></div>
+
+<h3 id="havvarsel">Example of an API Response from havvarsel-frost.met.no</h3>
+
+When we ask for water temperature observations (incobs=true) from buoy 1-34071 in the time interval
+2020-07-29T16:00:00 - 2020-07-31T23:00:00 UTC, we receive the following response in JSON:
+<pre>
+  <code>
+    {
+  "data": {
+    "tstype": "badevann",
+    "tseries": [
+      {
+        "header": {
+          "id": {
+            "buoyid": "1-34071",
+            "parameter": "temperature",
+            "source": "yr.no"
+          },
+          "extra": {
+            "name": "Kuvauen",
+            "pos": {
+              "lat": "10.83966",
+              "lon": "59.09197"
+            }
+          }
+        },
+        "observations": [
+          {
+            "time": "2020-07-29T16:00:00Z",
+            "body": {
+              "value": "17.0"
+            }
+          },
+          {
+            "time": "2020-07-31T12:29:00Z",
+            "body": {
+              "value": "19.5"
+            }
+          },
+          {
+            "time": "2020-08-01T08:44:00Z",
+            "body": {
+              "value": "18.5"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
+  </code>
+</pre>
+
+<h4>Explanation of API Response</h4>
+
+<b>header:</b> Contains information about the observation data and the measurement equipment (metadata)
+<ul>
+    <li><b>buoyid:</b> The buoy id number (this number is not necessarily unique!)</li>
+    <li><b>parameter:</b> The weather parameter measured</li>
+    <li><b>source:</b>The source of the buoy data; often the organization submitting and/or owning the buoy(s)</li>
+</ul>
+<b>extra:</b> Additional useful information about the time series
+<ul>
+  <li>name: The name of the buoy (set by the organization submitting the data)</li>
+  <li>pos: Information about the location of the buoy</li>
+  <ul>
+    <li>lat: The latitude of the buoy</li>
+    <li>lon: The longitude of the buoy</li>
+  </ul>
+</ul>
+<b>observations:</b> The actual weather observation data
+<ul>
+    <li>time: Time of observation/measurement</li>
+    <li>body:</li>
+    <ul>
+      <li>value: The actual measurement</li>
+    </ul>
+</ul>
+
+
+<div class="zig-zag"></div>
+<h3 id="errors">Error handling</h3>
+<p>
+  We use regular 4xx and 5xx http status codes, as close as possible to the HTTP specification.
+  Some errors will have a message of what went wrong in it. You will get an error message if there are no data matching your request but this does not mean there is anything wrong with your request in itself, only that you will have to change your search criteria.
+    Some errors will respond with JSON. Do not encode those JSON error responses, as they might change without proper versioning as described above.
+</p>
+    There might be cases where the service can give a successfull response, but the response object is missing some data.
+    In that case, we will include one or more warning messages in the object.
+
+</p>
+<br>
+
+{{template "footer"}}
+{{end}}

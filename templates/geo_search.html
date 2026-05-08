@@ -1,0 +1,122 @@
+{{define "geo_search"}}
+{{template "header"}}
+{{template "subbarhowto"}}
+
+<br>
+<h2>Geo Search</h2>
+<div class="zig-zag"></div>
+Geo search allows for filtering and sorting of time series and observations based on geo
+positions: longitude, latitude, and height above mean sea level.
+<br>
+A basic component for geoserch is a <b>point</b> which is defined:
+<code>
+{"lon": ..., "lat": ..., "height": ...}
+</code>
+where the height is optional.
+<br>
+<br>
+
+
+<h4>Polygon</h4>
+
+This field is a simplified version of the field "inside", <i>which is used in the advanced version of the API</i>.
+This field is used for defining a polygon for which all stations / data inside the polygon
+will be returned. You define a series of points (lat / lon) that define the polygon.
+
+An example of the syntax can be seen below:
+<pre>
+    <code>
+    [{"lat":59.93,"lon":10.05},{"lat":59.93,"lon":11},{"lat":60.25,"lon":10.77}]
+    </code>
+</pre>
+
+
+<h4>Nearest</h4>
+
+This field is used for finding the nearest stations / observations to a latitude and longitude.
+In addition to the point that you want to find observations close to, you must also define how
+many stations you want to find (maxcount) and how far away they are allowed to be (maxdist).
+Please note that in areas with sparse station coverage you may get less than the desired number
+of stations returned within the max distance.
+<br/>
+<img src="/static/images/nearest.svg" alt="nearest clarification diagram"/>
+<br/>
+In the diagram you can see an explantion of nearest, including clarification of maxdist and maxcount.
+Even if there are more stations in the defined radius around the lat/lon you will not be returned
+these stations.
+
+An example of the syntax can be seen below:
+<pre>
+    <code>
+    {"maxdist":7.5,"maxcount":3,"points":[{"lon":10.05,"lat":59.93}]}
+    </code>
+</pre>
+<a href="https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=false&nearest=%7B%22maxdist%22%3A5%2C%22maxcount%22%3A5%2C%22points%22%3A%5B%7B%22lon%22%3A10.75%2C%22lat%22%3A59.91%7D%5D%7D">
+    https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=false&#38;nearest={&#34;maxdist&#34;:5,&#34;maxcount&#34;:5,&#34;points&#34;:[{&#34;lon&#34;:10.75,&#34;lat&#34;:59.91}]}</a>
+
+<h4>Inside</h4>
+
+<img src="/static/images/inside.svg" alt="inside clarification diagram" style="float:right;width:240px;height:240px;"/>
+
+Search for weather observations inside a geographic area. It is possible to define a: <b>polygon, circle, lonrange, latrange</b>.
+You can see an example of a polygon in the image, where the data from the stations inside
+the polygon will be returned but not the data from the stations outside.
+It is also possible to define a maxheight and minheight, in order to specify that you do not want stations outside that range.
+<i>The polygon is similar to the above polygon field, just that you must define
+the type to be polygon in an outer set of brackets.</i>
+<br>
+<br>
+You can for example define a circle with a lat / lon (in degrees) in the center an a radius (in
+kilometers). Since it's possible to define several areas, the object should be wrapped in an array
+like [{},{}...]. An example of the syntax can be seen below:
+<pre>
+    <code>
+    [{"type":"circle","lon":10.75,"lat":59.91,"radius":7.5,"minheight":30,"maxheight":50}]
+    </code>
+</pre>
+<br>
+<a href="https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=false&inside=%5B%7B%22type%22%3A%22circle%22%2C%22lon%22%3A10.75%2C%22lat%22%3A59.91%2C%22radius%22%3A7.5%2C%22minheight%22%3A30%2C%22maxheight%22%3A50%7D%5D">
+    https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=false&#38;inside={&#34;type&#34;:circle,&#34;lon&#34;:10.75,&#34;lat&#34;:59.91,&#34;radius&#34;:7.5,&#34;minheight&#34;:30,&#34;maxheight&#34;:50}</a>
+
+<h4>Outside</h4>
+
+Search for weather observations outside a geographic area. It is possible to define a: <b>polygon, circle, lonrange, latrange</b>.
+The data from the stations outside the polygon will be returned but not the data from the stations inside.
+It is also possible to define a maxheight and minheight, in order to specify that you do not want stations outside that range.
+<i>The polygon is similar to the above polygon field, just that you must define
+the type to be polygon in an outer set of brackets.</i><br>
+<br>
+<br>
+You can define several areas, hence the object should be wrapped
+in an array like [{},{}...]. You can for example define a polygon and a circle.
+An example of the syntax can be seen below:
+<pre>
+    <code>
+    [{"type":"polygon","pos":[{"lat":59.93,"lon":10.05},{"lat":59.93,"lon":11},{"lat":60.25,"lon":10.77}]}, {"type":"circle","lon":9,"lat":61.5,"radius":300,"minheight":30,"maxheight":50}]
+    </code>
+</pre>
+<br>
+
+<div class="zig-zag"></div>
+<h4>Stationary vs mobile positions</h4>
+Positions that are subject to geo search are either stationary or mobile. Using terminology of the Frost v1 /obs design,
+a stationary position is one that is defined in the "extra" object of the <i>time series header</i> (TSH). All observations of
+such a time series will implicitly have that position. A mobile position, on the other hand, is defined in the "body" object
+of the <i>time series observation</i> (TSO), thus allowing the position to vary between observations.
+<br>
+An extra query parameter geopostype is available to control how Frost will apply any geo filtering.
+Possible values are 'stationary' for only consider positions in TSH, 'mobile' for only consider positions in TSO, or 'any'
+for considering positions in either TSH or TSO, thus allowing different types of time series in the same request. Note that
+in the latter case, a time series with position in both TSH and TSO will be filtered out altogether if the TSH position failed
+to match a geo filter even if one or more TSO observations matched. The default value of geopostype is 'stationary'.
+<pre>
+    <code>
+    geopostype: mobile
+    </code>
+</pre>
+Nearest is applicable to stationary positions only. The reason for this is that Frost delivers output time series by time series
+(rather than by obs time).
+<b>Note</b> that nearest has no effect if geopostype=mobile!
+
+{{template "footer"}}
+{{end}}

@@ -1,0 +1,47 @@
+{{define "dataset_glider"}}
+{{template "header"}}
+
+<br>
+<h2>Dataset documentation for time series type glider</h2>
+
+The glider dataset has the following structure:
+
+<pre>
+{
+    "tstype": "glider",
+    "tseries": [
+        {
+            "header": {
+                "id": {
+                    "source": "...",
+                    "gliderid": "...",
+                    "parameter": "..."
+                },
+                "extra": {
+                    "name": "..."
+                }
+            },
+            "observations": [
+                {
+                    "time": "2020-06-16T06:00:00Z",
+                    "body": {
+                        "pos": {
+                            "lon": ...,
+                            "lat": ...,
+                            "depth": ...,
+                            "qc_flag": "..."
+                        },
+                        "value": ...,
+                        "qc_flag": "..."
+                    }
+                },
+                ...
+            ]
+        },
+        ...
+    ]
+}
+</pre>
+
+{{template "footer"}}
+{{end}}

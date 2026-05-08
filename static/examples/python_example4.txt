@@ -1,0 +1,52 @@
+import requests
+import json
+
+client_id='CLIENT_ID'
+client_secret='CLIENT_SECRET'
+
+
+#Set request parameters
+time_interval = 'latest' #Latest measurement (default value)
+incobs = 'false' #Set to false to get only metadata information (no observation data)
+elementids = 'air_temperature' #Look for stations measuring air temmperature
+#Find measuring stations situated inside a polygon shape defined by geographical corner points
+#(use latitude and longitude to define the corner points):
+polygon_frost = ' [{"lat":59.93,"lon":10.05},{"lat":59.93,"lon":11},{"lat":60.25,"lon":10.77}]'
+
+#Make a python dictionary to hold the request parameters
+parameters = {
+    'incobs':incobs,
+    'elementids':elementids,
+    'polygon':polygon_frost,
+    'time': time_interval
+    }
+
+
+#Send the request
+response  = requests.get(
+    'https://frost-rc.met.no/api/v1/obs/ranked/get?', #The API endpoint URL for filter type timeseries on frost v1 beta
+    params=parameters, #Add the request parameters
+    auth=(client_id, client_secret) #Add the authentication
+)
+
+print('Request URL: {}\n'.format(response.url))
+print('Response from frost v1 in JSON: \n')
+
+if response.status_code == 200 and 'data' in response.json(): #Success! We got a response!
+
+    #print(json.dumps(response.json(), indent=2)) #Uncomment to print the entire response json structure (metadata and data)
+
+    #Print the station names given in the response
+    if 'tseries' in response.json()['data']:
+        data_dicts = response.json()['data']['tseries']
+        for datadict in data_dicts:
+            for key,value in datadict.items():
+                if key == 'header' and 'extra' in value:
+                    if 'station' in value['extra'].keys() and 'shortname' in value['extra']['station'].keys():
+                        print('{}'.format(value['extra']['station']['shortname']))
+
+else: #If we got an error type status code (request failed)
+    print('Error:')
+    print('\tstatus code: {}'.format(response.status_code))
+    print(json.dumps(response.json(), indent=2)) # print the json structure (metadata and data)
+

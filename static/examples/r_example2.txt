@@ -1,0 +1,48 @@
+library(jsonlite)
+
+# Insert your own client ID here
+client_id ='CLIENT_ID'
+
+# Define endpoint and request parameters
+endpoint <- paste0("https://", client_id, "@frost-rc.met.no/api/v1/obs/ranked/get")
+location <- 'oslo'
+elementids <- 'wind*' #Which elements to get. Here: All elements starting with wind, using * as wildcard
+incobs <- 'true' #Set to true to get observations as well as metadata
+time_interval <- '2022-12-01T00:00:00Z/2022-12-01T02:00:00Z'
+# Build the URL
+url <- paste0(
+    endpoint, "?",
+    "location=", location,
+    "&time=", time_interval,
+    "&elementids=", elementids,
+    "&incobs=", incobs
+)
+
+#Print the request URL
+print(url)
+
+# Issue an HTTP GET request and extract JSON data
+xs <- try(fromJSON(URLencode(url),flatten=T))
+
+# Check if the request worked
+if (class(xs) != 'try-error') { #if success, print response
+
+    print("Data retrieved from frost-rc.met.no")
+    #print(xs$data) #Uncomment to print the entire response
+
+    #Print selected parts of response
+    for( j in 1:length(xs$data$tseries$header.extra.station.shortname)) {
+
+    	 #Print metadata (information on station name, elementid and measurement unit
+    	 print(paste("Station name: ",xs$data$tseries$header.extra.station.shortname[[j]],
+    	 ", elementid: ", xs$data$tseries$header.extra.element.id[[j]],
+    	 ", unit: ", xs$data$tseries$header.extra.element.unit[[j]]))
+
+	 #Print the dataframe with the observations part of the response (time, qualitycode, value)
+	 print(xs$data$tseries$observations[[j]])
+
+    }
+
+} else { #If error, print error message
+    print("Error: the data retrieval was not successful!")
+}

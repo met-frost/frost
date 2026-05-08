@@ -1,0 +1,42 @@
+{{define "termsofservice"}}
+{{template "header"}}
+
+<br>
+<h2>Terms of service</h2>
+
+This version of Frost is still work in progress.
+MET Norway does not guarantee that the service will always behave 100% according to documentation or expectations.
+<br>
+
+In the following you will find guidelines for using the Frost API. The API has good capacity and can handle relatively large volumes of requests, 
+but the capacity is not unlimited. We encourage all users to respect the guidelines so that the API will be stable. 
+If we see that there are situations that threaten the operation of our environment, we would consider blocking out the users / services 
+that have high load / bad traffic patterns. If you set up your service in accordance with our policy it will increase the probability that 
+it is not blocked.
+
+
+<h4>Updates</h4>
+Do not ask too often. New data comes in frequently, but old data changes seldom. Do not poll for new data too often, and consider caching older data. 
+
+<h4>Local Caching</h4>
+You should save the information on your own server if you have heavy traffic. Heavy traffic means on average more than 1 requests to the API per second. 
+
+<h4>Large Requests</h4>
+You may find that it is possible to ask for more data than fits in a response (and get an error message). Please split your request into smaller subrequests. 
+For example, a request that specifies data from 1000 weather stations could be split into 10 requests, each specifying 100 stations. Likewise, a long timeseries 
+of observations can be split into requests for N time subranges.
+
+
+<h2>Conditions for data use</h2>
+
+Data from frost.met.no are licensed and the license is found in every response. Read more about licensing and crediting 
+<a href="https://www.met.no/en/free-meteorological-data/Licensing-and-crediting">here</a>.
+<br>
+
+All weather data available through the API are continually updated. New data is available continuously (once it is in the database,
+but some types of data go through quality control first). Other products have a varying length of phase-out period, depending on 
+what we consider to be reasonable. There are no guarantees of delivery regarding this service.
+
+
+{{template "footer"}}
+{{end}}

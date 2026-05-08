@@ -1,0 +1,57 @@
+import requests
+import json
+
+client_id='CLIENT_ID'
+client_secret='CLIENT_SECRET'
+
+
+#Set request parameters
+starttime = '2022-07-15T08:00:00Z' #Date and time
+endtime = '2022-07-15T10:00:00Z'
+time_interval = '{}/{}'.format(starttime,endtime) #Time range
+incobs = 'true' #Set to true to get observations as well as metadata
+parameters = 'temp*' #Which elements to get. Here: All elements starting with wind, using * as wildcard
+sources = 'badetassen*' #The source of the buoy data (often the organization submitting and/or owning the buoy(s) 
+
+#Make a python dictionary to hold the request parameters (you can add and remove request parameters here)
+parameters = { 
+    'incobs':incobs,
+    'parameters':parameters,
+    'sources' : sources,
+    'time': time_interval
+}
+
+#Send the request and get the response
+response  = requests.get(
+    'https://havvarsel-frost.met.no/api/v1/obs/badevann/get?', #The API endpoint URL for filter type timeseries on frost v1 beta
+    params=parameters, #Add the request parameters
+    auth=(client_id, client_secret) #Add the authentication
+)
+
+#Print the request
+print('Request URL: {}\n'.format(response.url))
+
+#Print the response
+print('Response: ')
+        
+#If we got the status code for success
+if response.status_code == 200:
+    #Print the response json structure  
+    #print(json.dumps(response.json(), indent=2)) #Uncomment to print the entire json structure (metadata and data)
+
+    #Loop through response and print time/observation values on human friendly format
+    data_dicts = response.json()['data']['tseries']
+    for datadict in data_dicts: 
+       for key,value in datadict.items():
+           if key == 'header' and 'extra' in value:
+               print('Buoy name: {}, buoy id: {}, parameter: {}'.format(value['extra']['name'],value['id']['buoyid'], value['id']['parameter']))
+           if key == 'observations' and value is not None:
+               for obs in datadict['observations']: #Print time, value and quality of measurement	
+                   if 'time' in obs: print('  time: {}'.format(obs['time']))
+                   if 'body' in obs: print('    value: {}'.format(obs['body']['value']))
+                   #if 'body' in obs: print('    qualitycode: {}'.format(obs['body']['qualitycode']))    
+#If we got an error type status code (request failed)
+else:
+    print('Error:')
+    print('\tstatus code: {}'.format(response.status_code))
+

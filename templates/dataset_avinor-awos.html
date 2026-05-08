@@ -1,0 +1,45 @@
+{{define "dataset_avinor-awos"}}
+{{template "header"}}
+
+<br>
+<h2>Dataset documentation for time series type avinor-awos</h2>
+
+The avinor-awos dataset has the following structure:
+
+<pre>
+{
+    "tstype": "avinor-awos",
+    "tseries": [
+        {
+            "header": {
+                "id": {
+                    "airportICAO": "...",
+                    "sensorName": "...",
+                    "awosParam": "..."
+                },
+                "extra": {
+                    "metParam" "...",
+                    "msgEnv": "...",
+                    "srcOrg": "...",
+                    "srcSys": "..."
+                }
+            },
+            "observations": [
+               {
+                   "time": "...",
+                   "body": {
+                        "value": "...",
+                        "sensorStatus": "...",
+                        "runwayInUse": "..."
+                    }
+                },
+                ...
+            ]
+        },
+        ...
+    ]
+}
+</pre>
+
+{{template "footer"}}
+{{end}}

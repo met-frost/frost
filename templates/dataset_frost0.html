@@ -1,0 +1,59 @@
+{{define "dataset_frost0"}}
+{{template "header"}}
+
+<br>
+<h2>Dataset documentation for time series type frost0</h2>
+
+The frost0 dataset has the following structure:
+
+<pre>
+{
+    "tstype": "frost0",
+    "tseries": [
+        {
+            "header": {
+                "id": {
+                    "source": "...",
+                    "sensorLevel": "...",
+                    "element": "..."
+                },
+                "extra": {
+                    "organizations": ["...", "...", ...],
+                    "pos": {
+                        "lon": "...",
+                        "lat": "..."
+                    }
+                }
+            },
+            "observations": [
+               {
+                   "time": "...",
+                   "body": {
+                       "pos": {
+                           "lon": "...",
+                           "lat": "..."
+                        },
+                        "value": "...",
+                        "quality": "..."
+                    }
+                },
+                ...
+            ]
+        },
+        ...
+    ]
+}
+</pre>
+
+<ul>
+    <li>All properties of the header/id object are required.</li>
+    <li>The header/extra object is optional.</li>
+    <li>The organizations array and pos object are both optional in any header/extra object.</li>
+    <li>The observation time must be of the form <code>yyyy-mm-ddThh:mm:ssZ</code></li>
+    <li>Only value is required in the observation body object.</li>
+    <li>Both lon and lat must be present in any pos object in the observation body object or
+        a header/extra object.</li>
+</ul>
+
+{{template "footer"}}
+{{end}}

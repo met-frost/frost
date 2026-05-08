@@ -1,0 +1,27 @@
+tr[data-param-group="where"] {
+    background-color: #e2eeec;
+}
+tr[data-param-group="what"] {
+    background-color: #eeeedd;
+}
+tr[data-param-group="quality"] {
+    background-color: #f4f8d4;
+}
+tr[data-param-group="when"] {
+    background-color: #f3e9ec;
+}
+tr[data-param-group="output"] {
+    background-color: #e8e8f0;
+}
+tr[data-param-group="other"] {
+    background-color:#fceddf;
+}
+.swagger-ui table tbody tr td:first-of-type {
+    padding-left: 10px;
+}
+.swagger-ui .parameters-col_description {
+    padding-right: 10px;
+}
+.swagger-ui .table-container {
+    padding: 10px;
+}

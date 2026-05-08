@@ -1,0 +1,27 @@
+{{define "subbarapi"}}
+<div class="subbar" id="apisubbar">
+    <a id="basic-subbar" href="/docs/apirefbasic">API reference (basic)</a>
+    <a id="advanced-subbar" href="/docs/apirefadvanced">API reference (advanced)</a>
+</div>
+
+<script>
+    function selectCurAPIref() {
+        basic = document.getElementById("basic-subbar");
+        advanced = document.getElementById("advanced-subbar");
+
+        var path = window.location.pathname;
+        var page = path.split("/").pop();
+        console.log(page);
+        if (page == "apirefbasic") {
+            advanced.style.display = "block";
+            basic.style.display = "none";
+        } else {
+            basic.style.display = "block";
+            advanced.style.display = "none";
+            var menu = document.getElementById("apirefbasic");
+            menu.className += " active";
+        }
+    }
+    selectCurAPIref();
+</script>
+{{end}}

@@ -1,0 +1,97 @@
+{{define "quality"}}
+{{template "header"}}
+
+<br>
+<h2>Data Quality</h2>
+
+<div class="zig-zag"></div>
+<h4>More about quality...</h4>
+
+The single value code is an aggregation of three of the flags given by the quality control system. 
+Below is a description of relevant values for each of the three flags:
+
+<b>Flag 1 (useinfo[1] - deviation of original value from normed observation procedure):</b>
+<table>
+    <thead>
+      <tr><th>Value</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>0</td><td>normed observation period and observation time</td></tr>
+      <tr><td>1</td><td>observation time deviates from the norm</td></tr>
+      <tr><td>2</td><td>observation period is shorter than the norm</td></tr>
+      <tr><td>3</td><td>observation period is longer than the norm</td></tr>
+      <tr><td>4</td><td>observation time deviates from the norm, observation period is shorter than the norm</td></tr>
+      <tr><td>5</td><td>observation time deviates from the norm, observation period is longer than the norm</td></tr>
+      <tr><td>8</td><td>original value is missing</td></tr>
+      <tr><td>9</td><td>status information not given</td></tr>
+    </tbody>
+</table>
+
+<b>Flag 2 (useinfo[2] - quality level of the original value):</b>
+<table>
+    <thead>
+      <tr><th>Value</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>0</td><td>original value found to be good</td></tr>
+      <tr><td>1</td><td>original value suspicious (likely correct)</td></tr>
+      <tr><td>2</td><td>original value suspicious (likely erroneous)</td></tr>
+      <tr><td>3</td><td>original value definitely erroneous</td></tr>
+      <tr><td>9</td><td>no quality information given</td></tr>
+    </tbody>
+</table>
+
+<b>Flag 3 (useinfo[3] - treatment of the original value):</b>
+<table>
+    <thead>
+      <tr><th>Value</th><th>Description</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>0</td><td>original value is kept unchanged</td></tr>
+      <tr><td>1</td><td>original value is manually or automatically corrected with a good result</td></tr>
+      <tr><td>2</td><td>original value is manually or automatically interpolated with a good result</td></tr>
+      <tr><td>3</td><td>original value is automatically corrected</td></tr>
+      <tr><td>4</td><td>original value is automatically interpolated</td></tr>
+      <tr><td>5</td><td>original value is manually created from accumulated values</td></tr>
+      <tr><td>6</td><td>original value is automatically created from accumulated values</td></tr>
+      <tr><td>8</td><td>original value is thrown out</td></tr>
+      <tr><td>9</td><td>quality information is not given</td></tr>
+    </tbody>
+</table>
+
+The final quality code is converted from the three flags according to the following table (the asterisk '*' matches anything):
+<table>
+    <thead>
+      <tr><th>Flag 1</th><th>Flag 2</th><th>Flag 3</th><th>Quality code</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>9</td><td>9</td><td>5</td></tr>
+      <tr><td>4</td><td>9</td><td>9</td><td>5</td></tr>
+      <tr><td>5</td><td>9</td><td>9</td><td>5</td></tr>
+      <tr><td>8</td><td>9</td><td>9</td><td>5</td></tr>
+      <tr><td>8</td><td>9</td><td>8</td><td>7</td></tr>
+      <tr><td>0</td><td>3</td><td>8</td><td>7</td></tr>
+      <tr><td>2</td><td>3</td><td>8</td><td>7</td></tr>
+      <tr><td>3</td><td>3</td><td>8</td><td>7</td></tr>
+      <tr><td>8</td><td>3</td><td>8</td><td>7</td></tr>
+      <tr><td>9</td><td>3</td><td>8</td><td>7</td></tr>
+      <tr><td>3</td><td>3</td><td>9</td><td>7</td></tr>
+      <tr><td>3</td><td>0</td><td>8</td><td>7</td></tr>
+      <tr><td>0</td><td>0</td><td>8</td><td>7</td></tr>
+      <tr><td>*</td><td>*</td><td>1</td><td>1</td></tr>
+      <tr><td>*</td><td>*</td><td>2</td><td>1</td></tr>
+      <tr><td>*</td><td>*</td><td>3</td><td>6</td></tr>
+      <tr><td>*</td><td>*</td><td>4</td><td>6</td></tr>
+      <tr><td>*</td><td>*</td><td>5</td><td>1</td></tr>
+      <tr><td>*</td><td>*</td><td>6</td><td>1</td></tr>
+      <tr><td>*</td><td>0</td><td>*</td><td>0</td></tr>
+      <tr><td>*</td><td>9</td><td>*</td><td>2</td></tr>
+      <tr><td>*</td><td>1</td><td>0</td><td>4</td></tr>
+      <tr><td>*</td><td>2</td><td>0</td><td>5</td></tr>
+      <tr><td>*</td><td>3</td><td>0</td><td>7</td></tr>
+      <tr><td>*</td><td>3</td><td>8</td><td>7</td></tr>
+    </tbody>
+  </table>
+
+{{template "footer"}}
+{{end}}

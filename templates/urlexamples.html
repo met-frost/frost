@@ -1,0 +1,60 @@
+{{define "urlexamples"}}
+{{template "header"}}
+{{template "subbarhowto"}}
+
+<br>
+<h2>URL examples</h2>
+
+<h3>frost v1 URL examples</h3>
+
+<p>
+  To add more parameters to your URL request, <a href="parameters#paramdefs">see the list of parameter definitions</a>.
+</p>
+<br>
+
+<ul>
+  <li>Get the latest data for the Blindern station:</li>
+  <a href="https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=true&time=latest&elementids=air_temperature&stationids=18700">
+    https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=true&time=latest&elementids=air_temperature&stationids=18700</a>
+
+  <li>Get the metadata (without observations) for the 5 stations within 5km of Oslo:</li>
+  <a href="https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=false&nearest=%7B%22maxdist%22%3A5%2C%22maxcount%22%3A5%2C%22points%22%3A%5B%7B%22lon%22%3A10.75%2C%22lat%22%3A59.91%7D%5D%7D">
+    https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=false&#38;nearest={&#34;maxdist&#34;:5,&#34;maxcount&#34;:5,&#34;points&#34;:[{&#34;lon&#34;:10.75,&#34;lat&#34;:59.91}]}</a>
+
+  <li>Get a list of stations (metadata, without observations) in the county of Vestland measuring wind between 2021-01-01 00:00:00 UTC and 2022-01-01 00:00:00 UTC:</li>
+  <a href="https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=false&time=2021-01-01T00%3A00%3A00Z%2F2022-01-01T00%3A00%3A00Z&elementids=wind%2A&stationcounties=vestland">
+  https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=false&#38;time=2021-01-01T00:00:00Z%2F2022-01-01T00:00:00Z&#38;elementids=wind%2A&#38;stationcounties=vestland</a>
+
+  <li>Get all the wind measurements (using * as wildcard) made in the municipality of Oslo in the time interval from 2022-12-19 00:00:00 UTC to 2022-12-19 03:00:00 UTC:</li>
+  <a href="https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=true&time=2022-12-19T00%3A00%3A00Z%2F2022-12-19T03%3A00%3A00Z&elementids=wind%2A&stationmunicipalities=oslo">
+    https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=true&#38;time=2022-12-19T00:00:00Z%2F2022-12-19T03:00:00Z&#38;elementids=wind*&#38;stationmunicipalities=oslo</a>
+
+  <li>Get a list of stations (metadata, without observations) in the county of Vestland measuring air temperature at 10m above the ground between 2021-01-01 00:00:00 UTC and 2022-01-01 00:00:00 UTC:</li>
+  <a href="https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=false&time=2021-01-01T00%3A00%3A00Z%2F2022-01-01T00%3A00%3A00Z&elementids=air_temp%2A&levels=10&stationcounties=vestland">
+    https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=false&#38;time=2021-01-01T00:00:00Z%2F2022-01-01T00:00:00Z&#38;elementids=air_temp%2A&#38;levels=10&#38;stationcounties=vestland</a>
+
+  <!-- <li>:</li> -->
+  <!-- <a href=""> -->
+  <!-- </a> -->
+
+
+</ul>
+
+<div class="zig-zag"></div>
+
+<h3>havvarsel-frost URL examples</h3>
+<p>
+  For those coming here from havvarsel-frost:
+</p>
+
+<ul>
+<li>Get the metadata (without observations) for water temperatures measured by buoys: </li>
+    <a href="https://havvarsel-frost.met.no/api/v1/obs/badevann/get?incobs=false&time=latest&parameters=temperature">
+      https://havvarsel-frost.met.no/api/v1/obs/badevann/get?incobs=false&time=latest&#38;parameters=temperature </a>
+
+</ul>
+
+<br><br>
+
+{{template "footer"}}
+{{end}}

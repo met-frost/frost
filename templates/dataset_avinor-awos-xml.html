@@ -1,0 +1,34 @@
+{{define "dataset_avinor-awos-xml"}}
+{{template "header"}}
+
+<br>
+<h2>Dataset documentation for time series type avinor-awos-xml</h2>
+
+The avinor-awos-xml dataset has the following structure:
+
+<pre>
+{
+    "tstype": "avinor-awos-xml",
+    "tseries": [
+        {
+            "header": {
+                "id": null,
+                "extra": null
+            },
+            "observations": [
+                {
+                   "time": "2020-06-16T06:00:00Z",
+                   "body": {
+                        "value": "..."
+                    }
+                },
+                ...
+            ]
+        },
+        ...
+    ]
+}
+</pre>
+
+{{template "footer"}}
+{{end}}

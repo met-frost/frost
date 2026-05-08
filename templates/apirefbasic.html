@@ -1,0 +1,84 @@
+{{define "apirefbasic"}}
+{{template "header"}}
+{{template "subbarapi"}}
+{{template "wipdisclaimer"}}
+
+<br>
+<h2>Test the API: interactive documentation - basic version</h2>
+
+<p>
+  Use the forms to make a request to the API and download data. This page is here to let you easily test the functionality of the API.<br>
+  <b>To start, expand the boxes and click the "Try it out" button</b>
+</p>
+
+<h3>This is the basic version</h3>
+<p>
+  The forms on this page will let you the set the values of the most used request parameters only. All other parameters have been set to MET Norway's chosen defaults (given in the <a href="parameters">documentation</a>).
+</p>
+<p>
+  The complete <a href="https://swagger.io/specification/v3/">OpenAPI</a> Specification (OAS) used for generating this page is
+  available <a href="/swaggerui/openapibasic.json">here</a>.
+</p>
+
+<h3>Go to the <a href="apirefadvanced">Advanced version</a></h3>
+<p>
+  If you want more choices, <a href="apirefadvanced"><b>use the advanced version of the forms</b></a>.
+</p>
+
+<link rel="stylesheet" type="text/css" href="/swaggerui/swagger-ui.css" >
+<link rel="stylesheet" type="text/css" href="/swaggerui/custom.css" >
+<link rel="stylesheet" type="text/css" href="/static/stylesheets/frost_openapi.css" >
+<link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32" />
+<link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16" />
+<style>
+  html
+  {
+    box-sizing: border-box;
+    overflow: -moz-scrollbars-vertical;
+    overflow-y: scroll;
+  }
+
+  *,
+  *:before,
+  *:after
+  {
+    box-sizing: inherit;
+  }
+
+  body
+  {
+    margin:0;
+  }
+  </style>
+  <div id="swagger-ui"></div>
+    <script src="/swaggerui/swagger-ui-bundle.js"> </script>
+    <script src="/swaggerui/swagger-ui-standalone-preset.js"> </script>
+    <script>
+    window.onload = function() {
+      // Begin Swagger UI call region
+      const ui = SwaggerUIBundle({
+        url: "/swaggerui/openapibasic.json",
+        dom_id: '#swagger-ui',
+        defaultModelsExpandDepth: -1,
+        deepLinking: true,
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIStandalonePreset
+        ],
+        plugins: [
+          SwaggerUIBundle.plugins.DownloadUrl
+        ],
+        requestInterceptor: function(req) {
+          if (req.loadSpec) {
+            req.headers.Authorization = 'Basic ' + btoa('user:password');
+          }
+          return req;
+        }
+      })
+      // End Swagger UI call region
+
+      window.ui = ui
+    }
+    </script>
+{{template "footer"}}
+{{end}}

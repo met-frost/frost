@@ -1,0 +1,67 @@
+{{define "time_specification"}}
+{{template "header"}}
+
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+
+<br>
+<h2>Time Specification</h2>
+
+<h3>Latest Mode</h3>
+
+The 'latest' mode is specified as <code>time=latest</code>.
+
+In this mode only otherwise matching time series with at least one observation within
+<code>[now-latestmaxage, now]</code> will contribute to the result (see the
+<code>latestmaxage</code> query parameter).
+
+Note that regardless of mode, actual observations are included with the contributing
+time series iff the <code>incobs</code> query parameter is specified as true. Only header
+information is included by default.
+
+
+<h3>Intervals Mode</h3>
+
+In 'intervals' mode a sequence of intervals is defined from a specific base interval. Only
+otherwise matching time series with at least one observation within any of these intervals
+will contribute to the result.
+
+The mode is specified as <code>time=EXPR</code> where the different forms of <code>EXPR</code>
+are defined in the table below.
+
+<ul>
+<li>
+<code>t1</code>, and <code>t2</code> are
+ISO 8601 time strings of the form <code>YYYY-MM-DDThh:mm:ss:Z</code>
+</li>
+<li>
+<code>p</code> is an ISO 8601 duration of the form <code>P[n]Y[n]M[n]DT[n]H[n]M[n]S</code> where
+each <code>[n]</code> represents a non-negative integer. A component may be ommited if the
+corresponding <code>[n]</code> is 0. At least one component must have <code>[n]</code> &gt; 0.
+</li>
+</ul>
+
+<table>
+<tr><th>Form</th><th>Matching observation times</th></tr>
+<tr><td><code>t1/t2</code></td><td><code>[t1,t2&gt;</code></td></tr>
+<tr><td><code>t1</code></td><td>Same as the previous form with <code>t2</code>
+     = <code>t1</code> + 1 second.</td></tr>
+<tr><td><code>Rn/t1/t2/p</code></td><td><code>[t1,t2&gt;</code> + <code>n-1</code> repetitions
+    of the same interval following one after the other with a gap of <code>p</code> between
+    start times of successive intervals. <b>Note:</b> <code>p</code> must be large enough for
+    the intervals not to overlap.</td></tr>
+<tr><td><code>Rn/t1/p</code></td><td>Same as the previous form with <code>t2</code>
+    = <code>t1</code> + 1 second.</td></tr>
+</table>
+
+
+<h3>Default Mode</h3>
+
+If the 'time' query parameter is not not specified, all otherwise matching time series
+will contribute to the result, even time series without any observations at all.
+
+{{template "footer"}}
+{{end}}

@@ -1,0 +1,51 @@
+{{define "faq"}}
+{{template "header"}}
+
+<br>
+<h2>Frequently Asked Questions</h2>
+This page contains answers to frequently asked questions.
+<div class="zig-zag"></div>
+
+
+<h4>Should I use the ranked or base endpoint?</h4>
+<p>Use ranked, unless you are an internal MET user who knows how base works.</p>
+<p>
+  More details: In version 1 there are now two endpoints from which you can get observations: ranked and base. Most people should use
+  ranked, because it will return only the recommended timeseries. However, some internal MET users may want to use base in order to chose very specific timeseries (e.g. specific time offsets).
+</p>
+
+<h4>How do I get a list of stations that fulfill some criteria?</h4>
+<p>
+  You can set incobs=False (no observation data, just metadata),
+  define a (geo)location parameter (e.g. location or stationcounties or polygon), set the time parameter and include the elements (e.g. air_temperature) you want the stations to be measuring. Example using a URL:
+  Get a list of stations (metadata, without observations) in the county of Vestland measuring wind between 2021-01-01 00:00:00 UTC and 2022-01-01 00:00:00 UTC
+  <br><a href="https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=false&time=2021-01-01T00%3A00%3A00Z%2F2022-01-01T00%3A00%3A00Z&elementids=wind%2A&stationcounties=vestland">
+  https://frost-rc.met.no/api/v1/obs/ranked/get?incobs=false&#38;time=2021-01-01T00:00:00Z%2F2022-01-01T00:00:00Z&#38;elementids=wind%2A&#38;stationcounties=vestland</a>
+</p>
+<p>
+  You can expand this example with <a href="parameters#paramdefs">more/other request parameters</a> you want to include, for example if you want the wind measurements at 10m above ground only you can set the levels parameter to 10.
+</p>
+
+<h4></h4>
+<p>
+</p>
+
+<h4></h4>
+<p>
+</p>
+
+<h4>Why do I sometimes get multiple observations for the same reference time?</h4>
+<p>
+  There can be multiple sensors at a station that send the same data, for instance air_temperature
+  can have 2 values but one is taken at a height of 2m and the other is taken at a height of 10m.
+</p>
+
+<h4>Why am I getting 400 bad request, or other issues with formatting and sending a request:</h4>
+<p>
+The request URL should not contain any spaces, so in element names like max(air_temperature P1D) an escape character should be used (%20).
+You have not encoded the client ID and secret and inserted it into the request header correctly (this should usually result in a 401 error code).
+</p>
+<br><br>
+
+{{template "footer"}}
+{{end}}

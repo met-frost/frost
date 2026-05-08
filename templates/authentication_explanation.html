@@ -1,0 +1,61 @@
+{{define "authentication_explanation"}}
+{{template "header"}}
+{{template "subbarhowto"}}
+
+<br>
+<h2>Authentication</h2>
+<div class="zig-zag"></div>
+<p>
+Most users of Frost will only access open data through the API and as such will use basic authentication.
+This means that you use the user id and secret that you can create <a href="/auth">here</a> in the request:
+<pre>
+    <code>
+curl --user "client ID":"client secret" 'https://frost-rc.met.no/api/v1/obs/ranked/get?stationids=18700&elementids=air_temperature&time=latest'
+    </code>
+</pre>
+</p>
+
+<p>
+Those that have special access to restricted data will need to use the OAuth 2 workflow. These users will need to be provided with a client id and secret
+and then use it to get tokens to send with each request:
+<pre>
+    <code>
+curl --data "grant_type=client_credentials&client_id=X&client_secret=X" https://login.met.no/auth/realms/External/protocol/openid-connect/token
+
+curl -H 'Authorization: Bearer TOKEN' 'https://frost-rc.met.no/api/v1/obs/ranked/get?stationids=18700&elementids=air_temperature&time=latest'
+    </code>
+</pre>
+</p>
+
+<p>
+Those that want to use the OAuth 2 tokens that do not have special access will have to use a different endpoint to get a generic token:
+<pre>
+    <code>
+curl --data "grant_type=client_credentials&client_id=X&client_secret=X" https://frost-rc.met.no/auth/token
+    </code>
+</pre>
+</p>
+
+<p>
+    Here are some python functions that show how the 2 workflows work:
+<div id="code-examples">
+  <div class="tab">
+    <input type="radio" id="home" name="grp" checked>
+    <label for="home">Basic</label>
+    
+    <div class="content">
+      <embed src="/static/examples/auth_basic_example.txt" width="100%" height="100%"> 
+    </div>
+  </div>
+  
+  <div class="tab">
+    <input type="radio" id="portfolio" name="grp">
+    <label for="portfolio">OAuth2</label>
+    
+    <div class="content">
+      <embed src="/static/examples/auth_oauth2_python.txt" width="100%" height="100%">
+    </div>
+  </div>
+</div>
+{{template "footer"}}
+{{end}}

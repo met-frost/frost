@@ -1,0 +1,48 @@
+{{define "dataset_badevann"}}
+{{template "header"}}
+
+<br>
+<h2>Dataset documentation for time series type badevann</h2>
+
+The badevann dataset has the following structure:
+
+<pre>
+{
+    "tstype": "badevann",
+    "tseries": [
+        {
+            "header": {
+                "id": {
+                    "source": "...",
+                    "buoyID": "...",
+                    "parameter": "..."
+                },
+                "extra": {
+                    "name": "...",
+                    "pos": {
+                        "lon": "...",
+                        "lat": "..."
+                    }
+                }
+            },
+            "observations": [
+                {
+                   "time": "2020-06-16T06:00:00Z",
+                   "body": {
+                        "value": "..."
+                    }
+                },
+                ...
+            ]
+        },
+        ...
+    ]
+}
+</pre>
+
+The only available parameter so far is "temperature", and there are currently two sources for temperature series: "badevann.no" and "badetassen.no" (Altibox).
+
+Searching based on extra parameters will be available in the next version of Frost (due April/May).
+
+{{template "footer"}}
+{{end}}

@@ -1,0 +1,35 @@
+{{define "index"}}
+{{template "header"}}
+{{template "wipdisclaimer"}}
+
+<br>
+    
+
+<h2>Download weather and climate data from our historical archive</h2>
+
+<p>Get quality controlled measurements of temperature, precipitation, wind and much more.
+  Information about the measurements and the equipment (metadata) is also available. 
+</p>
+
+<h3>What is Frost?</h3>
+<p>Frost is a <a href="https://en.wikipedia.org/wiki/Representational_state_transfer">RESTful API</a>. It is primarily meant to be 
+  used through scripts or apps, but you can also <a href="/docs/apirefbasic">interact with it here on our webpage</a> to test the concept.
+</p>
+
+<h3>Terms and conditions</h3>
+<p>
+  Please read about the <a href="{{ .TermsOfService }}">terms of service</a> for the API, 
+  as well as the <a href="https://www.met.no/en/free-meteorological-data/Licensing-and-crediting">licensing and crediting of meteorological data</a>.
+  You may also like to take a look at <a href="https://www.met.no/en/About-us/privacy">MET Norway's privacy policy statement</a> and read more about <a href="https://www.met.no/en/free-meteorological-data">free meteorological data</a> from MET Norway.
+</p>
+
+<h3>Questions about Frost</h3>
+<p>
+  If you have questions about Frost, please check the <a href="/docs/starthere">documentation pages</a> and the <a href="/docs/faq">FAQ (Frequently Asked Questions)</a>.
+  If you cannot find what you are looking for you can email <a href = "mailto: observasjon@met.no">observasjon@met.no</a>. We will keep 
+  updating the FAQs based on questions we receive. 
+</p>
+
+
+{{template "footer"}}
+{{end}}

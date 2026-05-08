@@ -1,0 +1,64 @@
+{{define "changelog"}}
+{{template "header"}}
+
+<br>
+<h2>Changelog</h2>
+<table>
+  <tr>
+    <th width="15%">Date</th>
+    <th width="85%"> </th>
+  </tr>
+  <tbody>
+    <tr>
+      <td><time datetime="2026-02-09">2026-02-09</time></td>
+      <td>
+        <h3>Beta closed</h3>
+        <p>The release candidate has some breaking changes compared to the removed beta version.
+          If you are still using the beta version, please switch to the release candidate.
+        </p>
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td><time datetime="2025-11-20">2025-11-20</time></td>
+      <td>
+        <h3>New database back-end</h3>
+        <p>Users of frost-rc may notice some changes in what data is available (due to changes in ingestion and authentication), but we
+          hope it is mostly a performance improvement.
+          Compared to frost-rc we are missing:
+              <ul>
+                <li>Aggregations (max, min, avg...)</li>
+                <li>Calculations for some specific parameters</li>
+              </ul>
+        </p>
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td><time datetime="2023-10-23">2023-10-23</time></td>
+      <td>
+        <h3>Authentication turned on</h3>
+        <p>Authentication is now turned on, uses same basic syntax (and the user id) as in v0 frost.
+          However bearer authentication will work differently for accessing restricted data.</p>
+        </a>
+      </td>
+    </tr>
+    <tr>
+      <td><time datetime="2022-11-01">2022-11-01</time></td>
+      <!-- <td><h3>New beta version of /hello endpoint</h3>
+            <p><a href="/docs/apiref#/hello/helloBeta">Beta version of hello service</a> has now new fields, containing a geometry specification.</p>
+            <p>The changes to the beta version of the service will be merged into <a href="/docs/apiref#/hello/hello"></a>the production version at <time datetime="2019-11-23">23.november 2019.</time></p>
+        </a></td> -->
+      <td>
+        <h3>Beta version released</h3>
+        <p>Release of beta frost v1. There are still a few kinks to work out,
+          so please contact us if you believe you have encountered a bug.</p>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+{{template "footer"}}
+{{end}}
