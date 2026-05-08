@@ -28,7 +28,7 @@ class FrostImportUtils:
         }
 
         print('deleting time series in Frost/badevann ({}) ...'.format(url))
-        r = requests.post(url, headers=headers, files={'dataset': json.dumps(dset2)})
+        r = requests.post(url, headers=headers, json=dset2)
 
         if r.status_code != 200:
             try:
@@ -50,7 +50,9 @@ class FrostImportUtils:
         }
 
         print('creating time series in Frost/badevann ({}) ...'.format(url))
-        r = requests.post(url, headers=headers, files={'dataset': json.dumps(dset2)})
+        print(json.dumps(dset2))
+
+        r = requests.post(url, headers=headers, json=dset2)
 
         if r.status_code != 200:
             try:
@@ -70,7 +72,7 @@ class FrostImportUtils:
         }
 
         print('uploading to Frost/badevann ({}) ...'.format(url))
-        r = requests.post(url, headers=headers, files={'dataset': json.dumps(dset)})
+        r = requests.post(url, headers=headers, json=dset)
 
         if r.status_code != 200:
             try:

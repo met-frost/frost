@@ -92,7 +92,6 @@ def csv_to_dataset(csv_path):
 
 def ingest_csv(csv_path):
     dataset = csv_to_dataset(csv_path)
-    print(json.dumps(dataset, indent=2))
     
     frost.create_timeseries(frost_api_base, dataset)
     frost.upload_dataset(frost_api_base, dataset)

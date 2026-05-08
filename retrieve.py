@@ -11,7 +11,7 @@ def fetch_dataset(frost_api_base, params=None):
     Returns the dataset dict (same shape as dataset.json).
     """
     url = f"{frost_api_base}/api/v1/obs/badevann/get"
-    default_params = {"incobs": "true"}
+    default_params = {"incobs": "true", "time": "latest", "latestmaxage": "PT1000000H"}
     if params:
         default_params.update(params)
 
