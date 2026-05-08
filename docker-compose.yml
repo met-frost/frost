@@ -1,0 +1,13 @@
+name: frost
+
+services:
+
+  # psb:
+  #   build:
+  #     dockerfile: Dockerfile.psb
+
+  frost:
+    build:
+      dockerfile: Dockerfile.frost
+    environment:
+      - FEATURES=glider
