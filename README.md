@@ -2,7 +2,7 @@
 
 ## System requirements
 
-- [just](https://github.com/casey/just) v. 1.40.0 or later
+- [just](https://github.com/casey/just) 1.40.0 or later
 
 ## Test the service
 
