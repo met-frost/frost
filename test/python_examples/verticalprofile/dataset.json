@@ -1,0 +1,59 @@
+{
+    "tstype": "verticalprofile",
+    "tseries": [
+        {
+            "header": {
+                "id": {
+                    "source": "UIB-GI",
+                    "profileid": "5610625",
+                    "parameter": "sea_water_temperature"
+                },
+                "extra": {}
+            },
+            "observations": []
+        },
+        {
+            "header": {
+                "id": {
+                    "source": "UIB-GI",
+                    "profileid": "5620625",
+                    "parameter": "sea_water_temperature"
+                },
+                "extra": {
+                    "instrument": "instrument-X",
+                    "platform_name": "platform_name-X",
+                    "section": "section-X",
+                    "station": "station-X",
+                    "license": "license-X",
+                    "unit": "unit-X"
+                }
+            },
+            "observations": [
+                {
+                    "time": "2020-06-16T06:00:00Z",
+                    "body": {
+                        "pos": {
+                            "lon": 4.7865696,
+                            "lat": 60.3932133
+                        },
+                        "depth": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                        "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                        "qc_flag": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+                    }
+                },
+                {
+                    "time": "2020-06-16T06:30:00Z",
+                    "body": {
+                        "pos": {
+                            "lon": 4.920657,
+                            "lat": 60.816183
+                        },
+                        "depth": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                        "value": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                        "qc_flag": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"]
+                    }
+                }
+            ]
+        }
+    ]
+}

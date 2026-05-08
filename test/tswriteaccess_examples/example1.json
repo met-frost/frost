@@ -1,0 +1,63 @@
+{
+    "rules": [
+        {
+            "descr": [
+                "Full write access to tstype badevann for X-Frost-Writetoken=q0HpG1...",
+                "All time series in the dataset passed to any of the write operations will",
+                "be applied."
+            ],
+            "token": "q0HpG1YzppenqZFxL3ZFJszwXDYsxFPBERmbwLSoSw6P",
+            "tstype": "badevann",
+            "tscreate": true,
+            "tsupdate": true,
+            "tsdelete": true,
+            "put": true,
+            "hdridmatch": "{}"
+        },
+        {
+            "descr": [
+                "For X-Frost-Writetoken=h38otv..., access to operation 'put'",
+                "for time series of type badevann where hdr/id has buoyid 123 and a parameter",
+                "that contains substring 'temp'.",
+                "In the dataset passed to /obs/badevann/put, only time series with hdr/id/bouyid",
+                "123 and hdr/id/parameter matching '*temp*' will be applied"
+            ],
+            "token": "h38otvt9Drn04lAtgDQbj-b4faXhutq35Dpzr415jw8l",
+            "tstype": "badevann",
+            "tscreate": false,
+            "tsupdate": false,
+            "tsdelete": false,
+            "put": true,
+            "hdridmatch": "{\"buoyid\":\"123\",\"parameter\":\"*temp*\"}"
+        },
+        {
+            "descr": [
+                "For X-Frost-Writetoken=h38otv..., access to operation 'ts/create'",
+                "for time series of type badevann where hdr/id has buoyid 123 and parameter",
+                "'temperature'.",
+                "In the dataset passed to /obs/badevann/ts/create, only time series with ",
+                "hdr/id/bouyid 123 and hdr/id/parameter 'temperature' will be applied"
+            ],
+            "token": "h38otvt9Drn04lAtgDQbj-b4faXhutq35Dpzr415jw8l",
+            "tstype": "badevann",
+            "tscreate": true,
+            "tsupdate": false,
+            "tsdelete": false,
+            "put": false,
+            "hdridmatch": "{\"buoyid\":\"123\",\"parameter\":\"temperature\"}"
+        },
+        {
+            "descr": [
+                "Time series of type avinor-awos-xml has (full) write access only to operation",
+                "'put', and only if passing request header X-Frost-Writetoken=e1xq..."
+            ],
+            "token": "e1xqm8yKIQhDYdryaUxYaCi8F7Xkk7pcwnl3EdDq0JIe",
+            "tstype": "avinor-awos-xml",
+            "tscreate": false,
+            "tsupdate": false,
+            "tsdelete": false,
+            "put": true,
+            "hdridmatch": "{}"
+        }
+    ]
+}

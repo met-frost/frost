@@ -281,9 +281,7 @@ func (ts *Frost0) UnlimitedResponse(
 
 // GetInstances ... (see documentation in TimeSeries interface)
 func (ts *Frost0) GetInstances(
-	queryParams url.Values, roles []string, tsSeq *timeseries.InstanceSeq) (int, error) {
-
-	_ = roles // n/a
+	queryParams url.Values, tsSeq *timeseries.InstanceSeq) (int, error) {
 
 	// extract query params (TODO: consider all instances (Get considers only the first one))
 	sources := common.ExtractCSVValsLC(queryParams.Get("sources"))

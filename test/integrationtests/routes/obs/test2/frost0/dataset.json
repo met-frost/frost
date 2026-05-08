@@ -1,0 +1,39 @@
+{
+    "tstype": "frost0",
+    "tseries": [
+        {
+            "header": {
+                "id": {
+                    "source": "mobile-source-1234",
+                    "sensorLevel": "0m",
+                    "element": "air_temperature"
+                },
+                "extra": {}
+            },
+            "observations": [
+                {
+                    "time": "2020-06-16T06:00:00Z",
+                    "body": {
+                        "pos": {
+                            "lon": "-10.34",
+                            "lat": "60.12"
+                        },
+                        "value": "12.34",
+                        "quality": ""
+                    }
+                },
+                {
+                    "time": "2020-06-16T06:00:10Z",
+                    "body": {
+                        "pos": {
+                            "lon": "-10.382",
+                            "lat": "60.19"
+                        },
+                        "value": "13.56",
+                        "quality": ""
+                    }
+                }
+            ]
+        }
+    ]
+}

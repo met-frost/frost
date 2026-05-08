@@ -1,0 +1,56 @@
+{
+    "tstype": "glider",
+    "tseries": [
+        {
+            "header": {
+                "id": {
+                    "source": "UIB-GI",
+                    "gliderid": "5610625",
+                    "parameter": "sea_water_temperature"
+                },
+                "extra": null
+            },
+            "observations": []
+        },
+        {
+            "header": {
+                "id": {
+                    "source": "UIB-GI",
+                    "gliderid": "5620625",
+                    "parameter": "sea_water_temperature"
+                },
+                "extra": {
+                    "name": "sg562"
+                }
+            },
+            "observations": [
+                {
+                    "time": "2020-06-16T06:00:00Z",
+                    "body": {
+                        "pos": {
+                            "lon": 10.578601,
+                            "lat": 59.819879,
+                            "depth": 7.8,
+                            "qc_flag": "8"
+                        },
+                        "value": 12.34,
+                        "qc_flag": "9"
+                    }
+                },
+                {
+                    "time": "2020-06-16T06:00:10Z",
+                    "body": {
+                        "pos": {
+                            "lon": 10.566149,
+                            "lat": 59.816183,
+                            "depth": 8.9,
+                            "qc_flag": "5"
+                        },
+                        "value": 9.56,
+                        "qc_flag": "4"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-16"?>
+
+<AwosSensorDataMessage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.avinor.no/alti/ambi/1.0/AwosSensorDataMessage">
+
+  <ambiHeader>
+
+    <correlationId>AWOS_04ffe7bcfc60484b9e0f42d6517d1a13</correlationId>
+
+    <event>UPDATE</event>
+
+    <messageType>AwosSensorDataMessage</messageType>
+
+    <messageVersion>1.0.0</messageVersion>
+
+    <messageTimestamp>2024-04-30T05:06:36.3094695Z</messageTimestamp>
+
+    <messageEnvironment>PROD</messageEnvironment>
+
+    <sourceOrganization>CAB</sourceOrganization>
+
+    <sourceSystem>Awos7</sourceSystem>
+
+    <sourceTimestamp>2024-04-30T05:06:36.3094695Z</sourceTimestamp>
+
+  </ambiHeader>
+
+  <sensorMeasurement>
+
+    <airportICAO>ENOL</airportICAO>
+
+    <measurementTime>2024-04-30T06:06:36.3094695Z</measurementTime>
+
+    <runwayInUse>16</runwayInUse>
+
+    <wind>
+
+      <sensorName>Z11.Wnd</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <windSpeedCurrent>15</windSpeedCurrent>
+
+      <windDirectionCurrent>127</windDirectionCurrent>
+
+      <windMean>
+
+        <windSpeedMean>13.83</windSpeedMean>
+
+        <windDirectionMean>126</windDirectionMean>
+
+        <windSpeedMin>11.58</windSpeedMin>
+
+        <windSpeedMax>15.5</windSpeedMax>
+
+        <windDirectionLeft>119</windDirectionLeft>
+
+        <windDirectionRight>132</windDirectionRight>
+
+      </windMean>
+
+    </wind>
+
+  </sensorMeasurement>
+
+  <sensorMeasurement>
+
+    <airportICAO>ENBO</airportICAO>
+
+    <measurementTime>2024-04-30T05:06:36.3094695Z</measurementTime>
+
+    <runwayInUse>16</runwayInUse>
+
+    <wind>
+
+      <sensorName>Z11.Wnd</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <windSpeedCurrent>15</windSpeedCurrent>
+
+      <windDirectionCurrent>127</windDirectionCurrent>
+
+      <windMean2>
+
+        <windSpeedMean>12.83</windSpeedMean>
+
+        <windDirectionMean>125</windDirectionMean>
+
+        <windSpeedMin>10.58</windSpeedMin>
+
+        <windSpeedMax>14.5</windSpeedMax>
+
+        <windDirectionLeft>118</windDirectionLeft>
+
+        <windDirectionRight>131</windDirectionRight>
+
+      </windMean2>
+
+    </wind>
+
+  </sensorMeasurement>
+
+  <sensorMeasurement>
+
+    <airportICAO>ENBO</airportICAO>
+
+    <measurementTime>2024-04-30T06:06:36.3094695Z</measurementTime>
+
+    <runwayInUse>18</runwayInUse>
+
+    <wind>
+
+      <sensorName>Z11.Wnd</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <windSpeedCurrent>25</windSpeedCurrent>
+
+      <windDirectionCurrent>227</windDirectionCurrent>
+
+      <windMean2>
+
+        <windSpeedMean>22.83</windSpeedMean>
+
+        <windDirectionMean>225</windDirectionMean>
+
+        <windSpeedMin>20.58</windSpeedMin>
+
+        <windSpeedMax>24.5</windSpeedMax>
+
+        <windDirectionLeft>218</windDirectionLeft>
+
+        <windDirectionRight>231</windDirectionRight>
+
+      </windMean2>
+
+    </wind>
+
+  </sensorMeasurement>
+
+</AwosSensorDataMessage>

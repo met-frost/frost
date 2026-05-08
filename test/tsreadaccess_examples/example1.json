@@ -1,0 +1,23 @@
+{
+    "rules": [
+        {
+            "type": "drop_all",
+            "tstype": "base",
+            "hdrmatch": "{\"id\":{\"stationid\":\"*8*\"}}",
+            "exempted_tokens": ["foo", "bar"]
+        },
+        {
+            "type": "keep_in_period",
+            "tstype": "base",
+            "hdrmatch": "{\"id\":{\"stationid\":\"*5*\"}}",
+            "from": "-86400",
+            "to": "-3600",
+            "from_relative_to_now": true,
+            "to_relative_to_now": true,
+            "exempted_tokens": [
+                "LH0TD5JnEKQT07mLIAEDNnFb8H_zFsKyZWbf0pDOR96T",
+                "cvUk53ymwrFiKPObVO7XAzdd7oQxdHCTCAhE5sK3NPc4"
+            ]
+        }
+    ]
+}

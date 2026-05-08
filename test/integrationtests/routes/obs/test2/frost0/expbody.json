@@ -1,0 +1,16 @@
+{
+    "data": {
+        "tstype": "frost0",
+        "tseries": [
+            {
+                "observations": [
+                    {
+                        "body": {
+                            "value": "13.56"
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

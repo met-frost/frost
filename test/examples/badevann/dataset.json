@@ -1,0 +1,46 @@
+{
+    "tstype": "badevann",
+    "tseries": [
+        {
+            "header": {
+                "id": {
+                    "source": "badevann.no",
+                    "buoyid": "004",
+                    "parameter": "temperature"
+                },
+                "extra": null
+            },
+            "observations": []
+        },
+        {
+            "header": {
+                "id": {
+                    "source": "badevann.no",
+                    "buoyid": "011",
+                    "parameter": "temperature"
+                },
+                "extra": {
+                    "name": "Helleneset",
+                    "pos": {
+                        "lon": "10",
+                        "lat": "59"
+                    }
+                }
+            },
+            "observations": [
+                {
+                    "time": "2020-06-16T06:00:00Z",
+                    "body": {
+                        "value": "12.34"
+                    }
+                },
+                {
+                    "time": "2020-06-16T06:00:10Z",
+                    "body": {
+                        "value": "9.56007"
+                    }
+                }
+            ]
+        }
+    ]
+}

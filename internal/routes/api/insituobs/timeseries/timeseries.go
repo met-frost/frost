@@ -180,15 +180,12 @@ type TimeSeries interface {
 	UnlimitedResponse(
 		tsSeq *InstanceSeq, tspec timespecification.TimeSpecification) (bool, string, int, error)
 
-	// GetInstances adds to tsSeq time series instances that match queryParams and roles
-	// (for authorizing access to restricted time series if applicable, and in that case typically
-	// assumed to be already extracted from queryParams).
+	// GetInstances adds to tsSeq time series instances that match queryParams.
 	// Returns (..., nil) on success, otherwise (HTTP status code, error).
-	GetInstances(queryParams url.Values, roles []string, tsSeq *InstanceSeq) (int, error)
+	GetInstances(queryParams url.Values, tsSeq *InstanceSeq) (int, error)
 
 	// FinalizeInstanceOrder allows this ts type to reorder tsSeq to ensure that the storage
 	// back-end can be implemented efficiently (e.g. by minimizing the number of SELECT calls).
-	// For example, ts types lard{base|ranked} will sort on access mode (open/restricted).
 	// Returns (..., nil) on success, otherwise (HTTP status code, error).
 	FinalizeInstanceOrder(tsSeq *InstanceSeq) (int, error)
 

@@ -1,0 +1,787 @@
+<?xml version="1.0" encoding="utf-16"?>
+
+<AwosSensorDataMessage xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.avinor.no/alti/ambi/1.0/AwosSensorDataMessage">
+
+  <ambiHeader>
+
+    <correlationId>AWOS_04ffe7bcfc60484b9e0f42d6517d1a13</correlationId>
+
+    <event>UPDATE</event>
+
+    <messageType>AwosSensorDataMessage</messageType>
+
+    <messageVersion>1.0.0</messageVersion>
+
+    <messageTimestamp>2024-04-30T04:06:36.3094695Z</messageTimestamp>
+
+    <messageEnvironment>PROD</messageEnvironment>
+
+    <sourceOrganization>CAB</sourceOrganization>
+
+    <sourceSystem>Awos7</sourceSystem>
+
+    <sourceTimestamp>2024-04-30T04:06:36.3094695Z</sourceTimestamp>
+
+  </ambiHeader>
+
+  <sensorMeasurement>
+
+    <airportICAO>ENGM</airportICAO>
+
+    <measurementTime>2024-04-30T05:06:36.3094695Z</measurementTime>
+
+    <runwayInUse>15</runwayInUse>
+
+    <wind>
+
+      <sensorName>Z11.Wnd</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <windSpeedCurrent>14</windSpeedCurrent>
+
+      <windDirectionCurrent>126</windDirectionCurrent>
+
+      <windMean>
+
+        <windSpeedMean>12.83</windSpeedMean>
+
+        <windDirectionMean>125</windDirectionMean>
+
+        <windSpeedMin>10.58</windSpeedMin>
+
+        <windSpeedMax>14.5</windSpeedMax>
+
+        <windDirectionLeft>118</windDirectionLeft>
+
+        <windDirectionRight>131</windDirectionRight>
+
+      </windMean>
+
+      <windMean10>
+
+        <windSpeedMean>12.63</windSpeedMean>
+
+        <windDirectionMean>124</windDirectionMean>
+
+        <windSpeedMin>9.52</windSpeedMin>
+
+        <windSpeedMax>15.19</windSpeedMax>
+
+        <windDirectionLeft>112</windDirectionLeft>
+
+        <windDirectionRight>131</windDirectionRight>
+
+        <windDirectionIsDiscontinuous>false</windDirectionIsDiscontinuous>
+
+      </windMean10>
+
+    </wind>
+
+  </sensorMeasurement>
+
+  <sensorMeasurement>
+
+    <airportICAO>ENOL</airportICAO>
+
+    <measurementTime>2024-04-30T04:06:36.3094695Z</measurementTime>
+
+    <runwayInUse>15</runwayInUse>
+
+    <wind>
+
+      <sensorName>Z11.Wnd</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <windSpeedCurrent>14</windSpeedCurrent>
+
+      <windDirectionCurrent>126</windDirectionCurrent>
+
+      <windMean2>
+
+        <windSpeedMean>12.83</windSpeedMean>
+
+        <windDirectionMean>125</windDirectionMean>
+
+        <windSpeedMin>10.58</windSpeedMin>
+
+        <windSpeedMax>14.5</windSpeedMax>
+
+        <windDirectionLeft>118</windDirectionLeft>
+
+        <windDirectionRight>131</windDirectionRight>
+
+      </windMean2>
+
+      <windMean10>
+
+        <windSpeedMean>12.63</windSpeedMean>
+
+        <windDirectionMean>124</windDirectionMean>
+
+        <windSpeedMin>9.52</windSpeedMin>
+
+        <windSpeedMax>15.19</windSpeedMax>
+
+        <windDirectionLeft>112</windDirectionLeft>
+
+        <windDirectionRight>131</windDirectionRight>
+
+        <windDirectionIsDiscontinuous>false</windDirectionIsDiscontinuous>
+
+      </windMean10>
+
+    </wind>
+
+    <wind>
+
+      <sensorName>Z12.Wnd</sensorName>
+
+      <sensorStatus>Error</sensorStatus>
+
+    </wind>
+
+    <wind>
+
+      <sensorName>Z13.Wnd</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <windSpeedCurrent>13</windSpeedCurrent>
+
+      <windDirectionCurrent>114</windDirectionCurrent>
+
+      <windMean2>
+
+        <windSpeedMean>14.77</windSpeedMean>
+
+        <windDirectionMean>113</windDirectionMean>
+
+        <windSpeedMin>12.54</windSpeedMin>
+
+        <windSpeedMax>17.59</windSpeedMax>
+
+        <windDirectionLeft>106</windDirectionLeft>
+
+        <windDirectionRight>123</windDirectionRight>
+
+      </windMean2>
+
+      <windMean10>
+
+        <windSpeedMean>14.77</windSpeedMean>
+
+        <windDirectionMean>114</windDirectionMean>
+
+        <windSpeedMin>12.54</windSpeedMin>
+
+        <windSpeedMax>17.69</windSpeedMax>
+
+        <windDirectionLeft>106</windDirectionLeft>
+
+        <windDirectionRight>123</windDirectionRight>
+
+        <windDirectionIsDiscontinuous>false</windDirectionIsDiscontinuous>
+
+      </windMean10>
+
+    </wind>
+
+    <wind>
+
+      <sensorName>SA1.Wnd</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <windSpeedCurrent>8</windSpeedCurrent>
+
+      <windDirectionCurrent>136</windDirectionCurrent>
+
+      <windMean2>
+
+        <windSpeedMean>8.16</windSpeedMean>
+
+        <windDirectionMean>129</windDirectionMean>
+
+        <windSpeedMin>5.95</windSpeedMin>
+
+        <windSpeedMax>9.87</windSpeedMax>
+
+        <windDirectionLeft>108</windDirectionLeft>
+
+        <windDirectionRight>140</windDirectionRight>
+
+      </windMean2>
+
+      <windMean10>
+
+        <windSpeedMean>8.16</windSpeedMean>
+
+        <windDirectionMean>131</windDirectionMean>
+
+        <windSpeedMin>5.09</windSpeedMin>
+
+        <windSpeedMax>12.29</windSpeedMax>
+
+        <windDirectionLeft>108</windDirectionLeft>
+
+        <windDirectionRight>157</windDirectionRight>
+
+        <windDirectionIsDiscontinuous>false</windDirectionIsDiscontinuous>
+
+      </windMean10>
+
+    </wind>
+
+    <runwayVisualRange>
+
+      <sensorName>Z11.Rvr</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <visualRangeCurrent>72690</visualRangeCurrent>
+
+      <rvrMean10>
+
+        <visualRangeMin>66036</visualRangeMin>
+
+        <visualRangeMean>73690</visualRangeMean>
+
+        <visualRangeMax>75000</visualRangeMax>
+
+      </rvrMean10>
+
+    </runwayVisualRange>
+
+    <runwayVisualRange>
+
+      <sensorName>Z13.Rvr</sensorName>
+
+      <sensorStatus>Error</sensorStatus>
+
+    </runwayVisualRange>
+
+    <visibility>
+
+      <sensorName>Z11.Vis</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <visibilityCurrent>72690</visibilityCurrent>
+
+      <visibilityMean10>
+
+        <visibilityMin>66036</visibilityMin>
+
+        <visibilityMean>73690</visibilityMean>
+
+        <visibilityMax>75000</visibilityMax>
+
+      </visibilityMean10>
+
+    </visibility>
+
+    <visibility>
+
+      <sensorName>Z13.Vis</sensorName>
+
+      <sensorStatus>Error</sensorStatus>
+
+    </visibility>
+
+    <presentWeather>
+
+      <sensorName>Z11.Prw</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <weatherTypeCurrentSynop>0</weatherTypeCurrentSynop>
+
+      <weatherTypeLast15Synop>0</weatherTypeLast15Synop>
+
+      <weatherTypeLast60Synop>0</weatherTypeLast60Synop>
+
+      <precipitationIntensity>0</precipitationIntensity>
+
+      <accumulatedWater>0</accumulatedWater>
+
+      <accumulatedSnow>0</accumulatedSnow>
+
+    </presentWeather>
+
+    <presentWeather>
+
+      <sensorName>Z13.Prw</sensorName>
+
+      <sensorStatus>Error</sensorStatus>
+
+    </presentWeather>
+
+    <temperature>
+
+      <sensorName>Site.Tmp</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <temperatureCurrent>6.3</temperatureCurrent>
+
+      <temperatureMean12Day>
+
+        <temperatureMin>7.4</temperatureMin>
+
+        <temperatureMean>10.03</temperatureMean>
+
+        <temperatureMax>15.9</temperatureMax>
+
+      </temperatureMean12Day>
+
+      <temperatureMean12Night>
+
+        <temperatureMin>6.3</temperatureMin>
+
+        <temperatureMean>7.01</temperatureMean>
+
+        <temperatureMax>8.1</temperatureMax>
+
+      </temperatureMean12Night>
+
+      <temperatureMean24>
+
+        <temperatureMin>6.3</temperatureMin>
+
+        <temperatureMean>8.69</temperatureMean>
+
+        <temperatureMax>15.9</temperatureMax>
+
+      </temperatureMean24>
+
+    </temperature>
+
+    <temperature>
+
+      <sensorName>Z11Surface.Tmp</sensorName>
+
+      <sensorStatus>Error</sensorStatus>
+
+    </temperature>
+
+    <temperature>
+
+      <sensorName>Z12Surface.Tmp</sensorName>
+
+      <sensorStatus>Error</sensorStatus>
+
+    </temperature>
+
+    <temperature>
+
+      <sensorName>Z13Surface.Tmp</sensorName>
+
+      <sensorStatus>Error</sensorStatus>
+
+    </temperature>
+
+    <temperature>
+
+      <sensorName>TRWYA.Tmp</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <temperatureCurrent>6.5</temperatureCurrent>
+
+      <temperatureMean12Day>
+
+        <temperatureMin>9.2</temperatureMin>
+
+        <temperatureMean>14.36</temperatureMean>
+
+        <temperatureMax>22.5</temperatureMax>
+
+      </temperatureMean12Day>
+
+      <temperatureMean12Night>
+
+        <temperatureMin>6.1</temperatureMin>
+
+        <temperatureMean>7.44</temperatureMean>
+
+        <temperatureMax>10.8</temperatureMax>
+
+      </temperatureMean12Night>
+
+      <temperatureMean24>
+
+        <temperatureMin>6.1</temperatureMin>
+
+        <temperatureMean>10.99</temperatureMean>
+
+        <temperatureMax>22.5</temperatureMax>
+
+      </temperatureMean24>
+
+    </temperature>
+
+    <temperature>
+
+      <sensorName>TRWYE.Tmp</sensorName>
+
+      <sensorStatus>Error</sensorStatus>
+
+    </temperature>
+
+    <temperature>
+
+      <sensorName>TTWYC.Tmp</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <temperatureCurrent>6.2</temperatureCurrent>
+
+      <temperatureMean12Day>
+
+        <temperatureMin>9.5</temperatureMin>
+
+        <temperatureMean>15.9</temperatureMean>
+
+        <temperatureMax>28.8</temperatureMax>
+
+      </temperatureMean12Day>
+
+      <temperatureMean12Night>
+
+        <temperatureMin>5.6</temperatureMin>
+
+        <temperatureMean>7.06</temperatureMean>
+
+        <temperatureMax>10.9</temperatureMax>
+
+      </temperatureMean12Night>
+
+      <temperatureMean24>
+
+        <temperatureMin>5.6</temperatureMin>
+
+        <temperatureMean>11.62</temperatureMean>
+
+        <temperatureMax>28.8</temperatureMax>
+
+      </temperatureMean24>
+
+    </temperature>
+
+    <temperature>
+
+      <sensorName>TTWYA.Tmp</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <temperatureCurrent>6.5</temperatureCurrent>
+
+      <temperatureMean12Day>
+
+        <temperatureMin>9.4</temperatureMin>
+
+        <temperatureMean>15.13</temperatureMean>
+
+        <temperatureMax>25</temperatureMax>
+
+      </temperatureMean12Day>
+
+      <temperatureMean12Night>
+
+        <temperatureMin>6</temperatureMin>
+
+        <temperatureMean>7.42</temperatureMean>
+
+        <temperatureMax>11.4</temperatureMax>
+
+      </temperatureMean12Night>
+
+      <temperatureMean24>
+
+        <temperatureMin>6</temperatureMin>
+
+        <temperatureMean>11.39</temperatureMean>
+
+        <temperatureMax>25</temperatureMax>
+
+      </temperatureMean24>
+
+    </temperature>
+
+    <temperature>
+
+      <sensorName>TTWYB.Tmp</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <temperatureCurrent>6.6</temperatureCurrent>
+
+      <temperatureMean12Day>
+
+        <temperatureMin>9.6</temperatureMin>
+
+        <temperatureMean>15.72</temperatureMean>
+
+        <temperatureMax>26.4</temperatureMax>
+
+      </temperatureMean12Day>
+
+      <temperatureMean12Night>
+
+        <temperatureMin>6.2</temperatureMin>
+
+        <temperatureMean>7.68</temperatureMean>
+
+        <temperatureMax>11.7</temperatureMax>
+
+      </temperatureMean12Night>
+
+      <temperatureMean24>
+
+        <temperatureMin>6.2</temperatureMin>
+
+        <temperatureMean>11.8</temperatureMean>
+
+        <temperatureMax>26.4</temperatureMax>
+
+      </temperatureMean24>
+
+    </temperature>
+
+    <temperature>
+
+      <sensorName>TTWYD.Tmp</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <temperatureCurrent>6.2</temperatureCurrent>
+
+      <temperatureMean12Day>
+
+        <temperatureMin>9.4</temperatureMin>
+
+        <temperatureMean>16.06</temperatureMean>
+
+        <temperatureMax>29.6</temperatureMax>
+
+      </temperatureMean12Day>
+
+      <temperatureMean12Night>
+
+        <temperatureMin>5.7</temperatureMin>
+
+        <temperatureMean>7.19</temperatureMean>
+
+        <temperatureMax>11.4</temperatureMax>
+
+      </temperatureMean12Night>
+
+      <temperatureMean24>
+
+        <temperatureMin>5.7</temperatureMin>
+
+        <temperatureMean>11.74</temperatureMean>
+
+        <temperatureMax>29.6</temperatureMax>
+
+      </temperatureMean24>
+
+    </temperature>
+
+    <temperature>
+
+      <sensorName>TTWYE.Tmp</sensorName>
+
+      <sensorStatus>Error</sensorStatus>
+
+    </temperature>
+
+    <dewPoint>
+
+      <sensorName>Site.Dp</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <dewpointCurrent>3.97</dewpointCurrent>
+
+    </dewPoint>
+
+    <humidity>
+
+      <sensorName>Site.Hum</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <humidityCurrent>0.85</humidityCurrent>
+
+    </humidity>
+
+    <pressure>
+
+      <sensorName>Site.Ppp</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <qfe>1020.31</qfe>
+
+      <qnh>1021.48</qnh>
+
+      <qff>1021.49</qff>
+
+      <airportPressure>1019.49</airportPressure>
+
+      <transitionLevel>80</transitionLevel>
+
+      <pressureChange>1.04</pressureChange>
+
+      <pressureCharacteristic>1</pressureCharacteristic>
+
+    </pressure>
+
+    <cloud>
+
+      <sensorName>Z11.Cld</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <cloudBase1>
+
+        <cloudBase>9154</cloudBase>
+
+        <cloudThickness>820</cloudThickness>
+
+      </cloudBase1>
+
+      <cloudBase2>
+
+        <cloudBase>0</cloudBase>
+
+        <cloudThickness>0</cloudThickness>
+
+      </cloudBase2>
+
+      <cloudBase3>
+
+        <cloudBase>0</cloudBase>
+
+        <cloudThickness>0</cloudThickness>
+
+      </cloudBase3>
+
+      <cloudLayer1>
+
+        <cloudLayerBase>10827</cloudLayerBase>
+
+        <cloudCover>6</cloudCover>
+
+      </cloudLayer1>
+
+      <verticalVisibility>0</verticalVisibility>
+
+    </cloud>
+
+    <cloud>
+
+      <sensorName>Z13.Cld</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <cloudBase1>
+
+        <cloudBase>9022</cloudBase>
+
+        <cloudThickness>820</cloudThickness>
+
+      </cloudBase1>
+
+      <cloudBase2>
+
+        <cloudBase>0</cloudBase>
+
+        <cloudThickness>0</cloudThickness>
+
+      </cloudBase2>
+
+      <cloudBase3>
+
+        <cloudBase>0</cloudBase>
+
+        <cloudThickness>0</cloudThickness>
+
+      </cloudBase3>
+
+      <cloudLayer1>
+
+        <cloudLayerBase>9646</cloudLayerBase>
+
+        <cloudCover>3</cloudCover>
+
+      </cloudLayer1>
+
+      <cloudLayer2>
+
+        <cloudLayerBase>11811</cloudLayerBase>
+
+        <cloudCover>5</cloudCover>
+
+      </cloudLayer2>
+
+      <verticalVisibility>0</verticalVisibility>
+
+    </cloud>
+
+    <cloud>
+
+      <sensorName>Site.Cld</sensorName>
+
+      <sensorStatus>Normal</sensorStatus>
+
+      <cloudBase1>
+
+        <cloudBase>9154</cloudBase>
+
+        <cloudThickness>820</cloudThickness>
+
+      </cloudBase1>
+
+      <cloudBase2>
+
+        <cloudBase>0</cloudBase>
+
+        <cloudThickness>0</cloudThickness>
+
+      </cloudBase2>
+
+      <cloudBase3>
+
+        <cloudBase>0</cloudBase>
+
+        <cloudThickness>0</cloudThickness>
+
+      </cloudBase3>
+
+      <cloudLayer1>
+
+        <cloudLayerBase>10512</cloudLayerBase>
+
+        <cloudCover>4</cloudCover>
+
+      </cloudLayer1>
+
+      <cloudLayer2>
+
+        <cloudLayerBase>11904</cloudLayerBase>
+
+        <cloudCover>5</cloudCover>
+
+      </cloudLayer2>
+
+      <verticalVisibility>0</verticalVisibility>
+
+    </cloud>
+
+  </sensorMeasurement>
+
+</AwosSensorDataMessage>

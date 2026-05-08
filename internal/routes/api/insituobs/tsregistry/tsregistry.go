@@ -297,9 +297,8 @@ func RemoveTimeSeries(tstype, stshdr string) error {
 	stsid := string(bstsid)
 
 	if _, found := TSReg[tstype].Instances[stsid]; found {
-		// TODO: defaultTS.RemoveInstance(...), i.e. so that e.g. the
-		// lardbase and lardranked ts types can remove the instance from internal
-		// indexes and registries!
+		// TODO: defaultTS.RemoveInstance(...), i.e. so that certain time series types get
+		// a chance to update local indexes and registries
 		_ = found
 	}
 	delete(TSReg[tstype].Instances, stsid) // remove instance from main registry

@@ -12,14 +12,12 @@ import (
 	"strings"
 	"time"
 
-	"gitlab.met.no/frost/frost/internal/common"
 	localhttp "gitlab.met.no/frost/frost/internal/http"
 	"gitlab.met.no/frost/frost/internal/routes/api/insituobs/dataset"
 	"gitlab.met.no/frost/frost/internal/routes/api/insituobs/readrestriction"
 	obssbends "gitlab.met.no/frost/frost/internal/routes/api/insituobs/storagebackends"
 	timeseries "gitlab.met.no/frost/frost/internal/routes/api/insituobs/timeseries"
 	"gitlab.met.no/frost/frost/internal/routes/api/timespecification"
-	"gitlab.met.no/frost/frost/pkg/middleware"
 )
 
 // getDefaultItemLimit derives the maximum number of items (time series names or observations) a response
@@ -571,17 +569,16 @@ func readPage(
 
 // getTimeSeriesInstances retrieves into tsSeq the total set of time series (of a given type)
 // requested according to reqInfo (tspec is assumed to be derived from reqInfo.QueryParams
-// already) and roles (assumed to be extracted from the request already).
-// tsSeq will be sorted (typically on serialized hdr/id and other criteria) to support the
-// pagination protocol (if active).
+// already).
+//
 // Returns (-1, nil) upon success, otherwise (HTTP status code, error).
 func getTimeSeriesInstances(
 	defaultTS timeseries.TimeSeries, reqInfo timeseries.RequestInfo,
-	tspec timespecification.TimeSpecification, tsSeq *timeseries.InstanceSeq, roles []string) (
+	tspec timespecification.TimeSpecification, tsSeq *timeseries.InstanceSeq) (
 	int, error) {
 
 	// get initial set of matching time series instances
-	statusCode, err := defaultTS.GetInstances(reqInfo.QueryParams, roles, tsSeq)
+	statusCode, err := defaultTS.GetInstances(reqInfo.QueryParams, tsSeq)
 	if err != nil {
 		return statusCode, fmt.Errorf("defaultTS.GetInstances() failed: %v", err)
 	}
@@ -659,17 +656,6 @@ func HandleGetCore(
 		Custom:      customReqInfo,
 	}
 
-	// get any roles used for filtering out restricted time series
-	roles := make([]string, 0)
-	if roles0 := reqInfo.Request.Context().Value(middleware.ContextRolesKey); roles0 != nil {
-		if roles1, ok := roles0.(string); ok {
-			roles = common.ExtractCSVVals(roles1)
-		} else {
-			return http.StatusInternalServerError,
-				fmt.Errorf("roles0 not a string: %v (type: %T)", roles0, roles0)
-		}
-	}
-
 	// get the time specification
 	tspec, err := timespecification.GetTimeSpecification(queryParams)
 	if err != nil {
@@ -690,7 +676,7 @@ func HandleGetCore(
 	}
 
 	// get requested time series
-	statusCode, err := getTimeSeriesInstances(defaultTS, reqInfo, tspec, tsSeq, roles)
+	statusCode, err := getTimeSeriesInstances(defaultTS, reqInfo, tspec, tsSeq)
 	if err != nil {
 		return statusCode, fmt.Errorf("getTimeSeriesInstances() failed: %v", err)
 	}

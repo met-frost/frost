@@ -1,0 +1,67 @@
+{
+    "tstype": "frost0",
+    "tseries": [
+        {
+            "header": {
+                "id": {
+                    "source": "mobile-source-0001",
+                    "sensorLevel": "0m",
+                    "element": "wind_speed"
+                },
+                "extra": null
+            },
+            "observations": []
+        },
+        {
+            "header": {
+                "id": {
+                    "source": "mobile-source-1234",
+                    "sensorLevel": "0m",
+                    "element": "air_temperature"
+                },
+                "extra": {
+                    "organizations": [
+                        {
+                            "name": "MET",
+                            "from": "2020-01-01T00:00:00Z",
+                            "to": "2022-01-01T00:00:00Z"
+                        },
+                        {
+                            "name": "NIBIO",
+                            "from": "1920-01-01T00:00:00Z",
+                            "to": "1922-01-01T00:00:00Z"
+                        }
+                    ],
+                    "pos": {
+                        "lon": "-10.09",
+                        "lat": "60.08"
+                    }
+                }
+            },
+            "observations": [
+                {
+                    "time": "2020-06-16T06:00:00Z",
+                    "body": {
+                        "pos": {
+                            "lon": "-10.34",
+                            "lat": "60.12"
+                        },
+                        "value": "12.34",
+                        "quality": ""
+                    }
+                },
+                {
+                    "time": "2020-06-16T06:00:10Z",
+                    "body": {
+                        "pos": {
+                            "lon": "-10.382",
+                            "lat": "60.19"
+                        },
+                        "value": "13.56",
+                        "quality": ""
+                    }
+                }
+            ]
+        }
+    ]
+}
