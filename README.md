@@ -3,6 +3,7 @@
 ## System requirements
 
 - [just](https://github.com/casey/just) 1.40.0 or later
+- [docker](https://github.com/docker) 29.4.0 or later
 
 ## Test the service
 
