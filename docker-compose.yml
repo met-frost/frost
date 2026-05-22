@@ -6,6 +6,13 @@ services:
     container_name: psb
     build:
       dockerfile: Dockerfile.psb
+    ports:
+      - 5433:5432
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d datasets']
+      interval: 10s
+      timeout: 5s
+      retries: 5
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
 
@@ -13,8 +20,16 @@ services:
     container_name: frost
     build:
       dockerfile: Dockerfile.frost
+    ports:
+      - 8080:8080
+    depends_on:
+      psb:
+        condition: service_healthy
+        restart: true
     environment:
       - HTTPSERVERPORT=8080
       - FEATURES=frost0,badevann,glider,verticalprofile
-    ports:
-      - 8080:8080
+      - OBSBACKEND=postgres
+      - PSBHOST=psb
+      - PSBPORT=5432
+      - PSBPASSWORD=mysecretpassword
