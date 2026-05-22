@@ -3,12 +3,14 @@ name: frost
 services:
 
   psb:
+    container_name: psb
     build:
       dockerfile: Dockerfile.psb
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
 
   frost:
+    container_name: frost
     build:
       dockerfile: Dockerfile.frost
     environment:
