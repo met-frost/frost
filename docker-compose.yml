@@ -2,9 +2,11 @@ name: frost
 
 services:
 
-  # psb:
-  #   build:
-  #     dockerfile: Dockerfile.psb
+  psb:
+    build:
+      dockerfile: Dockerfile.psb
+    environment:
+      - POSTGRES_PASSWORD=mysecretpassword
 
   frost:
     build:
