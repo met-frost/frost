@@ -17,3 +17,6 @@ test:
     #TODO: ingest.py   - calls Frost endpoints /ts/create and /put to ingest data from a.csv
     #TODO: retrieve.py - calls Frost endpoint /get to retrieve data into b.csv
     #TODO: diff.py     - verifies that a.csv == b.csv
+
+destroy:
+    docker compose down
