@@ -17,7 +17,7 @@ run: build
 test: run
     python ingest.py  # inserts data to PSB via Frost
     python retrieve.py  # retrieves data from PSB via Frost
-    # python diff.py ...  # verifies that input data matches output data
+    python verify.py  # verifies that input data matches output data
 
 destroy:
     docker compose down

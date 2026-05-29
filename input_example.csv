@@ -1,5 +1,9 @@
 source,buoyid,parameter,name,lon,lat,time,value
-badevann.no,004,temperature,,,,
+badevann.no,004,temperature,Oslofjorden,10.73,59.84,2020-06-16T06:00:00Z,8.72
+badevann.no,004,temperature,Oslofjorden,10.73,59.84,2020-06-16T06:10:00Z,8.76
+badevann.no,004,temperature,Oslofjorden,10.73,59.84,2020-06-16T06:20:00Z,8.81
+badevann.no,004,temperature,Oslofjorden,10.73,59.84,2020-06-16T06:30:00Z,8.85
+badevann.no,004,temperature,Oslofjorden,10.73,59.84,2020-06-16T06:40:00Z,8.89
 badevann.no,011,temperature,Helleneset,10,59,2020-06-16T06:00:00Z,9.56007
 badevann.no,011,temperature,Helleneset,10,59,2020-06-16T06:10:00Z,9.48
 badevann.no,011,temperature,Helleneset,10,59,2020-06-16T06:20:00Z,9.41
