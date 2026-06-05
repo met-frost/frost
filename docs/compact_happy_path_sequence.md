@@ -5,25 +5,25 @@ sequenceDiagram
     participant Obs as Obs Route Handlers
     participant TS as TimeSeries Implementation
     participant Restrict as Restriction Layer
-    participant SBE as Storage Backend
     participant Registry as TS Registry
+    participant SBE as Storage Backend
 
     rect rgb(255, 250, 240)
-    note over Client,Registry: Time series management
-    Client->>Router: POST /api/v1/obs/{tstype}/ts/create
-    Router->>Obs: applyWriteOperation
+    note over Client,SBE: Time series management
+    Client->>Router: POST /api/v1/obs/{tstype}/ts/{create|update|delete}  { dataset }
+    Router->>Obs: Handle{Create|Update|Delete}
     Obs->>Restrict: Check write authorization
-    Obs->>SBE: Create time series
-    Obs->>Registry: Add time series metadata
+    Obs->>SBE: {Add|Update|Delete} time series headers
+    Obs->>Registry: {Add|Update|Delete} time series headers
     Obs-->>Client: 200 JSON { rejected, accepted, applied }
     end
 
     rect rgb(255, 245, 245)
-    note over Client,SBE: Observation ingest
-    Client->>Router: POST /api/v1/obs/{tstype}/put
+    note over Client,SBE: Ingest observations
+    Client->>Router: POST /api/v1/obs/{tstype}/put { dataset }
     Router->>Obs: HandlePut
     Obs->>Restrict: Check write authorization
-    Obs->>Registry: Verify series exists
+    Obs->>Registry: Verify that time series headers exist
     Obs->>TS: Run ingest hook
     Obs->>SBE: Write observations
     SBE-->>Obs: inserted/updated/deleted counters
@@ -31,12 +31,13 @@ sequenceDiagram
     end
 
     rect rgb(245, 255, 245)
-    note over Client,SBE: Read observations
+    note over Client,SBE: Retrieve observations
     Client->>Router: GET /api/v1/obs/{tstype}/get?incobs=true&time=...
     Router->>Obs: HandleGet
-    Obs->>TS: Resolve matching time series
-    Obs->>SBE: Read observations for matching series
-    SBE-->>Obs: Dataset rows
-    Obs->>Restrict: Apply read restriction policy
-    Obs-->>Client: 200 JSON { data: dataset }
+    Obs->>TS: Resolve matching time series headers
+    TS->>Registry: Resolve matching time series headers
+    Obs->>SBE: Read observations for matching series headers
+    SBE-->>Obs: Dataset
+    Obs->>Restrict: Check read authorization
+    Obs-->>Client: 200 JSON { dataset }
     end
