@@ -85,17 +85,17 @@ def csv_to_dataset(csv_path):
                 )
 
     return {
-        "tstype": "badevann",
+        "tstype": "sst",
         "tseries": list(grouped.values()),
     }
 
 
 def ingest_csv(csv_path):
     dataset = csv_to_dataset(csv_path)
-    
+
     frost.create_timeseries(frost_api_base, dataset)
     frost.upload_dataset(frost_api_base, dataset)
-    
+
     return dataset
 
 

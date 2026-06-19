@@ -4,7 +4,7 @@ library(jsonlite)
 client_id ='CLIENT_ID'
 
 # Define endpoint and request parameters
-endpoint <- paste0("https://", client_id, "@havvarsel-frost.met.no/api/v1/obs/badevann/get")
+endpoint <- paste0("https://", client_id, "@havvarsel-frost.met.no/api/v1/obs/sst/get")
 sources = 'badetassen*' #The source of the buoy data (often the organization submitting and/or owning the buoy(s)
 parameters <- 'temp*' #Which elements to get. Here: All elements starting with wind, using * as wildcard
 incobs <- 'true' #Set to true to get observations as well as metadata

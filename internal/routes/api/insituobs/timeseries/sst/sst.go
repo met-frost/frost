@@ -1,6 +1,6 @@
-package badevann
+package sst
 
-// This file contains code specific to time series type 'badevann'.
+// This file contains code specific to time series type 'sst' (Sea Surface Temperature).
 // In particular, all timeseries.TimeSeries instances referred to in this file are
 // of that time series type.
 
@@ -23,13 +23,13 @@ import (
 
 // --- BEGIN global types, vars and initialization ---------------------------------------------
 
-// Badevann implements the TimeSeries interface.
-type Badevann struct {
-	BaseRoute string
-	timeseries.BaseID       // see https://golang.org/doc/effective_go#embedding
-	timeseries.Header       // ditto
-	timeseries.FromTime     // ditto
-	timeseries.ToTime       // ditto
+// Sst implements the TimeSeries interface.
+type Sst struct {
+	BaseRoute           string
+	timeseries.BaseID   // see https://golang.org/doc/effective_go#embedding
+	timeseries.Header   // ditto
+	timeseries.FromTime // ditto
+	timeseries.ToTime   // ditto
 }
 
 type hdrID struct { // hdr/id part - must correspond with hdrIDSchema
@@ -54,7 +54,7 @@ type hdrIDRegVal struct { // value part of hdrIDReg
 }
 
 var (
-	hdrIDReg map[hdrID]hdrIDRegVal // registry of all time series header IDs of type badevann
+	hdrIDReg map[hdrID]hdrIDRegVal // registry of all time series header IDs of type sst
 
 	schemaLoaders timeseries.SchemaLoaders
 )
@@ -174,60 +174,60 @@ func addToReg(ts *timeseries.TimeSeries, id, extra string) error {
 // --- BEGIN implementation of TimeSeries interface --------------------------------------
 
 // Clear ... (see documentation in TimeSeries interface)
-func (ts *Badevann) Clear() {
+func (ts *Sst) Clear() {
 	hdrIDReg = map[hdrID]hdrIDRegVal{}
 }
 
 // Type ... (see documentation in TimeSeries interface)
-func (ts *Badevann) Type() string {
-	return "badevann"
+func (ts *Sst) Type() string {
+	return "sst"
 }
 
 // Description ... (see documentation in TimeSeries interface)
-func (ts *Badevann) Description() string {
-	return "<description of the badevann time series type ...>"
+func (ts *Sst) Description() string {
+	return "<description of the sst time series type ...>"
 }
 
 // CreateInstance ... (see documentation in TimeSeries interface)
-func (ts *Badevann) CreateInstance(
+func (ts *Sst) CreateInstance(
 	baseID timeseries.BaseID, hdr timeseries.Header, id, extra string,
 	fromTime timeseries.FromTime, toTime timeseries.ToTime) (*timeseries.TimeSeries, error) {
-	var ts0 timeseries.TimeSeries = &Badevann{
+	var ts0 timeseries.TimeSeries = &Sst{
 		BaseID: baseID, Header: hdr, FromTime: fromTime, ToTime: toTime}
 	return &ts0, nil
 }
 
 // FinalizeInstance ... (see documentation in TimeSeries interface)
-func (ts *Badevann) FinalizeInstance(
+func (ts *Sst) FinalizeInstance(
 	tsNew *timeseries.TimeSeries, baseID timeseries.BaseID, hdr timeseries.Header,
 	id, extra string, fromTime timeseries.FromTime, toTime timeseries.ToTime) (error, error) {
 	return addToReg(tsNew, id, extra), nil
 }
 
 // GetHeader ... (see documentation in TimeSeries interface)
-func (ts *Badevann) GetHeader() (*timeseries.Header, error) {
+func (ts *Sst) GetHeader() (*timeseries.Header, error) {
 	return &ts.Header, nil
 }
 
 // GetHeaderID ... (see documentation in TimeSeries interface)
-func (ts *Badevann) GetHeaderID() (map[string]interface{}, error) {
+func (ts *Sst) GetHeaderID() (map[string]interface{}, error) {
 	return ts.Header["id"], nil
 }
 
 // UpdateExtra ... (see documentation in TimeSeries interface)
-func (ts *Badevann) UpdateExtra(mtsextra string) error {
-	return fmt.Errorf("UpdateExtra() not implemented for time series type badevann")
+func (ts *Sst) UpdateExtra(mtsextra string) error {
+	return fmt.Errorf("UpdateExtra() not implemented for time series type sst")
 }
 
 // UnlimitedResponse ... (see documentation in TimeSeries interface)
-func (ts *Badevann) UnlimitedResponse(
+func (ts *Sst) UnlimitedResponse(
 	tsSeq *timeseries.InstanceSeq, tspec timespecification.TimeSpecification) (
-		bool, string, int, error) {
+	bool, string, int, error) {
 	return false, "", -1, nil
 }
 
 // GetInstances ... (see documentation in TimeSeries interface)
-func (ts *Badevann) GetInstances(
+func (ts *Sst) GetInstances(
 	queryParams url.Values, tsSeq *timeseries.InstanceSeq) (int, error) {
 
 	// extract query params (TODO: consider all instances (Get considers only the first one))
@@ -255,13 +255,13 @@ func (ts *Badevann) GetInstances(
 }
 
 // FinalizeInstanceOrder ... (see documentation in TimeSeries interface)
-func (ts *Badevann) FinalizeInstanceOrder(tsSeq *timeseries.InstanceSeq) (int, error) {
+func (ts *Sst) FinalizeInstanceOrder(tsSeq *timeseries.InstanceSeq) (int, error) {
 	_ = tsSeq // n/a
 	return -1, nil
 }
 
 // FindInstanceFromID ... (see documentation in TimeSeries interface)
-func (ts *Badevann) FindInstanceFromID(sid []byte) (*timeseries.TimeSeries, error) {
+func (ts *Sst) FindInstanceFromID(sid []byte) (*timeseries.TimeSeries, error) {
 	var hid hdrID
 	err := json.Unmarshal(sid, &hid)
 	if err != nil {
@@ -276,7 +276,7 @@ func (ts *Badevann) FindInstanceFromID(sid []byte) (*timeseries.TimeSeries, erro
 }
 
 // HeaderFilterSpecial ... (see documentation in TimeSeries interface)
-func (ts *Badevann) HeaderFilterSpecial(
+func (ts *Sst) HeaderFilterSpecial(
 	reqInfo timeseries.RequestInfo, tsSeq *timeseries.InstanceSeq) (int, error) {
 
 	// get geo search info from custom request info
@@ -296,7 +296,7 @@ func (ts *Badevann) HeaderFilterSpecial(
 }
 
 // HeaderPxmtyFilter ... (see documentation in TimeSeries interface)
-func (ts *Badevann) HeaderPxmtyFilter(
+func (ts *Sst) HeaderPxmtyFilter(
 	reqInfo timeseries.RequestInfo, tsSeq *timeseries.InstanceSeq) (int, error) {
 
 	// get geo search info from custom request info
@@ -310,12 +310,12 @@ func (ts *Badevann) HeaderPxmtyFilter(
 }
 
 // ObsBodyModify ... (see documentation in TimeSeries interface)
-func (ts *Badevann) ObsBodyModify(t time.Time, body *map[string]interface{}) (int, error) {
+func (ts *Sst) ObsBodyModify(t time.Time, body *map[string]interface{}) (int, error) {
 	return -1, nil // for now don't modify any obs
 }
 
 // ObsFilter ... (see documentation in TimeSeries interface)
-func (ts *Badevann) ObsFilter(
+func (ts *Sst) ObsFilter(
 	t time.Time, body map[string]interface{}, reqInfo timeseries.RequestInfo) (bool, int, error) {
 	var keep bool
 	var statusCode int
@@ -336,27 +336,27 @@ func (ts *Badevann) ObsFilter(
 }
 
 // ValidateHdrID ... (see documentation in TimeSeries interface)
-func (ts *Badevann) ValidateHdrID(hdrID interface{}) error {
+func (ts *Sst) ValidateHdrID(hdrID interface{}) error {
 	return common.SchemaValidate(schemaLoaders.HdrID, hdrID)
 }
 
 // ValidateHdrExtra ... (see documentation in TimeSeries interface)
-func (ts *Badevann) ValidateHdrExtra(hdrExtra interface{}) error {
+func (ts *Sst) ValidateHdrExtra(hdrExtra interface{}) error {
 	return common.SchemaValidate(schemaLoaders.HdrExtra, hdrExtra)
 }
 
 // ValidateObsBody ... (see documentation in TimeSeries interface)
-func (ts *Badevann) ValidateObsBody(obsBody interface{}) error {
+func (ts *Sst) ValidateObsBody(obsBody interface{}) error {
 	return common.SchemaValidate(schemaLoaders.ObsBody, obsBody)
 }
 
 // IngestHook ... (see documentation in TimeSeries interface)
-func (ts *Badevann) IngestHook(dts dataset.SingleTSeries, sbe interface{}) ([]error, []error) {
+func (ts *Sst) IngestHook(dts dataset.SingleTSeries, sbe interface{}) ([]error, []error) {
 	return nil, nil // no actions
 }
 
 // HeaderIDsEqual ... (see documentation in TimeSeries interface)
-func (ts *Badevann) HeaderIDsEqual(hdr1, hdr2 map[string]interface{}) (bool, error) {
+func (ts *Sst) HeaderIDsEqual(hdr1, hdr2 map[string]interface{}) (bool, error) {
 	for _, key := range []string{"source", "buoyid", "parameter"} {
 		if !common.StringsEqual(hdr1, hdr2, key) {
 			return false, nil
@@ -366,7 +366,7 @@ func (ts *Badevann) HeaderIDsEqual(hdr1, hdr2 map[string]interface{}) (bool, err
 }
 
 // CreateCustomReqInfo ... (see documentation in TimeSeries interface)
-func (ts *Badevann) CreateCustomReqInfo(queryParams url.Values) (interface{}, error) {
+func (ts *Sst) CreateCustomReqInfo(queryParams url.Values) (interface{}, error) {
 	gsInfo, err := geometry.GetGeoSearchInfo(queryParams)
 	if err != nil {
 		return nil, fmt.Errorf("geometry.GetGeoSearchInfo() failed: %v", err)
@@ -375,21 +375,21 @@ func (ts *Badevann) CreateCustomReqInfo(queryParams url.Values) (interface{}, er
 }
 
 // GetHeaderGeoPoints ... (see documentation in TimeSeries interface)
-func (ts *Badevann) GetHeaderGeoPoints() ([]timeseries.PointInterval, error) {
+func (ts *Sst) GetHeaderGeoPoints() ([]timeseries.PointInterval, error) {
 	// NOTE: as we consider hdr/extra/pos/{lat|lon} mandatory for this time series
 	// type, we just propagate any error from the following call
 	return timeseries.GetHeaderGeoPointsFromExtraPosLatLon(ts)
 }
 
 // GetObsBodyGeoPoint ... (see documentation in TimeSeries interface)
-func (ts *Badevann) GetObsBodyGeoPoint(obsBody map[string]interface{}) (
+func (ts *Sst) GetObsBodyGeoPoint(obsBody map[string]interface{}) (
 	geometry.Point, bool, error) {
 	// NOTE: a geo point is not defined in the obs body of this time series type
 	return geometry.Point{}, false, nil
 }
 
 // GetSupportedQueryParams ... (see documentation in TimeSeries interface)
-func (ts *Badevann) GetSupportedQueryParams() common.StringSet {
+func (ts *Sst) GetSupportedQueryParams() common.StringSet {
 	sqp := timeseries.GetSupportedQueryParams()
 	sqp.SetFromList([]string{
 		"sources",
@@ -401,12 +401,12 @@ func (ts *Badevann) GetSupportedQueryParams() common.StringSet {
 }
 
 // GetStatus ... (see documentation in TimeSeries interface)
-func (ts *Badevann) GetStatus(queryParams url.Values) (interface{}, error) {
-	return nil, fmt.Errorf("GetStatus() not implemented for times series type badevann")
+func (ts *Sst) GetStatus(queryParams url.Values) (interface{}, error) {
+	return nil, fmt.Errorf("GetStatus() not implemented for times series type sst")
 }
 
 // OAGetTags ... (see documentation in OAPublisher interface)
-func (ts *Badevann) OAGetTags() (map[string]openapi.Tag, error) {
+func (ts *Sst) OAGetTags() (map[string]openapi.Tag, error) {
 
 	rank := 10
 	return map[string]openapi.Tag{
@@ -420,11 +420,11 @@ func (ts *Badevann) OAGetTags() (map[string]openapi.Tag, error) {
 }
 
 // OAGetDefs ... (see documentation in OAPublisher interface)
-func (ts *Badevann) OAGetDefs() (map[string]string, error) {
+func (ts *Sst) OAGetDefs() (map[string]string, error) {
 	return nil, nil
 }
 
-// getGetPathParameters returns for the /badevann/get endpoint the subset of the OpenAPI
+// getGetPathParameters returns for the /sst/get endpoint the subset of the OpenAPI
 // 'parameters' part that is specific to this time series type.
 func getGetPathParameters() string {
 
@@ -481,7 +481,7 @@ func getGetPathParameters() string {
 }
 
 // OAGetPaths ... (see documentation in OAPublisher interface)
-func (ts *Badevann) OAGetPaths() ([]openapi.Path, error) {
+func (ts *Sst) OAGetPaths() ([]openapi.Path, error) {
 
 	var err error
 
@@ -489,13 +489,13 @@ func (ts *Badevann) OAGetPaths() ([]openapi.Path, error) {
 
 	tsCreateObj, err := obsopenapi.CreateTsCreateObject(
 		ts.Type(), hdrIDSchema(), hdrExtraSchema(), "Create new time series",
-		"obsBadevannTsCreate", tagName)
+		"obsSstTsCreate", tagName)
 	if err != nil {
 		return nil, fmt.Errorf("obsopenapi.CreateTsCreateObject(%s) failed: %v", ts.Type(), err)
 	}
 
 	tsDeleteObj, err := obsopenapi.CreateTsDeleteObject(
-		ts.Type(), hdrIDSchema(), hdrExtraSchema(), "Delete time series", "obsBadevannTsDelete",
+		ts.Type(), hdrIDSchema(), hdrExtraSchema(), "Delete time series", "obsSstTsDelete",
 		tagName)
 	if err != nil {
 		return nil, fmt.Errorf("obsopenapi.CreateTsDeleteObject(%s) failed: %v", ts.Type(), err)
@@ -503,27 +503,27 @@ func (ts *Badevann) OAGetPaths() ([]openapi.Path, error) {
 
 	tsUpdateObj, err := obsopenapi.CreateTsUpdateObject(
 		ts.Type(), hdrIDSchema(), hdrExtraSchema(), "Update time series (NOT YET IMPLEMENTED)",
-		"obsBadevannTsUpdate", tagName)
+		"obsSstTsUpdate", tagName)
 	if err != nil {
 		return nil, fmt.Errorf("obsopenapi.CreateTsUpdateObject(%s) failed: %v", ts.Type(), err)
 	}
 
 	putObj, err := obsopenapi.CreatePutObject(
 		ts.Type(), "", `{"error": "no example provided yet"}`, hdrIDSchema(), hdrExtraSchema(),
-		obsBodySchema(), "obsBadevannPut", tagName)
+		obsBodySchema(), "obsSstPut", tagName)
 	if err != nil {
 		return nil, fmt.Errorf("obsopenapi.CreatePutObject(%s) failed: %v", ts.Type(), err)
 	}
 
 	getObj, err := obsopenapi.CreateGetObject(
 		ts.Type(), getGetPathParameters(), hdrIDSchema(), hdrExtraSchema(), obsBodySchema(),
-		"obsBadevannGet", tagName, openapi.DocLevelBoth())
+		"obsSstGet", tagName, openapi.DocLevelBoth())
 	if err != nil {
 		return nil, fmt.Errorf("obsopenapi.CreateGetObject(%s) failed: %v", ts.Type(), err)
 	}
 
 	statusObj, err := obsopenapi.CreateStatusObject(
-		ts.Type(), "obsBadevannStatus", tagName,
+		ts.Type(), "obsSstadevannStatus", tagName,
 		`<html><span style=\"color:red\">(TO BE DOCUMENTED)</html>`)
 	if err != nil {
 		return nil, fmt.Errorf("obsopenapi.CreateStatusObject(%s) failed: %v", ts.Type(), err)
@@ -533,27 +533,27 @@ func (ts *Badevann) OAGetPaths() ([]openapi.Path, error) {
 
 	return []openapi.Path{
 		{
-			Name: fmt.Sprintf("%s/ts/create", baseRouteTS),
+			Name:   fmt.Sprintf("%s/ts/create", baseRouteTS),
 			Object: tsCreateObj,
 		},
 		{
-			Name: fmt.Sprintf("%s/ts/delete", baseRouteTS),
+			Name:   fmt.Sprintf("%s/ts/delete", baseRouteTS),
 			Object: tsDeleteObj,
 		},
 		{
-			Name: fmt.Sprintf("%s/ts/update", baseRouteTS),
+			Name:   fmt.Sprintf("%s/ts/update", baseRouteTS),
 			Object: tsUpdateObj,
 		},
 		{
-			Name: fmt.Sprintf("%s/put", baseRouteTS),
+			Name:   fmt.Sprintf("%s/put", baseRouteTS),
 			Object: putObj,
 		},
 		{
-			Name: fmt.Sprintf("%s/get", baseRouteTS),
+			Name:   fmt.Sprintf("%s/get", baseRouteTS),
 			Object: getObj,
 		},
 		{
-			Name: fmt.Sprintf("%s/status", baseRouteTS),
+			Name:   fmt.Sprintf("%s/status", baseRouteTS),
 			Object: statusObj,
 		},
 	}, nil

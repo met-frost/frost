@@ -28,7 +28,7 @@ services:
         restart: true
     environment:
       - HTTPSERVERPORT=8080
-      - FEATURES=frost0,badevann,glider,verticalprofile
+      - FEATURES=frost0,sst,glider,verticalprofile
       - OBSBACKEND=postgres
       - PSBHOST=psb
       - PSBPORT=5432

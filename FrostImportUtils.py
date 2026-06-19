@@ -18,7 +18,7 @@ class FrostImportUtils:
 
     @staticmethod
     def delete_timeseries(frost_api_base, dset):
-        url = '{}/api/v1/obs/badevann/ts/delete'.format(frost_api_base)
+        url = '{}/api/v1/obs/sst/ts/delete'.format(frost_api_base)
 
         # remove/empty all 'observations' objects from the dataset
         dset2 = FrostImportUtils.__remove_observations(dset)
@@ -27,7 +27,7 @@ class FrostImportUtils:
             "X-Frost-Writetoken": "GOM_L-5dtRsaK26_TnaMnLz45vpcQzawmTYB1Kbp-jfD"
         }
 
-        print('deleting time series in Frost/badevann ({}) ...'.format(url))
+        print('deleting time series in Frost/sst ({}) ...'.format(url))
         r = requests.post(url, headers=headers, json=dset2)
 
         if r.status_code != 200:
@@ -40,7 +40,7 @@ class FrostImportUtils:
 
     @staticmethod
     def create_timeseries(frost_api_base, dset):
-        url = '{}/api/v1/obs/badevann/ts/create'.format(frost_api_base)
+        url = '{}/api/v1/obs/sst/ts/create'.format(frost_api_base)
 
         # remove/empty all 'observations' objects from the dataset
         dset2 = FrostImportUtils.__remove_observations(dset)
@@ -49,7 +49,7 @@ class FrostImportUtils:
             "X-Frost-Writetoken": "GOM_L-5dtRsaK26_TnaMnLz45vpcQzawmTYB1Kbp-jfD"
         }
 
-        print('creating time series in Frost/badevann ({}) ...'.format(url))
+        print('creating time series in Frost/sst ({}) ...'.format(url))
         print(json.dumps(dset2))
 
         r = requests.post(url, headers=headers, json=dset2)
@@ -64,14 +64,14 @@ class FrostImportUtils:
 
     @staticmethod
     def upload_dataset(frost_api_base, dset):
-        url = '{}/api/v1/obs/badevann/put'.format(frost_api_base)
+        url = '{}/api/v1/obs/sst/put'.format(frost_api_base)
 
         #XXX: Read from token file or environment variable
         headers = {
             "X-Frost-Writetoken": "GOM_L-5dtRsaK26_TnaMnLz45vpcQzawmTYB1Kbp-jfD"
         }
 
-        print('uploading to Frost/badevann ({}) ...'.format(url))
+        print('uploading to Frost/sst ({}) ...'.format(url))
         r = requests.post(url, headers=headers, json=dset)
 
         if r.status_code != 200:
@@ -83,10 +83,10 @@ class FrostImportUtils:
                 r.status_code, json_content))
 
     @staticmethod
-    def create_badevann_dataset(buoy_id, parameter, name, lon, lat, source, observations, year=None, month=None):
+    def create_sst_dataset(buoy_id, parameter, name, lon, lat, source, observations, year=None, month=None):
 
         dset = {
-            "tstype": "badevann",
+            "tstype": "sst",
             "tseries": [
                 {
                     "header": {
@@ -107,7 +107,7 @@ class FrostImportUtils:
                 }
             ]
         }
-       
+
         frost_observations = []
         for observation in observations:
             if year is None or observation[0][0:4] == year:

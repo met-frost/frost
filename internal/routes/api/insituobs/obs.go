@@ -16,9 +16,9 @@ import (
 	obssbelocal "gitlab.met.no/frost/frost/internal/routes/api/insituobs/storagebackends/local"
 	obssbepostgres "gitlab.met.no/frost/frost/internal/routes/api/insituobs/storagebackends/postgres"
 	timeseries "gitlab.met.no/frost/frost/internal/routes/api/insituobs/timeseries"
-	tsbadevann "gitlab.met.no/frost/frost/internal/routes/api/insituobs/timeseries/badevann"
 	tsfrost0 "gitlab.met.no/frost/frost/internal/routes/api/insituobs/timeseries/frost0"
 	tsglider "gitlab.met.no/frost/frost/internal/routes/api/insituobs/timeseries/glider"
+	tssst "gitlab.met.no/frost/frost/internal/routes/api/insituobs/timeseries/sst"
 	tsverticalprofile "gitlab.met.no/frost/frost/internal/routes/api/insituobs/timeseries/verticalprofile"
 	"gitlab.met.no/frost/frost/internal/routes/api/insituobs/tsregistry"
 	obswriteops "gitlab.met.no/frost/frost/internal/routes/api/insituobs/writeops"
@@ -45,9 +45,9 @@ func InitTimeSeriesRegistry() error {
 	}
 	tsregistry.TSReg[tsTypeInfo.Default.Type()] = tsTypeInfo
 
-	// --- badevann --------------
+	// --- sst --------------
 	tsTypeInfo = tsregistry.TimeSeriesTypeInfo{
-		Default:   &tsbadevann.Badevann{},
+		Default:   &tssst.Sst{},
 		Instances: make(map[string]*timeseries.TimeSeries),
 	}
 	tsregistry.TSReg[tsTypeInfo.Default.Type()] = tsTypeInfo
@@ -261,7 +261,7 @@ func RegRoutesAndOAPubs(
 
 	for _, ts := range []timeseries.TimeSeries{
 		&tsfrost0.Frost0{BaseRoute: baseRoute()},
-		&tsbadevann.Badevann{BaseRoute: baseRoute()},
+		&tssst.Sst{BaseRoute: baseRoute()},
 		&tsglider.Glider{BaseRoute: baseRoute()},
 		&tsverticalprofile.VerticalProfile{BaseRoute: baseRoute()},
 		// add more time series types here ...
