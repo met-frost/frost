@@ -11,7 +11,7 @@ sequenceDiagram
     rect rgb(255, 250, 240)
     note over Client,SBE: Time series management
     Client->>Router: POST /api/v1/obs/{tstype}/ts/{create|update|delete}  { dataset }
-    Router->>Obs: Handle{Create|Update|Delete}
+    Router->>Obs: HandleTs{Create|Update|Delete}
     Obs->>Restrict: Check write authorization
     Obs->>SBE: {Add|Update|Delete} time series headers
     Obs->>Registry: {Add|Update|Delete} time series headers
