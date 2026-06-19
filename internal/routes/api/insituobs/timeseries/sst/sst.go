@@ -220,7 +220,61 @@ func (ts *Sst) UpdateExtra(mtsextra string) error {
 func (ts *Sst) UnlimitedResponse(
 	tsSeq *timeseries.InstanceSeq, tspec timespecification.TimeSpecification) (
 	bool, string, int, error) {
-	return false, "", -1, nil
+
+	// always unlimited response if request specifies ...
+	const maxTSeries4UnlimResp = 1 // max one time series, or
+	const maxTRange4UnlimResp = 7200 // max 7200 seconds
+
+	if len(*tsSeq) <= maxTSeries4UnlimResp {
+		// the request qualifies for an unlimited response regardless of the time range
+		return true, "", -1, nil
+	}
+
+	// the request now qualifies for an unlimited response only if the time range is limited
+
+	limReasonBase := fmt.Sprintf( // base reason if request doesn't qualify for an unlimited
+		// response
+		"the number of affected time series (%d) exceeds the limit (%d)",
+		len(*tsSeq), maxTSeries4UnlimResp)
+	var limReasonSpecific string // more specific reason
+
+	if tspec.ISpec != nil { // intervals mode
+		// assert(tspec.LSpec == nil)
+
+		// return true if there is only one interval, and that interval is limited
+		t1 := tspec.ISpec.T1.Unix()
+		t2 := tspec.ISpec.T2.Unix()
+		if (tspec.ISpec.N == 1) && ((t2 - t1) <= int64(maxTRange4UnlimResp)) {
+			return true, "", -1, nil // request qualifies for an unlimited response
+		}
+
+		if tspec.ISpec.N != 1 {
+			limReasonSpecific = fmt.Sprintf(
+				"the number of intervals in the requested time range consists of %d intervals "+
+					"instead of just one", tspec.ISpec.N)
+		} else {
+			t1 := tspec.ISpec.T1.Unix()
+			t2 := tspec.ISpec.T2.Unix()
+			if (t2 - t1) > int64(maxTRange4UnlimResp) {
+				limReasonSpecific = fmt.Sprintf(
+					"the requested time range (%d) exceeds %d seconds",
+					t2-t1, maxTRange4UnlimResp)
+			}
+		}
+
+	} else { // latest mode
+		// assert(tspec.LSpec != nil)
+
+		if tspec.LSpec.MaxAge <= int64(maxTRange4UnlimResp) {
+			return true, "", -1, nil // request qualifies for an unlimited response
+		}
+
+		limReasonSpecific = fmt.Sprintf(
+			"latestmaxage (%d) exceeds %d seconds", tspec.LSpec.MaxAge, maxTRange4UnlimResp)
+	}
+
+	// the request does not qualify for an unlimited response
+	return false, fmt.Sprintf("%s, and %s", limReasonBase, limReasonSpecific), -1, nil
 }
 
 // GetInstances ... (see documentation in TimeSeries interface)
