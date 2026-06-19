@@ -21,12 +21,12 @@ import (
 )
 
 // BaseID is the base ID for the time series instance. This must be unique in the context of the
-// (time series, storage back-end) combination, and is typically kept internally by the storage
-// back-end. Often the base ID will be the same as the ID part of hdr (hdr/id), but in some
+// (time series, storage backend) combination, and is typically kept internally by the storage
+// backend. Often the base ID will be the same as the ID part of hdr (hdr/id), but in some
 // contexts it is convenient to keep a separate base ID, such as when hdr/id can be modified during
 // the lifetime of the time series.
-// NOTE: since the base ID must be globally unique for this tstype within storage back-end,
-// it means that if for example the storage back-end keeps open and restricted time series in
+// NOTE: since the base ID must be globally unique for this tstype within storage backend,
+// it means that if for example the storage backend keeps open and restricted time series in
 // separate sub-storages (typically databases), then which one to access can always be derivable
 // from the base ID.
 type BaseID string
@@ -188,7 +188,7 @@ type TimeSeries interface {
 	GetInstances(queryParams url.Values, tsSeq *InstanceSeq) (int, error)
 
 	// FinalizeInstanceOrder allows this ts type to reorder tsSeq to ensure that the storage
-	// back-end can be implemented efficiently (e.g. by minimizing the number of SELECT calls).
+	// backend can be implemented efficiently (e.g. by minimizing the number of SELECT calls).
 	// Returns (..., nil) on success, otherwise (HTTP status code, error).
 	FinalizeInstanceOrder(tsSeq *InstanceSeq) (int, error)
 

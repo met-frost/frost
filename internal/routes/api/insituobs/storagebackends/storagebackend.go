@@ -25,14 +25,14 @@ type ObsWriteSummary struct {
 	Deleted  int `json:"deleted"`
 }
 
-// StorageBackend is the interface for an observation storage back-end.
-// Examples of specific back-ends: LARD server, Postgres server, local memory structure.
+// StorageBackend is the interface for an observation storage backend.
+// Examples of specific backends: LARD server, Postgres server, local memory structure.
 type StorageBackend interface {
 
-	// Description returns the description of the back-end.
+	// Description returns the description of the backend.
 	Description() string
 
-	// CreateTimeSeries creates in the back-end a time series of type tstype and header hdr.
+	// CreateTimeSeries creates in the backend a time series of type tstype and header hdr.
 	// The function also generates the internal base ID of the time series (often this will be
 	// the same as the ID part of hdr (hdr/id), but in some contexts it is convenient to keep a
 	// separate base ID, such as when hdr/id can be modified during the lifetime of the time
@@ -41,17 +41,17 @@ type StorageBackend interface {
 	// otherwise (..., HTTP status code, error).
 	CreateTimeSeries(tstype string, hdr timeseries.Header) (string, int, error)
 
-	// RemoveTimeSeries deletes from the back-end a time series of type tstype and 'id' part
+	// RemoveTimeSeries deletes from the backend a time series of type tstype and 'id' part
 	// matching the one in header hdr.
 	// Upon success, the function returns (-1, nil), otherwise (HTTP status code, error).
 	RemoveTimeSeries(tstype string, hdr timeseries.Header) (int, error)
 
-	// UpdateTimeSeries updates in the back-end the 'extra' part of a time series of type tstype
+	// UpdateTimeSeries updates in the backend the 'extra' part of a time series of type tstype
 	// and 'id' part matching the one in header hdr.
 	// Upon success, the function returns (-1, nil), otherwise (HTTP status code, error).
 	UpdateTimeSeries(tstype string, hdr timeseries.Header) (int, error)
 
-	// ReadSingleTS reads from the back-end as many observations as possible in the first part of
+	// ReadSingleTS reads from the backend as many observations as possible in the first part of
 	// time range [t1, t2> in a time series of type tstype and 'id' part matching the
 	// one in header hdr. A pointer to the corresponding timeseries.TimeSeries instance is passed
 	// in ts0.
@@ -82,7 +82,7 @@ type StorageBackend interface {
 		limit int, observations *[]dataset.Observation, reqInfo timeseries.RequestInfo) (
 		bool, int, error)
 
-	// ReadMultiTS reads from the back-end, and into obs, as many observations as possible for the
+	// ReadMultiTS reads from the backend, and into obs, as many observations as possible for the
 	// time series (all of type tstype) defined by (i.e. matching the 'id' part in) hdrs and the
 	// time range [t1, t2>. Pointers to the corresponding timeseries.TimeSeries instances are passed
 	// in tsSeq.
@@ -128,13 +128,13 @@ type StorageBackend interface {
 		latestLimit, itemLimit int, obs *[][]dataset.Observation,
 		reqInfo timeseries.RequestInfo, ctx context.Context) (int, int, error)
 
-	// Write to the back-end a time series of observations (obs) into an existing time series of
+	// Write to the backend a time series of observations (obs) into an existing time series of
 	// type tstype and 'id' part matching the one in hdr.
 	//
 	// A non-nil element in ingestHookErrors (of the same size as obs) indicates that for the
 	// corresponding observation, the ingest hook encountered an error that is not fixable by the
 	// ingest client, but potentially at a later point internally (e.g. once some temporary system
-	// failure has been fixed). In this case the error is passed to the storage back-end for
+	// failure has been fixed). In this case the error is passed to the storage backend for
 	// registration as appropriate (e.g. somehow associating the error with this observation in a
 	// database in order to be dealt with later by a fixup routine).
 	//
@@ -144,10 +144,10 @@ type StorageBackend interface {
 		ingestHookErrors []error) (ObsWriteSummary, int, error)
 
 	// Returns true iff the 'clear' operation is supported.
-	// WARNING: a back-end used in production should normally make sure to return false!
+	// WARNING: a backend used in production should normally make sure to return false!
 	SupportsClear() bool
 
-	// Clear deletes all data from the back-end.
+	// Clear deletes all data from the backend.
 	Clear() (int, error)
 
 	// LoadTimeSeries loads currently available time series instances into the global
@@ -157,10 +157,10 @@ type StorageBackend interface {
 	// Returns nil upon success, otherwise error.
 	LoadTimeSeries(optionalFeatures common.StringSet, nonFatalErrors *[]error) error
 
-	// Cleanup frees resources used by the back-end.
+	// Cleanup frees resources used by the backend.
 	Cleanup()
 
-	// Prints the current contents of the back-end.
+	// Prints the current contents of the backend.
 	Print()
 }
 

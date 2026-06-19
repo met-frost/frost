@@ -167,7 +167,7 @@ func readItems(
 		return (*ts0).ObsFilter(t, body, reqInfo)
 	}
 
-	// call back-end function
+	// call backend function
 	itemCount, statusCode, err := sbe.ReadMultiTS(
 		tstype, tsSeq, tsHdrs, t1, t2, obsBodyModify, obsFilter, latestLimit, itemLimit,
 		&obs, reqInfo, context.Background())

@@ -1,11 +1,9 @@
 // Copyright (C) Norwegian Meteorological Institute
 // SPDX-License-Identifier: GPL-3.0-only
 
-package verticalprofile
+// Package verticalprofile contains code specific to time series type 'verticalprofile'.
 
-// This file contains code specific to time series type 'verticalprofile'.
-// In particular, all timeseries.TimeSeries instances referred to in this file are
-// of that time series type.
+package verticalprofile
 
 import (
 	"encoding/json"

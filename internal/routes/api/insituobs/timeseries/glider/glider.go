@@ -1,11 +1,9 @@
 // Copyright (C) Norwegian Meteorological Institute
 // SPDX-License-Identifier: GPL-3.0-only
 
-package glider
+// Package glider contains code specific to time series type 'glider'.
 
-// This file contains code specific to time series type 'glider'.
-// In particular, all timeseries.TimeSeries instances referred to in this file are
-// of that time series type.
+package glider
 
 import (
 	"encoding/json"

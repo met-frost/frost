@@ -10,10 +10,10 @@ import requests
 
 def fetch_dataset(frost_api_base, params=None):
     """
-    Fetch observations from the badevann GET endpoint.
+    Fetch observations from the sst GET endpoint.
     Returns the dataset dict (same shape as dataset.json).
     """
-    url = f"{frost_api_base}/api/v1/obs/badevann/get"
+    url = f"{frost_api_base}/api/v1/obs/sst/get"
     default_params = {"incobs": "true", "time": "latest", "latestmaxage": "PT1000000H"}
     if params:
         default_params.update(params)

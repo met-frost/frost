@@ -151,8 +151,8 @@ func GetStatus(tstype string) any {
 // The base ID is assumed to be a more permanent/fundamental identifier for the time series, whereas
 // the ID part of stshdr could in theory change over time (e.g. it could be modified to fix an
 // error, but still be associated with the same base ID).
-// NOTE: the base ID must be globally unique in the context of the storage back-end. If for example
-// the storage back-end keeps open and restricted time series in separate sub-storages (typically
+// NOTE: the base ID must be globally unique in the context of the storage backend. If for example
+// the storage backend keeps open and restricted time series in separate sub-storages (typically
 // databases), then which one to access must be derivable from the base ID.
 //
 // If both fromTime and toTime is math.MinInt64, it means that 1) these values are not in use,
