@@ -1,3 +1,6 @@
+// Copyright (C) Norwegian Meteorological Institute
+// SPDX-License-Identifier: GPL-3.0-only
+
 package reqresptest
 
 // This package implements a simple framework for testing that requests

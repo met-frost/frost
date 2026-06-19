@@ -1,3 +1,6 @@
+// Copyright (C) Norwegian Meteorological Institute
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package dataset implements the general I/O dataset for the /obs/* routes.
 package dataset
 

@@ -1,3 +1,6 @@
+// Copyright (C) Norwegian Meteorological Institute
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package obs implements initialization for and requests to time series types under the
 // /api/v1/obs path.
 package obs

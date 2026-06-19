@@ -1,3 +1,6 @@
+// Copyright (C) Norwegian Meteorological Institute
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package frost0 implements the frost0 time series type.
 package frost0
 

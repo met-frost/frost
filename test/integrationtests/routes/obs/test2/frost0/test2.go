@@ -1,3 +1,6 @@
+// Copyright (C) Norwegian Meteorological Institute
+// SPDX-License-Identifier: GPL-3.0-only
+
 package testobstest2frost0
 
 import (

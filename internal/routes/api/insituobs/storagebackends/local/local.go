@@ -1,3 +1,6 @@
+// Copyright (C) Norwegian Meteorological Institute
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package obssbelocal ... TO BE DOCUMENTED.
 package obssbelocal
 

@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# Copyright (C) Norwegian Meteorological Institute
+# SPDX-License-Identifier: GPL-3.0-only
+
+
 """
 This script demonstrates how datasets can be uploaded/downloaded to/from the Frost service.
 The time series type used in this example is 'glider'.

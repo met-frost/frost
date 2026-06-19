@@ -1,3 +1,6 @@
+// Copyright (C) Norwegian Meteorological Institute
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package tsregistry implements a generic registry of time series common to all time series types.
 package tsregistry
 

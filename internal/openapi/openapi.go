@@ -1,3 +1,6 @@
+// Copyright (C) Norwegian Meteorological Institute
+// SPDX-License-Identifier: GPL-3.0-only
+
 // Package openapi defines an API to be used during the initialization phase of the service
 // for registering the various parts of the OpenAPI specification (OAS) and for assembling
 // the parts to a final OAS file.
@@ -504,6 +507,10 @@ func (pubs *OAPublishers) CreateFiles(fnameBasic, fnameAdvanced string) error {
 		"description": "Frost v1 is a RESTful Web API for storing and retrieving weather- and " +
 			"climate observations.",
 		"version": "1.0",
+		"license": map[string]any{
+			"name": "GNU General Public License v3.0",
+			"url":  "https://www.gnu.org/licenses/gpl-3.0.html",
+		},
 	}
 
 	// populate tags, defs and paths

@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
 
+# Copyright (C) Norwegian Meteorological Institute
+# SPDX-License-Identifier: GPL-3.0-only
+
+
 import json
 import requests
 import copy
