@@ -1,8 +1,5 @@
+// Package sst contains code specific to time series type 'sst' (Sea Surface Temperature).
 package sst
-
-// This file contains code specific to time series type 'sst' (Sea Surface Temperature).
-// In particular, all timeseries.TimeSeries instances referred to in this file are
-// of that time series type.
 
 import (
 	"encoding/json"

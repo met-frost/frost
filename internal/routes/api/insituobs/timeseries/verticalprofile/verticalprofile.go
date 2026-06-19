@@ -1,8 +1,5 @@
+// Package verticalprofile contains code specific to time series type 'verticalprofile'.
 package verticalprofile
-
-// This file contains code specific to time series type 'verticalprofile'.
-// In particular, all timeseries.TimeSeries instances referred to in this file are
-// of that time series type.
 
 import (
 	"encoding/json"
