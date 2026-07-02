@@ -6,7 +6,6 @@
 // of that time series type.
 
 // Package sst contains code specific to time series type 'sst' (Sea Surface Temperature).
-
 package sst
 
 import (

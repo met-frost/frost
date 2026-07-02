@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 // Package glider contains code specific to time series type 'glider'.
-
 package glider
 
 import (

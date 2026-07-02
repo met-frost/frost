@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 // Package verticalprofile contains code specific to time series type 'verticalprofile'.
-
 package verticalprofile
 
 import (

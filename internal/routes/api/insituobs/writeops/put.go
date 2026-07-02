@@ -81,7 +81,7 @@ func HandlePut(
 				return http.StatusInternalServerError, nil,
 					fmt.Errorf(
 						"non-nil fatalErrs returned by ingest hook, but len(fatalErrs) "+
-						"(%d) != len(dts.Observations) (%d)", len(fatalErrs),
+							"(%d) != len(dts.Observations) (%d)", len(fatalErrs),
 						len(dts.Observations))
 			}
 
@@ -117,9 +117,9 @@ func HandlePut(
 		_ = tsApplyStatuses
 
 		return putResponse{
-			Inserted:        totalSummary.Inserted,
-			Updated:         totalSummary.Updated,
-			Deleted:         totalSummary.Deleted,
+			Inserted: totalSummary.Inserted,
+			Updated:  totalSummary.Updated,
+			Deleted:  totalSummary.Deleted,
 		}
 	}
 
