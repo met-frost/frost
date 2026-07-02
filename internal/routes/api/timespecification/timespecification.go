@@ -326,8 +326,8 @@ func GetTimeSpecification(queryParams url.Values) (TimeSpecification, error) {
 	// --- 'intervals' mode ---------------------------------------------------------
 
 	// repeating interval variants:
-	// [1] Rn/ <ISO 8601 time> /<ISO 8601 time> /<ISO 8601 duration>   -> interval   with    offset
-	// [2] Rn/ <ISO 8601 time>                  /<ISO 8601 duration>   -> time point with    offset
+	// [1] Rn/ <ISO 8601 time> /<ISO 8601 time> /<ISO 8601 duration>   -> interval   with offset
+	// [2] Rn/ <ISO 8601 time>                  /<ISO 8601 duration>   -> time point with offset
 	//
 	// non-repeating interval variants:
 	// [3]     <ISO 8601 time> /<ISO 8601 time>                        -> interval
