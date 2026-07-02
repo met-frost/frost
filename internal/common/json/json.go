@@ -22,7 +22,7 @@ func isJSONSubObjectMatch(map1, map2 map[string]interface{}) (bool, string, erro
 		ok, reason, err := IsJSONSubMatch(val1, val2)
 		if err != nil {
 			return false, "", fmt.Errorf(
-				"isJSONSubMatch() failed for map key %s: %v", key1, err)
+				"IsJSONSubMatch() failed for map key %s: %v", key1, err)
 		}
 		if !ok {
 			return false, reason, nil
@@ -45,7 +45,7 @@ func isJSONSubArrayMatch(arr1, arr2 []interface{}) (bool, string, error) {
 			ok, _, err := IsJSONSubMatch(arr1[i], arr2[j])
 			if err != nil {
 				return false, "", fmt.Errorf(
-					"isJSONSubMatch() failed for array indices %d and %d: %v", i, j, err)
+					"IsJSONSubMatch() failed for array indices %d and %d: %v", i, j, err)
 			}
 			if ok { // item i in arr1 accounted for, so proceed to look for a match for item i+1
 				found = true
