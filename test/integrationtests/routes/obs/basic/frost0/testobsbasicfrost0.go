@@ -39,12 +39,12 @@ func createTestQueryParamWildcardAndCaseSensitivity() (rrt.GetTestSequence, erro
 	} {
 		tseries = append(tseries, dset.SingleTSeries{
 			Header: dataset.Header{
-				ID: map[string]interface{}{
+				ID: map[string]any{
 					"source":      fmt.Sprintf("%s", combo.source),
 					"sensorLevel": "0",
 					"element":     fmt.Sprintf("%s", combo.element),
 				},
-				Extra: map[string]interface{}{},
+				Extra: map[string]any{},
 			},
 			Observations: observations,
 		})

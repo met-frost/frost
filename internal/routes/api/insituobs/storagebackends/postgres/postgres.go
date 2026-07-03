@@ -162,8 +162,8 @@ func (sbe *Postgres) UpdateTimeSeries(tstype string, hdr timeseries.Header) (int
 // ReadSingleTS ... (see documentation in StorageBackend interface)
 func (sbe *Postgres) ReadSingleTS(
 	tstype string, ts0 *timeseries.TimeSeries, hdr timeseries.Header, t1, t2 int64,
-	obsBodyModify func(*timeseries.TimeSeries, time.Time, *map[string]interface{}) (int, error),
-	obsFilter func(*timeseries.TimeSeries, time.Time, map[string]interface{}) (bool, int, error),
+	obsBodyModify func(*timeseries.TimeSeries, time.Time, *map[string]any) (int, error),
+	obsFilter func(*timeseries.TimeSeries, time.Time, map[string]any) (bool, int, error),
 	limit int, observations *[]dataset.Observation, reqInfo timeseries.RequestInfo) (
 	bool, int, error) {
 
@@ -236,7 +236,7 @@ func (sbe *Postgres) ReadSingleTS(
 		if err != nil {
 			return false, http.StatusInternalServerError, fmt.Errorf("rows.Scan() failed: %v", err)
 		}
-		var body map[string]interface{}
+		var body map[string]any
 		err = json.Unmarshal(bodyBytes, &body)
 		if err != nil {
 			return false, http.StatusInternalServerError,
@@ -279,8 +279,8 @@ func (sbe *Postgres) ReadSingleTS(
 // ReadMultiTS ... (see documentation in StorageBackend interface)
 func (sbe *Postgres) ReadMultiTS(
 	tstype string, tsSeq *timeseries.InstanceSeq, hdrs []timeseries.Header, t1, t2 int64,
-	obsBodyModify func(*timeseries.TimeSeries, time.Time, *map[string]interface{}) (int, error),
-	obsFilter func(*timeseries.TimeSeries, time.Time, map[string]interface{}) (bool, int, error),
+	obsBodyModify func(*timeseries.TimeSeries, time.Time, *map[string]any) (int, error),
+	obsFilter func(*timeseries.TimeSeries, time.Time, map[string]any) (bool, int, error),
 	latestLimit, itemLimit int, obs *[][]dataset.Observation,
 	reqInfo timeseries.RequestInfo, ctx context.Context) (int, int, error) {
 

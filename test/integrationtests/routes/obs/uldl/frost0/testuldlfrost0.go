@@ -176,7 +176,7 @@ func upload(t *testing.T, urlBase, path string, dset dataset) {
 		return
 	}
 
-	var result map[string]interface{}
+	var result map[string]any
 	json.NewDecoder(resp.Body).Decode(&result)
 	log.Printf("response from POST request: %v", result)
 

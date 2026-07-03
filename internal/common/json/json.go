@@ -12,7 +12,7 @@ import (
 
 // isJSONSubObjectMatch checks if map1 is a sub-object of map2.
 // Returns (false, reason, nil) or (true, "", nil) on success, otherwise (false, "", error).
-func isJSONSubObjectMatch(map1, map2 map[string]interface{}) (bool, string, error) {
+func isJSONSubObjectMatch(map1, map2 map[string]any) (bool, string, error) {
 
 	for key1, val1 := range map1 {
 		val2, found := map2[key1]
@@ -36,7 +36,7 @@ func isJSONSubObjectMatch(map1, map2 map[string]interface{}) (bool, string, erro
 // The sub-array doesn't have to correspond with a consecutive index range in arr2 but items
 // must appear in the same order.
 // Returns (false, reason, nil) or (true, "", nil) on success, otherwise (false, "", error).
-func isJSONSubArrayMatch(arr1, arr2 []interface{}) (bool, string, error) {
+func isJSONSubArrayMatch(arr1, arr2 []any) (bool, string, error) {
 
 	pos2 := 0 // index in arr2 at which to start looking for a match with an item in arr1
 	for i := 0; i < len(arr1); i++ {
@@ -85,7 +85,7 @@ func isFloat(kind reflect.Kind) bool {
 // IsJSONSubMatch checks if val1 matches a substructure of val2 (e.g. val1={"a1": {"b": "c*"}}
 // matches val2={"a1": {"b": "cdef"}, "a2": [1, 2, 3]}).
 // Returns (false, reason, nil) or (true, "", nil) on success, otherwise (false, "", error).
-func IsJSONSubMatch(val1, val2 interface{}) (bool, string, error) {
+func IsJSONSubMatch(val1, val2 any) (bool, string, error) {
 
 	if (val1 == nil) || (val2 == nil) {
 		return false, "", fmt.Errorf("val1 and/or val2 is nil:\n\tval1: %v\n\tval2: %v", val1, val2)
@@ -107,8 +107,8 @@ func IsJSONSubMatch(val1, val2 interface{}) (bool, string, error) {
 	switch {
 	case ((kind1 == reflect.Struct) || (kind1 == reflect.Map)) &&
 		((kind2 == reflect.Struct) || (kind2 == reflect.Map)):
-		map1 := val1.(map[string]interface{})
-		map2 := val2.(map[string]interface{})
+		map1 := val1.(map[string]any)
+		map2 := val2.(map[string]any)
 		ok, reason, err := isJSONSubObjectMatch(map1, map2)
 		if err != nil {
 			return false, "", fmt.Errorf("isJSONSubObjectMatch() failed: %v", err)
@@ -121,8 +121,8 @@ func IsJSONSubMatch(val1, val2 interface{}) (bool, string, error) {
 
 	case ((kind1 == reflect.Slice) || (kind1 == reflect.Array)) &&
 		((kind2 == reflect.Slice) || (kind2 == reflect.Array)):
-		arr1 := val1.([]interface{})
-		arr2 := val2.([]interface{})
+		arr1 := val1.([]any)
+		arr2 := val2.([]any)
 		ok, reason, err := isJSONSubArrayMatch(arr1, arr2)
 		if err != nil {
 			return false, "", fmt.Errorf("isJSONSubArrayMatch() failed: %v", err)

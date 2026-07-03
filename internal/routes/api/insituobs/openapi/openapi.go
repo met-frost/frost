@@ -23,12 +23,12 @@ import (
 // Returns (object, nil) upon success, otherwise (..., error).
 func createTsOpObject(
 	hdrIDSchema, hdrExtraSchema, summary, operationID, tagName, descr, okDescr, okSchema string) (
-		interface{}, error) {
+		any, error) {
 
 	var err error
 
 	// --- BEGIN create toplevel object ------------------------
-	obj0 := map[string]interface{}{
+	obj0 := map[string]any{
 		"doclevel": openapi.DocLevelAdvancedOnly(),
 		"summary": summary,
 		"operationId": operationID,
@@ -53,7 +53,7 @@ func createTsOpObject(
 	requestBodyS = strings.ReplaceAll(
 		requestBodyS, dataset.HdrExtraPlaceholder(), hdrExtraSchema)
 
-	var requestBody interface{}
+	var requestBody any
 	err = json.Unmarshal([]byte(requestBodyS), &requestBody)
 	if err != nil {
 		return nil, fmt.Errorf("json.Unmarshal(requestBody) failed: %v", err)
@@ -80,7 +80,7 @@ func createTsOpObject(
 		http.StatusInternalServerError,
 	))
 
-	var responses interface{}
+	var responses any
 	err = json.Unmarshal([]byte(responsesS), &responses)
 	if err != nil {
 		return nil, fmt.Errorf("json.Unmarshal(responses) failed: %v", err)
@@ -89,7 +89,7 @@ func createTsOpObject(
 	obj0["responses"] = responses
 	// --- END add 'responses' ------------------------
 
-	return map[string]interface{}{"post": obj0}, nil
+	return map[string]any{"post": obj0}, nil
 }
 
 // createTsOkSchema creates the schema for a 200 Ok response from one of the
@@ -126,7 +126,7 @@ func createTsOkSchema(titleText, appliedDescrText string) string {
 
 // CreateTsCreateObject is a convenience wrapper around createTsOpObject.
 func CreateTsCreateObject(
-	tsType, hdrIDSchema, hdrExtraSchema, summary, operationID, tagName string) (interface{}, error) {
+	tsType, hdrIDSchema, hdrExtraSchema, summary, operationID, tagName string) (any, error) {
 
 	descr := fmt.Sprintf(`
 		This method creates a set of time series of type '%s'. Nothing happens for any time series
@@ -144,7 +144,7 @@ func CreateTsCreateObject(
 // CreateTsDeleteObject is a convenience wrapper around createTsObject.
 func CreateTsDeleteObject(
 	tsType, hdrIDSchema, hdrExtraSchema, summary, operationID, tagName string) (
-		interface{}, error) {
+		any, error) {
 
 	descr := fmt.Sprintf(`
 		This method deletes a set of time series of type '%s' (along with all observations,
@@ -162,7 +162,7 @@ func CreateTsDeleteObject(
 // CreateTsUpdateObject is a convenience wrapper around createTsObject.
 func CreateTsUpdateObject(
 	tsType, hdrIDSchema, hdrExtraSchema, summary, operationID, tagName string) (
-		interface{}, error) {
+		any, error) {
 
 	descr := fmt.Sprintf(`
 		This method updates the 'extra' part of a set of time series of type '%s'.
@@ -182,12 +182,12 @@ func CreateTsUpdateObject(
 // Returns (object, nil) upon success, otherwise (..., error).
 func CreatePutObject(
 	tsType, obsBodyDescr, dsetExample, hdrIDSchema, hdrExtraSchema, obsBodySchema, operationID,
-	tagName string) (interface{}, error) {
+	tagName string) (any, error) {
 
 	var err error
 
 	// --- BEGIN create toplevel object ------------------------
-	obj0 := map[string]interface{}{
+	obj0 := map[string]any{
 		"doclevel": openapi.DocLevelAdvancedOnly(),
 		"summary": "Insert, update, or delete observations in existing time series",
 		"operationId": operationID,
@@ -229,7 +229,7 @@ func CreatePutObject(
 	requestBodyS = strings.ReplaceAll(requestBodyS, dataset.HdrExtraPlaceholder(), hdrExtraSchema)
 	requestBodyS = strings.ReplaceAll(requestBodyS, dataset.ObsBodyPlaceholder(), obsBodySchema)
 
-	var requestBody interface{}
+	var requestBody any
 	err = json.Unmarshal([]byte(requestBodyS), &requestBody)
 	if err != nil {
 		return fmt.Errorf("json.Unmarshal(requestBody) failed: %v", err), nil
@@ -282,7 +282,7 @@ func CreatePutObject(
 		http.StatusInternalServerError,
 	))
 
-	var responses interface{}
+	var responses any
 	err = json.Unmarshal([]byte(responsesS), &responses)
 	if err != nil {
 		return fmt.Errorf("json.Unmarshal(responses) failed: %v", err), nil
@@ -291,7 +291,7 @@ func CreatePutObject(
 	obj0["responses"] = responses
 	// --- END add 'responses' ------------------------
 
-	return map[string]interface{}{"post": obj0}, nil
+	return map[string]any{"post": obj0}, nil
 }
 
 // getGetPathCommonParameters returns the subset of the 'parameters' part that is common to all
@@ -478,18 +478,18 @@ func getGetPathResponses(hdrIDSchema, hdrExtraSchema, obsBodySchema string) stri
 // Returns (object, nil) upon success, otherwise (..., error).
 func CreateGetObject(
 	tsType, params, hdrIDSchema, hdrExtraSchema, obsBodySchema, operationID,
-	tagName, docLevel string) (interface{}, error) {
+	tagName, docLevel string) (any, error) {
 
 	var err error
 
 	// --- BEGIN define 'parameters' ------------------------
-	var parameters []interface{}
+	var parameters []any
 	err = json.Unmarshal([]byte(params), &parameters)
 	if err != nil {
 		return nil, fmt.Errorf("json.Unmarshal(parameters) failed: %v", err)
 	}
 
-	var commonParameters []interface{}
+	var commonParameters []any
 	err = json.Unmarshal([]byte(getGetPathCommonParameters()), &commonParameters)
 	if err != nil {
 		return nil, fmt.Errorf("json.Unmarshal(commonParameters) failed: %v", err)
@@ -499,7 +499,7 @@ func CreateGetObject(
 	// --- END define 'parameters' ------------------------
 
 	// --- BEGIN define 'responses' ------------------------
-	var responses interface{}
+	var responses any
 	err = json.Unmarshal(
 		[]byte(getGetPathResponses(hdrIDSchema, hdrExtraSchema, obsBodySchema)), &responses)
 	if err != nil {
@@ -508,7 +508,7 @@ func CreateGetObject(
 	// --- END define 'responses' ------------------------
 
 	// --- BEGIN create toplevel object ------------------------
-	obj0 := map[string]interface{}{
+	obj0 := map[string]any{
 		"doclevel": docLevel,
 		"summary": "Get time series of observations.",
 		"description": fmt.Sprintf(
@@ -522,7 +522,7 @@ func CreateGetObject(
 	}
 	// --- END create toplevel object ------------------------
 
-	return map[string]interface{}{"get": obj0}, nil
+	return map[string]any{"get": obj0}, nil
 }
 
 // createStatusOkSchema creates the schema for a 200 Ok response from an .../obs/.../status
@@ -556,12 +556,12 @@ func createStatusOkSchema(tstype, descrText string) string {
 // operation.
 //
 // Returns (object, nil) upon success, otherwise (..., error).
-func CreateStatusObject(tsType, operationID, tagName, okDescr string) (interface{}, error) {
+func CreateStatusObject(tsType, operationID, tagName, okDescr string) (any, error) {
 
 	var err error
 
 	// --- BEGIN create toplevel object ------------------------
-	obj0 := map[string]interface{}{
+	obj0 := map[string]any{
 		"doclevel": openapi.DocLevelAdvancedOnly(),
 		"summary": "Get internal status",
 		"operationId": operationID,
@@ -591,7 +591,7 @@ func CreateStatusObject(tsType, operationID, tagName, okDescr string) (interface
 		}
 	}`, createStatusOkSchema(tsType, okDescr))
 
-	var responses interface{}
+	var responses any
 	err = json.Unmarshal([]byte(responsesS), &responses)
 	if err != nil {
 		return nil, fmt.Errorf("json.Unmarshal(responses) failed: %v", err)
@@ -600,5 +600,5 @@ func CreateStatusObject(tsType, operationID, tagName, okDescr string) (interface
 	obj0["responses"] = responses
 	// --- END add 'responses' ------------------------
 
-	return map[string]interface{}{"get": obj0}, nil
+	return map[string]any{"get": obj0}, nil
 }

@@ -152,18 +152,18 @@ func matchResponses(expected, actual Response) (string, error) {
 	// STEP 2: match bodies
 
 	var err error
-	var val1, val2 map[string]interface{}
+	var val1, val2 map[string]any
 
 	err = json.Unmarshal([]byte(expected.Body), &val1)
 	if err != nil {
 		return "", fmt.Errorf(
-			"failed to unmarshal expected.Body into map[string]interface{}: %v", err)
+			"failed to unmarshal expected.Body into map[string]any: %v", err)
 	}
 
 	err = json.Unmarshal([]byte(actual.Body), &val2)
 	if err != nil {
 		return "", fmt.Errorf(
-			"failed to unmarshal actual.Body into map[string]interface{}: %v", err)
+			"failed to unmarshal actual.Body into map[string]any: %v", err)
 	}
 
 	isSubset, reason, err := localjson.IsJSONSubMatch(val1, val2)

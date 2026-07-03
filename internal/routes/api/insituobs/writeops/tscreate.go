@@ -32,7 +32,7 @@ func HandleTsCreate(
 	//
 	// Returns (..., ..., nil) if the operation was successfully applied, otherwise
 	// (HTTP status code, error details (nil if n/a), error).
-	tsApply := func(dts dataset.SingleTSeries, hdr timeseries.Header) (int, interface{}, error) {
+	tsApply := func(dts dataset.SingleTSeries, hdr timeseries.Header) (int, any, error) {
 
 		baseID, statusCode, err := sbe.CreateTimeSeries(defaultTS.Type(), hdr)
 		if err != nil {
@@ -78,7 +78,7 @@ func HandleTsCreate(
 
 	// okResponse returns the payload to be used in a successful response.
 	okResponsePayload := func(
-		tsRejected, tsAccepted, tsApplied int, tsApplyStatuses []*TsApplyStatus) interface{} {
+		tsRejected, tsAccepted, tsApplied int, tsApplyStatuses []*TsApplyStatus) any {
 
 		_ = tsApplyStatuses // n/a
 

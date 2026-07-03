@@ -96,7 +96,7 @@ func Load() error {
 	if err != nil {
 		return fmt.Errorf("os.ReadFile(%s) failed: %v", fname, err)
 	}
-	var obj map[string]interface{}
+	var obj map[string]any
 	err = json.Unmarshal(bsobj, &obj)
 	if err != nil {
 		return fmt.Errorf("json.Unmarshal() #1 failed (file: %s): %v", fname, err)

@@ -16,7 +16,7 @@ func CreateObservation(
 	tm := time.Date(year, time.Month(month), day, hour, minute, second, 0, time.UTC)
 	return dataset.Observation{
 		Time: &tm,
-		Body: map[string]interface{}{
+		Body: map[string]any{
 			"pos":     dataset.MakeNullPos(), // for now
 			"value":   fmt.Sprintf("%d", value),
 			"quality": "", // for now

@@ -22,7 +22,7 @@ type id struct {
 
 type header struct {
 	ID    id          `json:"id"`
-	Extra interface{} `json:"extra"`
+	Extra any `json:"extra"`
 }
 
 type pos struct {

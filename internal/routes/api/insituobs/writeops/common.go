@@ -152,10 +152,10 @@ func extractDatasetFromRequest(
 //
 // Returns (bool, nil) upon success, otherwise (..., error).
 func matchesWritableHeaderIDPattern(
-	tsid map[string]interface{}, whiPatterns *[]string) (bool, error) {
+	tsid map[string]any, whiPatterns *[]string) (bool, error) {
 
 	for _, whiPattern := range *whiPatterns {
-		var whiPatternIF interface{}
+		var whiPatternIF any
 		if err := json.Unmarshal([]byte(whiPattern), &whiPatternIF); err != nil {
 			return false, fmt.Errorf("json.Unmarshal() failed: %v", err)
 		}
@@ -177,7 +177,7 @@ type TsApplyStatus struct {
 	StatusCode int `json:"statuscode"` // HTTP status code (http.StatusOK iff apply operation was
 	// successful)
 	Error string `json:"error"` // error summary
-	Details interface{} `json:"details"` // error details (nil if n/a)
+	Details any `json:"details"` // error details (nil if n/a)
 }
 
 // MarshalJSON is a custom JSON marshaller for *tsApplyStatus.
@@ -197,8 +197,8 @@ func (tas *TsApplyStatus) MarshalJSON() ([]byte, error) {
 // TODO: add more documentation!
 func applyWriteOperation(
 	opname string, defaultTS timeseries.TimeSeries, responseWriter http.ResponseWriter,
-	request *http.Request, tsApply func(dataset.SingleTSeries, timeseries.Header) (int, interface{},
-		error), okResponsePayload func(int, int, int, []*TsApplyStatus) interface{}) {
+	request *http.Request, tsApply func(dataset.SingleTSeries, timeseries.Header) (int, any,
+		error), okResponsePayload func(int, int, int, []*TsApplyStatus) any) {
 
 	tsRejected := 0
 	tsAccepted := 0

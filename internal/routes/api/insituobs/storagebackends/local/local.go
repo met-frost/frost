@@ -106,8 +106,8 @@ func (sbe *Local) UpdateTimeSeries(tstype string, hdr timeseries.Header) (int, e
 // ReadSingleTS ... (see documentation in StorageBackend interface)
 func (sbe *Local) ReadSingleTS(
 	tstype string, ts0 *timeseries.TimeSeries, hdr timeseries.Header, t1, t2 int64,
-	obsBodyModify func(*timeseries.TimeSeries, time.Time, *map[string]interface{}) (int, error),
-	obsFilter func(*timeseries.TimeSeries, time.Time, map[string]interface{}) (bool, int, error),
+	obsBodyModify func(*timeseries.TimeSeries, time.Time, *map[string]any) (int, error),
+	obsFilter func(*timeseries.TimeSeries, time.Time, map[string]any) (bool, int, error),
 	limit int, observations *[]dataset.Observation, reqInfo timeseries.RequestInfo) (
 	bool, int, error) {
 
@@ -188,8 +188,8 @@ func (sbe *Local) ReadSingleTS(
 // ReadMultiTS ... (see documentation in StorageBackend interface)
 func (sbe *Local) ReadMultiTS(
 	tstype string, tsSeq *timeseries.InstanceSeq, hdrs []timeseries.Header, t1, t2 int64,
-	obsBodyModify func(*timeseries.TimeSeries, time.Time, *map[string]interface{}) (int, error),
-	obsFilter func(*timeseries.TimeSeries, time.Time, map[string]interface{}) (bool, int, error),
+	obsBodyModify func(*timeseries.TimeSeries, time.Time, *map[string]any) (int, error),
+	obsFilter func(*timeseries.TimeSeries, time.Time, map[string]any) (bool, int, error),
 	latestLimit, itemLimit int, obs *[][]dataset.Observation,
 	reqInfo timeseries.RequestInfo, ctx context.Context) (int, int, error) {
 

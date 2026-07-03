@@ -113,7 +113,7 @@ func tstampStringToTime(tstamp string, addNow bool) (time.Time, error) {
 // (time.Time{}, false, nil) if not.
 // Upon failure, the function returns (time.Time{}, ..., error).
 func extractOptionalTime(
-	rule *map[string]interface{}, key, relToNowKey string) (time.Time, bool, error) {
+	rule *map[string]any, key, relToNowKey string) (time.Time, bool, error) {
 	t0, found := (*rule)[key]
 	if found {
 		t0s := strings.TrimSpace(t0.(string)) // assumed to be validated already
@@ -143,7 +143,7 @@ func Load() error {
 	if err != nil {
 		return fmt.Errorf("os.ReadFile(%s) failed: %v", fname, err)
 	}
-	var obj map[string]interface{}
+	var obj map[string]any
 	err = json.Unmarshal(bsobj, &obj)
 	if err != nil {
 		return fmt.Errorf("json.Unmarshal() #1 failed (file: %s): %v", fname, err)
@@ -162,7 +162,7 @@ func Load() error {
 	}
 
 	// extract implicit rule objects
-	var rules0 []map[string]interface{}
+	var rules0 []map[string]any
 	err = json.Unmarshal(bsobj2, &rules0)
 	if err != nil {
 		return fmt.Errorf("json.Unmarshal() #2 failed (file: %s): %v", fname, err)
@@ -202,7 +202,7 @@ func Load() error {
 
 		// extract exempted tokens
 		if ets, found := r0["exempted_tokens"]; found {
-			for _, et := range ets.([]interface{}) {
+			for _, et := range ets.([]any) {
 				r.exemptedTokens = append(r.exemptedTokens, et.(string))
 			}
 		}
@@ -219,7 +219,7 @@ func Load() error {
 //      asterisks to match any sequence of zero or more characters, must match the serialization
 //      of obj1[k]
 // Returns (bool, nil) if no error occurs, otherwise (..., error).
-func objMatch(obj1, obj2 map[string]interface{}) (bool, error) {
+func objMatch(obj1, obj2 map[string]any) (bool, error) {
 
 	for k, v2 := range obj2 {
 		if v1, found := obj1[k]; found {
@@ -248,7 +248,7 @@ func objMatch(obj1, obj2 map[string]interface{}) (bool, error) {
 // Upon success, the function returns (the first matching rule, true, nil) or
 // (rule{}, false, nil) if no matching rule could be found.
 // Upon failure, the function returns (rule{}, ..., error).
-func findRule(tstype string, tsid map[string]interface{}) (rule, bool, error) {
+func findRule(tstype string, tsid map[string]any) (rule, bool, error) {
 	for _, rule0 := range rules {
 		if rule0.tstype != tstype {
 			continue // tstype mismatch
@@ -285,7 +285,7 @@ func findRule(tstype string, tsid map[string]interface{}) (rule, bool, error) {
 				fmt.Errorf("(*ts).GetHeaderID() failed: %v", err)
 		}
 
-		var obj map[string]interface{}
+		var obj map[string]any
 		err = json.Unmarshal([]byte(rule0.hdridmatch), &obj)
 		if err != nil {
 			return rule{}, false, fmt.Errorf("json.Unmarshal(%s) failed: %v", rule0.hdridmatch, err)
@@ -403,7 +403,7 @@ func Apply(dset *dataset.Dataset, request *http.Request) error {
 
 		modObs := []dataset.Observation{} // restricted version of obs array
 		for _, obs := range sts.Observations {
-			var modBody map[string]interface{}
+			var modBody map[string]any
 			restr, err := restricted(obs, r)
 			if err != nil {
 				return fmt.Errorf("restricted() failed: %v", err)

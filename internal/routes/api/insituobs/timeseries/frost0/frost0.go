@@ -266,7 +266,7 @@ func (ts *Frost0) GetHeader() (*timeseries.Header, error) {
 }
 
 // GetHeaderID ... (see documentation in TimeSeries interface)
-func (ts *Frost0) GetHeaderID() (map[string]interface{}, error) {
+func (ts *Frost0) GetHeaderID() (map[string]any, error) {
 	return ts.Header["id"], nil
 }
 
@@ -342,38 +342,38 @@ func (ts *Frost0) HeaderPxmtyFilter(
 }
 
 // ObsBodyModify ... (see documentation in TimeSeries interface)
-func (ts *Frost0) ObsBodyModify(t time.Time, body *map[string]interface{}) (int, error) {
+func (ts *Frost0) ObsBodyModify(t time.Time, body *map[string]any) (int, error) {
 	return -1, nil // for now don't modify any obs
 }
 
 // ObsFilter ... (see documentation in TimeSeries interface)
 func (ts *Frost0) ObsFilter(
-	t time.Time, body map[string]interface{}, reqInfo timeseries.RequestInfo) (bool, int, error) {
+	t time.Time, body map[string]any, reqInfo timeseries.RequestInfo) (bool, int, error) {
 	return true, -1, nil // for now don't filter out any obs
 }
 
 // ValidateHdrID ... (see documentation in TimeSeries interface)
-func (ts *Frost0) ValidateHdrID(hdrID interface{}) error {
+func (ts *Frost0) ValidateHdrID(hdrID any) error {
 	return common.SchemaValidate(schemaLoaders.HdrID, hdrID)
 }
 
 // ValidateHdrExtra ... (see documentation in TimeSeries interface)
-func (ts *Frost0) ValidateHdrExtra(hdrExtra interface{}) error {
+func (ts *Frost0) ValidateHdrExtra(hdrExtra any) error {
 	return common.SchemaValidate(schemaLoaders.HdrExtra, hdrExtra)
 }
 
 // ValidateObsBody ... (see documentation in TimeSeries interface)
-func (ts *Frost0) ValidateObsBody(obsBody interface{}) error {
+func (ts *Frost0) ValidateObsBody(obsBody any) error {
 	return common.SchemaValidate(schemaLoaders.ObsBody, obsBody)
 }
 
 // IngestHook ... (see documentation in TimeSeries interface)
-func (ts *Frost0) IngestHook(dts dataset.SingleTSeries, sbe interface{}) ([]error, []error) {
+func (ts *Frost0) IngestHook(dts dataset.SingleTSeries, sbe any) ([]error, []error) {
 	return nil, nil // no actions
 }
 
 // HeaderIDsEqual ... (see documentation in TimeSeries interface)
-func (ts *Frost0) HeaderIDsEqual(hdr1, hdr2 map[string]interface{}) (bool, error) {
+func (ts *Frost0) HeaderIDsEqual(hdr1, hdr2 map[string]any) (bool, error) {
 	for _, key := range []string{"source", "sensorlevel", "element"} {
 		if !common.StringsEqual(hdr1, hdr2, key) {
 			return false, nil
@@ -383,7 +383,7 @@ func (ts *Frost0) HeaderIDsEqual(hdr1, hdr2 map[string]interface{}) (bool, error
 }
 
 // CreateCustomReqInfo ... (see documentation in TimeSeries interface)
-func (ts *Frost0) CreateCustomReqInfo(queryParams url.Values) (interface{}, error) {
+func (ts *Frost0) CreateCustomReqInfo(queryParams url.Values) (any, error) {
 	return nil, nil // TODO: implement for geo point filter
 }
 
@@ -393,7 +393,7 @@ func (ts *Frost0) GetHeaderGeoPoints() ([]timeseries.PointInterval, error) {
 }
 
 // GetObsBodyGeoPoint ... (see documentation in TimeSeries interface)
-func (ts *Frost0) GetObsBodyGeoPoint(obsBody map[string]interface{}) (
+func (ts *Frost0) GetObsBodyGeoPoint(obsBody map[string]any) (
 	geometry.Point, bool, error) {
 	return geometry.Point{}, false, nil // TODO: implement for geo point filter
 }
@@ -410,7 +410,7 @@ func (ts *Frost0) GetSupportedQueryParams() common.StringSet {
 }
 
 // GetStatus ... (see documentation in TimeSeries interface)
-func (ts *Frost0) GetStatus(queryParams url.Values) (interface{}, error) {
+func (ts *Frost0) GetStatus(queryParams url.Values) (any, error) {
 	return nil, fmt.Errorf("GetStatus() not implemented for times series type frost0")
 }
 

@@ -51,7 +51,7 @@ func HandlePut(
 	//
 	// Returns (..., ..., nil) if the operation was successfully applied, otherwise
 	// (HTTP status code, error details (nil if n/a), error).
-	tsApply := func(dts dataset.SingleTSeries, hdr timeseries.Header) (int, interface{}, error) {
+	tsApply := func(dts dataset.SingleTSeries, hdr timeseries.Header) (int, any, error) {
 
 		err := hdr.ConvertKeysToLower()
 		if err != nil {
@@ -107,7 +107,7 @@ func HandlePut(
 
 	// okResponse returns the payload to be used in a 200 Ok response
 	okResponsePayload := func(
-		tsRejected, tsAccepted, tsApplied int, tsApplyStatuses []*TsApplyStatus) interface{} {
+		tsRejected, tsAccepted, tsApplied int, tsApplyStatuses []*TsApplyStatus) any {
 
 		// TODO: include following stats in the response if explicitly requested (e.g. with
 		// an undocumented query parameter verboseokresponse=true)

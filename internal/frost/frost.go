@@ -169,7 +169,7 @@ func getHealthzPath() (openapi.Path, error) {
 		}
 	}`, schema)
 
-	var responses interface{}
+	var responses any
 	err := json.Unmarshal([]byte(responsesS), &responses)
 	if err != nil {
 		return openapi.Path{}, fmt.Errorf("json.Unmarshal(responses) failed: %v", err)
@@ -177,9 +177,9 @@ func getHealthzPath() (openapi.Path, error) {
 	// --- END define 'responses' ------------------------
 
 	// --- BEGIN create toplevel object ------------------------
-	obj0 := map[string]interface{}{
+	obj0 := map[string]any{
 		"doclevel": openapi.DocLevelAdvancedOnly(),
-		"get": map[string]interface{}{
+		"get": map[string]any{
 			"operationId": "healthz",
 			"summary":     "Health status of the Frost service.",
 			"tags":        []string{"overall"},
@@ -239,7 +239,7 @@ func getAboutPath() (openapi.Path, error) {
 		}
 	}`, schema)
 
-	var responses interface{}
+	var responses any
 	err := json.Unmarshal([]byte(responsesS), &responses)
 	if err != nil {
 		return openapi.Path{}, fmt.Errorf("json.Unmarshal(responses) failed: %v", err)
@@ -247,9 +247,9 @@ func getAboutPath() (openapi.Path, error) {
 	// --- END define 'responses' ------------------------
 
 	// --- BEGIN create toplevel object ------------------------
-	obj0 := map[string]interface{}{
+	obj0 := map[string]any{
 		"doclevel": openapi.DocLevelAdvancedOnly(),
-		"get": map[string]interface{}{
+		"get": map[string]any{
 			"operationId": "about",
 			"summary":     "Overall information about the service.",
 			"tags":        []string{"overall"},
