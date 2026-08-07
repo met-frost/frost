@@ -48,11 +48,11 @@
         },
         {
             "descr": [
-                "Time series of type avinor-awos-xml has (full) write access only to operation",
+                "Time series of type glider has (full) write access only to operation",
                 "'put', and only if passing request header X-Frost-Writetoken=e1xq..."
             ],
             "token": "e1xqm8yKIQhDYdryaUxYaCi8F7Xkk7pcwnl3EdDq0JIe",
-            "tstype": "avinor-awos-xml",
+            "tstype": "glider",
             "tscreate": false,
             "tsupdate": false,
             "tsdelete": false,
