@@ -1,3 +1,10 @@
+%%{init: {
+  "theme": "base",
+  "themeVariables": {
+    "fontSize": "17px"
+  },
+  "themeCSS": "text { font-size: 17px !important; } .actor { font-size: 17px !important; } .noteText { font-size: 17px !important; }"
+}}%%
 sequenceDiagram
     autonumber
     participant Client as API Client
