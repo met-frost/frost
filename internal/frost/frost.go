@@ -36,8 +36,8 @@ type Service struct {
 
 // regNonEDRAPI registers the non-EDR part of the API.
 // (NOTE: in the version of the code used for the operational service at MET Norway, we also
-// provide an EDR layer on top of the core functionality. This layer is registered using a function
-// named regEDRAPI())
+// provide an EDR layer on top of the core functionality (see https://ogcapi.ogc.org/edr). This
+// layer is registered using a function named regEDRAPI().)
 //
 // Returns nil upon success, otherwise error.
 func (s *Service) regNonEDRAPI(
