@@ -34,8 +34,10 @@ type Service struct {
 	responseItemLimit int
 }
 
-// TODO: rename to just regAPI() since we don't want to demonstrate an EDR API for the software paper!
 // regNonEDRAPI registers the non-EDR part of the API.
+// (NOTE: in the version of the code used for the operational service at MET Norway, we also
+// provide an EDR layer on top of the core functionality. This layer is registered using a function
+// named regEDRAPI())
 //
 // Returns nil upon success, otherwise error.
 func (s *Service) regNonEDRAPI(
