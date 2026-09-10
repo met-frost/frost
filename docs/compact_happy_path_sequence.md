@@ -1,7 +1,10 @@
 %%{init: {
   "theme": "base",
   "themeVariables": {
-    "fontSize": "17px"
+    "fontSize": "17px",
+    "noteBkgColor": "#e9eef2",
+    "noteBorderColor": "#7b8794",
+    "noteTextColor": "#1f2933"
   },
   "themeCSS": "text { font-size: 17px !important; } .actor { font-size: 17px !important; } .noteText { font-size: 17px !important; }"
 }}%%
