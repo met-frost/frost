@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/1232731673.svg)](https://doi.org/10.5281/zenodo.22708527)
+
 # Test the service
 
 ## System requirements
