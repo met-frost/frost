@@ -8,6 +8,8 @@ import json
 import requests
 import copy
 
+TEST_WRITE_TOKEN = "q0HpG1YzppenqZFxL3ZFJszwXDYsxFPBERmbwLSoSw6P"
+
 class FrostImportUtils:
     """
     Utility functions for importing observations into Frost
@@ -28,7 +30,7 @@ class FrostImportUtils:
         dset2 = FrostImportUtils.__remove_observations(dset)
 
         headers = {
-            "X-Frost-Writetoken": "GOM_L-5dtRsaK26_TnaMnLz45vpcQzawmTYB1Kbp-jfD"
+            "X-Frost-Writetoken": TEST_WRITE_TOKEN
         }
 
         print('deleting time series in Frost/sst ({}) ...'.format(url))
@@ -50,7 +52,7 @@ class FrostImportUtils:
         dset2 = FrostImportUtils.__remove_observations(dset)
 
         headers = {
-            "X-Frost-Writetoken": "GOM_L-5dtRsaK26_TnaMnLz45vpcQzawmTYB1Kbp-jfD"
+            "X-Frost-Writetoken": TEST_WRITE_TOKEN
         }
 
         print('creating time series in Frost/sst ({}) ...'.format(url))
@@ -70,9 +72,8 @@ class FrostImportUtils:
     def upload_dataset(frost_api_base, dset):
         url = '{}/api/v1/obs/sst/put'.format(frost_api_base)
 
-        #XXX: Read from token file or environment variable
         headers = {
-            "X-Frost-Writetoken": "GOM_L-5dtRsaK26_TnaMnLz45vpcQzawmTYB1Kbp-jfD"
+            "X-Frost-Writetoken": TEST_WRITE_TOKEN
         }
 
         print('uploading to Frost/sst ({}) ...'.format(url))

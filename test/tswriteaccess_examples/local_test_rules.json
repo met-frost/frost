@@ -1,0 +1,24 @@
+{
+  "rules": [
+    {
+      "descr": ["Local test-only access for the badevann.no SST fixture"],
+      "token": "q0HpG1YzppenqZFxL3ZFJszwXDYsxFPBERmbwLSoSw6P",
+      "tstype": "sst",
+      "tscreate": true,
+      "tsupdate": false,
+      "tsdelete": false,
+      "put": true,
+      "hdridmatch": "{\"source\":\"badevann.no\"}"
+    },
+    {
+      "descr": ["Local test-only access for the weekly SST fixture"],
+      "token": "q0HpG1YzppenqZFxL3ZFJszwXDYsxFPBERmbwLSoSw6P",
+      "tstype": "sst",
+      "tscreate": true,
+      "tsupdate": false,
+      "tsdelete": false,
+      "put": true,
+      "hdridmatch": "{\"source\":\"frost-e2e-week\"}"
+    }
+  ]
+}

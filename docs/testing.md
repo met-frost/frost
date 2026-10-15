@@ -9,26 +9,40 @@ dependency available:
 just test
 ```
 
-`just test` builds and starts the Compose services once, then runs the original
-CSV round-trip, weekly radius validation, and invalid-ingestion validation in
-that order. Any failed request or assertion stops the recipe with a nonzero exit
-status. The expected HTTP 400 in the negative case counts as a successful test.
+`just test` builds and starts the Compose services once, then runs the CSV
+round-trip, weekly radius validation, invalid-ingestion validation, and
+write-authorization validation in that order. It starts Frost with the test-only
+`WRITEKEY` and source-scoped `TSWRITEACCESS` rules from
+[docker-compose.test.yml](../docker-compose.test.yml) and
+[local_test_rules.json](../test/tswriteaccess_examples/local_test_rules.json).
+Any failed request or assertion stops the recipe with a nonzero exit status.
+The expected HTTP 400 and 401 responses count as successful tests.
 
 | Recipe | Cases |
 | --- | --- |
-| `just test` | All three cases |
-| `just test-roundtrip` | Original CSV / latest-observation round-trip |
+| `just test` | All four cases |
+| `just test-roundtrip` | CSV / latest-observation round-trip |
 | `just test-week` | Fixed weekly interval / radius query |
 | `just test-invalid-ingestion` | Invalid JSON structure / unchanged data |
+| `just test-authorization` | Valid, missing, and invalid write tokens |
 
 Every individual recipe also builds and starts the services. All cases target
 `http://localhost:8080` by default. Use a test instance only: both positive cases
 write observations and leave their series in storage. No test deletes data.
-The original case queries only source `badevann.no`, buoys `004,011`, and
+The CSV case queries only source `badevann.no`, buoys `004,011`, and
 parameter `temperature`; the weekly case queries source `frost-e2e-week`.
 These filters prevent the fixtures from interfering when the suite is rerun.
 Standalone, unfiltered calls to [retrieve.py](../retrieve.py) still see both
 fixtures.
+
+The test Compose override enables write restrictions using a known test-only
+key and the two source-scoped rules. The matching test token is shared by
+[FrostImportUtils.py](../FrostImportUtils.py) and
+[test_ingestion.py](../test_ingestion.py). These credentials are intentionally
+checked in for local testing; they are public and must not be used outside this
+test setup. The regular [docker-compose.yml](../docker-compose.yml) remains
+unchanged and does not enable write restrictions. `just test` and its individual
+test recipes use the restricted override automatically.
 
 ### Case 1: CSV round-trip
 
@@ -66,14 +80,13 @@ Expected HTTP 200 and **2 series / 2 observations**, written to
 
 Verification compares all CSV columns against the latest input row per buoy,
 independent of output row order. It rejects missing, duplicate, unexpected, or
-mismatched buoy rows. This original case uses the fixed local example write
-token in [FrostImportUtils.py](../FrostImportUtils.py).
+mismatched buoy rows. Its writes use the restricted test token described above.
 
 ### Case 2: One week in an Oslofjord circle
 
 Against an already running test instance, run `python test_ingestion.py week`.
-For this case and Case 3, `--base-url http://localhost:8080` is optional, and
-`FROST_WRITE_TOKEN` overrides the existing local example write token.
+For direct script runs, the target Frost instance must use the test key and
+matching rules; `--base-url http://localhost:8080` is optional.
 
 The fixed fixture is [input_week.csv](../test/examples/sst/input_week.csv), with
 the same columns as [input_example.csv](../input_example.csv). It contains three
@@ -91,10 +104,11 @@ inner Oslofjord centered on longitude **10.73**, latitude **59.84**, with radius
 | 002 | 10.75 | 59.85 | 8 | Yes (approximately 1.6 km away) |
 | 003 | 10.00 | 59.00 | 8 | No (approximately 102 km away) |
 
-The complete ingestion sequence is:
+The complete ingestion sequence uses the test-only token in the
+`X-Frost-Writetoken` header:
 
 1. `POST http://localhost:8080/api/v1/obs/sst/ts/create`, with
-   `Content-Type: application/json` and `X-Frost-Writetoken: <write token>`.
+  `Content-Type: application/json` and the test-only `X-Frost-Writetoken`.
    Its body is `ingest.csv_to_dataset("test/examples/sst/input_week.csv")` with
    each series' `observations` replaced by `[]`.
 2. `POST http://localhost:8080/api/v1/obs/sst/put`, with the same headers.
@@ -103,8 +117,9 @@ The complete ingestion sequence is:
    `{"time":"...","body":{"value":"..."}}` observations.
 
 The test prints both complete JSON request bodies and the exact encoded request
-URLs. It reports the content type but redacts the write token. Both POSTs must
-return **HTTP 200**. The complete radius-filtered retrieval request is:
+URLs. It reports the content type but not the token header. Both POSTs must
+return **HTTP 200**; Frost validates the token and matching source rule before
+accepting them. The complete radius-filtered retrieval request is:
 
 ```sh
 curl --get 'http://localhost:8080/api/v1/obs/sst/get' \
@@ -152,8 +167,9 @@ order; it does not apply a client-side sort to actual observations.
 ### Case 3: Invalid ingestion JSON structure
 
 Against an already running test instance, run `python test_ingestion.py invalid`.
-`python test_ingestion.py all` runs Cases 2 and 3, not the original round-trip;
-use `just test` for the full suite.
+`python test_ingestion.py all` runs Cases 2 through 4, not the CSV round-trip;
+use `just test` for the full suite. This request includes the valid
+test token so Frost passes authorization and exercises JSON schema validation.
 
 The failing request is syntactically valid JSON, but `tseries` is an object
 instead of the required array:
@@ -161,13 +177,11 @@ instead of the required array:
 ```sh
 curl --request POST 'http://localhost:8080/api/v1/obs/sst/put' \
   --header 'Content-Type: application/json' \
-  --header "X-Frost-Writetoken: ${FROST_WRITE_TOKEN}" \
+  --header 'X-Frost-Writetoken: q0HpG1YzppenqZFxL3ZFJszwXDYsxFPBERmbwLSoSw6P' \
   --data '{"tstype":"sst","tseries":{"header":{},"observations":[]}}'
 ```
 
-Set `FROST_WRITE_TOKEN` to the local example token from
-[FrostImportUtils.py](../FrostImportUtils.py) or
-your test instance's write token before running this manual request.
+The token is a public test fixture and only works with the test key and rules.
 
 Expected **HTTP 400**, not a connection failure, authentication failure, or
 HTTP 500. The JSON error contains `failed to validate request body` and
@@ -176,6 +190,15 @@ passes only when this rejection occurs and the before/after weekly radius
 retrievals have identical series, headers, and observations. It can also run
 alone before the weekly fixture exists: the expected empty-source GET is then
 HTTP 404 with `no matching time series found`.
+
+### Case 4: Write-token authorization
+
+`just test-authorization` or `python test_ingestion.py authorization` sends a
+schema-valid write request first without a token, then with a syntactically
+valid but undecryptable token. Both requests must return **HTTP 401**. The
+successful authenticated writes in Cases 1 and 2 separately verify acceptance
+of the valid token. The test rules scope the token to SST `ts/create` and `put`
+operations whose source is `badevann.no` or `frost-e2e-week`.
 
 ## Direct, manual testing of local Frost instance
 

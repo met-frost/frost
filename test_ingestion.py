@@ -1,7 +1,6 @@
 import argparse
 import copy
 import json
-import os
 from pathlib import Path
 import time
 import unittest
@@ -9,6 +8,7 @@ import unittest
 import requests
 
 from ingest import csv_to_dataset
+from FrostImportUtils import TEST_WRITE_TOKEN
 
 
 FIXTURE = Path(__file__).parent / "test/examples/sst/input_week.csv"
@@ -60,8 +60,6 @@ class IngestionExamples(unittest.TestCase):
         print(f"\n{response.request.method} {response.request.url}")
         if response.request.body:
             print(f"Content-Type: {response.request.headers['Content-Type']}")
-            print("X-Frost-Writetoken: <configured write token>")
-        if response.request.body:
             body = response.request.body
             print(body.decode() if isinstance(body, bytes) else body)
         print(f"HTTP {response.status_code}")
@@ -104,11 +102,7 @@ class IngestionExamples(unittest.TestCase):
         headers_only = copy.deepcopy(dataset)
         for series in headers_only["tseries"]:
             series["observations"] = []
-        write_headers = {
-            "X-Frost-Writetoken": os.environ.get(
-                "FROST_WRITE_TOKEN", "GOM_L-5dtRsaK26_TnaMnLz45vpcQzawmTYB1Kbp-jfD"
-            )
-        }
+        write_headers = {"X-Frost-Writetoken": TEST_WRITE_TOKEN}
         for path, payload in (
             ("/api/v1/obs/sst/ts/create", headers_only),
             ("/api/v1/obs/sst/put", dataset),
@@ -147,9 +141,7 @@ class IngestionExamples(unittest.TestCase):
         payload = {"tstype": "sst", "tseries": {"header": {}, "observations": []}}
         response = self.request(
             "POST", "/api/v1/obs/sst/put",
-            headers={"X-Frost-Writetoken": os.environ.get(
-                "FROST_WRITE_TOKEN", "GOM_L-5dtRsaK26_TnaMnLz45vpcQzawmTYB1Kbp-jfD"
-            )},
+            headers={"X-Frost-Writetoken": TEST_WRITE_TOKEN},
             json=payload,
         )
         self.assertEqual(response.status_code, 400, response.text)
@@ -167,17 +159,41 @@ class IngestionExamples(unittest.TestCase):
         self.assert_dataset(after, expected)
         print("PASS: invalid tseries object rejected with HTTP 400; data unchanged.")
 
+    def test_authorization_rejects_missing_and_invalid_tokens(self):
+        payload = {"tstype": "sst", "tseries": []}
+        requests_to_reject = (
+            ("missing", {}),
+            ("invalid", {"X-Frost-Writetoken": "AAAAAAAAAAAAAAAAAAAAAA=="}),
+        )
+        for label, headers in requests_to_reject:
+            with self.subTest(token=label):
+                response = self.request(
+                    "POST", "/api/v1/obs/sst/put", headers=headers, json=payload
+                )
+                self.assertEqual(response.status_code, 401, response.text)
+        print("PASS: missing and invalid write tokens rejected with HTTP 401.")
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("case", choices=("week", "invalid", "all"), nargs="?", default="all")
+    parser.add_argument(
+        "case",
+        choices=("week", "invalid", "authorization", "all"),
+        nargs="?",
+        default="all",
+    )
     parser.add_argument("--base-url", default="http://localhost:8080")
     args = parser.parse_args()
     IngestionExamples.base_url = args.base_url.rstrip("/")
     names = {
         "week": ["test_week_radius"],
         "invalid": ["test_invalid_structure"],
-        "all": ["test_week_radius", "test_invalid_structure"],
+        "authorization": ["test_authorization_rejects_missing_and_invalid_tokens"],
+        "all": [
+            "test_week_radius",
+            "test_invalid_structure",
+            "test_authorization_rejects_missing_and_invalid_tokens",
+        ],
     }[args.case]
     suite = unittest.TestSuite(IngestionExamples(name) for name in names)
     result = unittest.TextTestRunner(verbosity=2).run(suite)

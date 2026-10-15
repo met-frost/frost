@@ -18,21 +18,25 @@ just test
 ```
 
 This command builds and runs two docker containers: one for the Frost API and one for
-the Postgres storage backend. It then runs all three validation cases in order:
+the Postgres storage backend, with test-only write restrictions enabled. It then
+runs all four validation cases in order:
 
-1. The original CSV round-trip: ingest 2 series / 15 observations and verify the
+1. CSV round-trip: ingest 2 series / 15 observations and verify the
 	latest observation from each buoy in [output.csv](output.csv).
 2. The fixed one-week Oslofjord radius query: ingest 3 series / 33 observations
 	and validate 2 series / 16 observations, interval boundaries, and ordering.
 3. Malformed ingestion: require HTTP 400 for an invalid JSON structure and verify
 	that stored observations are unchanged.
+4. Write authorization: require writes with missing and invalid tokens to return
+	HTTP 401.
 
-Run an individual case with `just test-roundtrip`, `just test-week`, or
-`just test-invalid-ingestion`.
+Run an individual case with `just test-roundtrip`, `just test-week`,
+`just test-invalid-ingestion`, or `just test-authorization`.
 The cases use separate source filters, so they can share the database and be
 rerun without deleting their fixtures. Only use a test instance; fixture data
-remains stored after testing. See [testing.md](docs/testing.md) for complete
-requests and expected results.
+remains stored after testing. The write key, token, and rules are public,
+test-only fixtures and must never be used for a deployed service. See
+[testing.md](docs/testing.md) for complete requests and expected results.
 
 Run just `just` (pun intended) to see other ways of running the command:
 
