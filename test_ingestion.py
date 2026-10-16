@@ -1,3 +1,5 @@
+# WARNING: the below code has been generated exlusively using LLM-style AI (Microsoft Copilot)
+
 import argparse
 import copy
 import json

@@ -1,3 +1,5 @@
+# WARNING: the below code has been generated exlusively using LLM-style AI (Microsoft Copilot)
+
 services:
   frost:
     environment:
