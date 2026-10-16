@@ -1,0 +1,20 @@
+                  AI-DISCLAIMER
+
+LLM-type AI has never been given direct access to modify or add to
+the code base used for the Frost executable and supporting code
+(such as documentation and tests).
+The code has been created from scratch by human developers without
+any systematic or pre-planned use of LLM-type AI.
+
+Notable exceptions are the following files which have all been
+generated exclusively using LLM-type AI (in this case Microsoft
+Copilot):
+
+- test/tswriteaccess_examples/local_test_rules.json
+- test_ingestion.py
+- docker-compose.test.yml
+
+In addition, the following file has been heavily modified using
+LLM-type AI to accommodate the above files:
+
+- docs/testing.md
