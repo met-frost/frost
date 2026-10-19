@@ -1,4 +1,4 @@
-# WARNING: the below code has been generated exlusively using LLM-style AI (Microsoft Copilot)
+# WARNING: the below code has been generated exlusively using LLM-type AI (Microsoft Copilot)
 
 import argparse
 import copy
@@ -200,3 +200,4 @@ if __name__ == "__main__":
     suite = unittest.TestSuite(IngestionExamples(name) for name in names)
     result = unittest.TextTestRunner(verbosity=2).run(suite)
     raise SystemExit(not result.wasSuccessful())
+

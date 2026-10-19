@@ -1,4 +1,4 @@
-# WARNING: the below code has been generated exlusively using LLM-style AI (Microsoft Copilot)
+# WARNING: the below code has been generated exlusively using LLM-type AI (Microsoft Copilot)
 
 services:
   frost:
@@ -7,3 +7,4 @@ services:
       TSWRITEACCESS: /frost/test-write-access.json
     volumes:
       - ./test/tswriteaccess_examples/local_test_rules.json:/frost/test-write-access.json:ro
+
