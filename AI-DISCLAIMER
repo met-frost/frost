@@ -12,6 +12,7 @@ Copilot):
 
 - test/tswriteaccess_examples/local_test_rules.json
 - test_ingestion.py
+- test_performance.py
 - docker-compose.test.yml
 
 In addition, the following file has been heavily modified using
