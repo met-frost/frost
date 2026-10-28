@@ -57,11 +57,11 @@ build-and-run:
     docker compose up -d
     docker ps -a
 
-# Verify that the initial database tables are created (Section 3.1)
+# Verify that the initial database tables are created (Section 3.2)
 verify-tables:
     docker exec psb psql -U postgres -d datasets -c "\dt"
 
-# Initialize an empty time series header of type 'sst' (Section 3.1)
+# Initialize an empty time series header of type 'sst' (Section 3.2)
 create-sst-header:
     @python3 -c '\
     import urllib.request, json; \
@@ -70,11 +70,11 @@ create-sst-header:
     req = urllib.request.Request(url, data=json.dumps(dataset).encode(), headers={"Content-Type": "application/json"}, method="POST"); \
     print(urllib.request.urlopen(req).read().decode())'
 
-# Check the contents of the 'ts' metadata table (Section 3.1)
+# Check the contents of the 'ts' metadata table (Section 3.2)
 view-ts-table:
     docker exec psb psql -U postgres -d datasets -c "SELECT * FROM ts;"
 
-# Ingest a single observation into the storage backend (Section 3.1)
+# Ingest a single observation into the storage backend (Section 3.2)
 put-sst-observation:
     @python3 -c '\
     import urllib.request, json; \
@@ -87,14 +87,14 @@ put-sst-observation:
 view-obs-table:
     docker exec psb psql -U postgres -d datasets -c "SELECT * FROM obs;"
 
-# Retrieve the ingested observation via a GET query (Section 3.1)
+# Retrieve the ingested observation via a GET query (Section 3.2)
 get-sst-observation:
     @python3 -c '\
     import urllib.request; \
     url = "http://localhost:8080/api/v1/obs/sst/get?incobs=true&time=2026-08-21T13:04:58Z/2026-08-21T13:04:59Z"; \
     print(urllib.request.urlopen(url).read().decode())'
 
-# Retrieve live/latest operational data from MET Norway (Section 3.2)
+# Retrieve live/latest operational data from MET Norway (Section 3.3)
 # Usage: just get-operational-data <YOUR_CLIENT_ID>
 get-operational-data client_id:
     @python3 -c '\
