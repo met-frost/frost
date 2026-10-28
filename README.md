@@ -37,6 +37,8 @@ rerun without deleting their fixtures. Only use a test instance; fixture data
 remains stored after testing. The write key, token, and rules are public,
 test-only fixtures and must never be used for a deployed service. See
 [testing.md](docs/testing.md) for complete requests and expected results.
+Run the separate, opt-in bulk benchmark with `just test-performance`; it writes
+90,000 observations and leaves its uniquely sourced data in the test database.
 
 Run just `just` (pun intended) to see other ways of running the command:
 

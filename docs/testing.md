@@ -25,6 +25,7 @@ The expected HTTP 400 and 401 responses count as successful tests.
 | `just test-week` | Fixed weekly interval / radius query |
 | `just test-invalid-ingestion` | Invalid JSON structure / unchanged data |
 | `just test-authorization` | Valid, missing, and invalid write tokens |
+| `just test-performance` | Bulk ingestion and retrieval benchmark (opt-in) |
 
 Every individual recipe also builds and starts the services. All cases target
 `http://localhost:8080` by default. Use a test instance only: both positive cases
@@ -43,6 +44,28 @@ checked in for local testing; they are public and must not be used outside this
 test setup. The regular [docker-compose.yml](../docker-compose.yml) remains
 unchanged and does not enable write restrictions. `just test` and its individual
 test recipes use the restricted override automatically.
+
+The performance benchmark is intentionally separate from `just test`: it writes
+90,000 observations by default and leaves them in the database. Each run uses a
+unique source, so repeated runs do not collide. It reports series-creation time,
+client upload wall time (including batch generation, JSON encoding, and HTTP),
+and retrieval HTTP/JSON-decoding time and throughput. Timings are informational;
+the test asserts correct counts and timestamps but does not impose a
+machine-dependent performance threshold.
+
+```sh
+just test-performance
+# Change workload size when running the script directly:
+python test_performance.py --series-count 10 --observations-per-series 9000 --batch-size 1000
+```
+
+The default workload creates 10 series and ingests 9,000 observations per
+series. It uploads 1,000 observations per series in each request, keeping the
+request bodies below Frost's 1 MB limit. Retrieval is timed across 20 requests:
+each request selects one series and a time window no longer than 7,200 seconds,
+which allows Frost's unlimited-response path. The benchmark verifies that all
+90,000 observations are returned in order. The benchmark rule permits `ts/create`
+and `put` only for sources matching `frost-e2e-perf-*`.
 
 ### Case 1: CSV round-trip
 

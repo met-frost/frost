@@ -19,6 +19,16 @@
       "tsdelete": false,
       "put": true,
       "hdridmatch": "{\"source\":\"frost-e2e-week\"}"
+    },
+    {
+      "descr": ["Local test-only access for generated performance fixtures"],
+      "token": "q0HpG1YzppenqZFxL3ZFJszwXDYsxFPBERmbwLSoSw6P",
+      "tstype": "sst",
+      "tscreate": true,
+      "tsupdate": false,
+      "tsdelete": false,
+      "put": true,
+      "hdridmatch": "{\"source\":\"frost-e2e-perf-*\"}"
     }
   ]
 }
