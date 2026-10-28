@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/1232731673.svg)](https://doi.org/10.5281/zenodo.22708527)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23743801.svg)](https://doi.org/10.5281/zenodo.23743801)
 
 # Test the service
 
